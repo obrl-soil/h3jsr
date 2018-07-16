@@ -1,3 +1,8 @@
+# v. 0.1.2
+
+  * Added remaining core functions `h3_is_valid()`, `h3_is_pentagon()`, `h3_is_rc3()`, `h3_get_base_cell()`, `h3_get_res()`, and `h3_to_geo_boundary()`.
+  * unit tests on all core functions.
+  
 # v. 0.1.1
  
   * `h3_to_geo()` added.
