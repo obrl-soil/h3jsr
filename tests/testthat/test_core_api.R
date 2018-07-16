@@ -6,11 +6,14 @@ test_that(
   c(
     val <- h3_is_valid(h3_address = '8abe8d12acaffff'),
     val2 <- h3_is_valid(h3_address = 'whereami'),
+    val3 <- h3_is_valid(h3_address = '8abe8d12acaffff', simple = TRUE),
     expect_is(val, 'data.frame'),
     expect_is(val$h3_address, 'character'),
     expect_is(val$h3_valid, 'logical'),
     expect_equal(val$h3_valid, TRUE),
-    expect_equal(val2$h3_valid, FALSE)
+    expect_equal(val2$h3_valid, FALSE),
+    expect_equal(val3, TRUE),
+    expect_is(val3, 'logical')
   )
 )
 

@@ -50,8 +50,6 @@ geo_to_h3(lon = 153.023503, lat = -27.468920, res = seq(15))
 # Where is the center of the hexagon over the Brisbane Town 
 # Hall at resolution 10?
 brisbane_10 <- h3_to_geo(h3_address = '8abe8d12acaffff')
-#> Warning in if (h3_is_valid(h3_address) == FALSE) {: the condition has
-#> length > 1 and only the first element will be used
 brisbane_10
 #>        h3_address     h3_x      h3_y
 #> 1 8abe8d12acaffff 153.0239 -27.46853
@@ -63,22 +61,16 @@ h3_is_valid(h3_address = '8abe8d12acaffff')
 
 # is it a pentagon?
 h3_is_pentagon(h3_address = '8abe8d12acaffff')
-#> Warning in if (h3_is_valid(h3_address) == FALSE) {: the condition has
-#> length > 1 and only the first element will be used
 #>        h3_address h3_pentagon
 #> 1 8abe8d12acaffff       FALSE
 
 # is it Class III?
 h3_is_rc3(h3_address = '8abe8d12acaffff')
-#> Warning in if (h3_is_valid(h3_address) == FALSE) {: the condition has
-#> length > 1 and only the first element will be used
 #>        h3_address h3_rc3
 #> 1 8abe8d12acaffff  FALSE
 
 # What is Brisbane Town Hall's base cell number?
 h3_get_base_cell(h3_address = '8abe8d12acaffff')
-#> Warning in if (h3_is_valid(h3_address) == FALSE) {: the condition has
-#> length > 1 and only the first element will be used
 #>        h3_address h3_base_cell
 #> 1 8abe8d12acaffff           95
 
@@ -87,8 +79,6 @@ h3_get_base_cell(h3_address = '8abe8d12acaffff')
 
 # What is the hexagon over the Brisbane Town Hall at resolution 10?
 brisbane_hex_10 <- h3_to_geo_boundary(h3_address = '8abe8d12acaffff')
-#> Warning in if (h3_is_valid(h3_address) == FALSE) {: the condition has
-#> length > 1 and only the first element will be used
 
 # if you're feeling fancy,
 #sf::st_polygon(brisbane_hex_10$h3_hex) %>%
