@@ -2,7 +2,10 @@
 
 export(geo_to_h3)
 export(h3_get_base_cell)
+export(h3_get_kring)
+export(h3_get_kring_list)
 export(h3_get_res)
+export(h3_get_ring)
 export(h3_is_pentagon)
 export(h3_is_rc3)
 export(h3_is_valid)
