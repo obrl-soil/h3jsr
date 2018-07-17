@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-[![Travis-CI Build Status](https://travis-ci.org/obrl-soil/h3jsr.svg?branch=master)](https://travis-ci.org/obrl-soil/h3jsr)
+[![Travis-CI Build Status](https://travis-ci.com/obrl-soil/h3jsr.svg?branch=master)](https://travis-ci.com/obrl-soil/h3jsr)
 [![Coverage Status](https://img.shields.io/codecov/c/github/obrl-soil/h3jsr/master.svg)](https://codecov.io/github/obrl-soil/h3jsr?branch=master)
 
 # h3jsr
@@ -42,7 +42,7 @@ library(h3jsr)
 geo_to_h3(lon = 153.023503, lat = -27.468920, res = 15)
 
 # where is it at multiple resolutions?
-geo_to_h3(lon = 153.023503, lat = -27.468920, res = seq(15))
+geo_to_h3(lon = 153.023503, lat = -27.468920, res = seq(15), simple = FALSE)
 
 # Where is the center of the hexagon over the Brisbane Town 
 # Hall at resolution 10?
