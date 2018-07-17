@@ -4,7 +4,7 @@
 \alias{geo_to_h3}
 \title{Convert point location to H3 address}
 \usage{
-geo_to_h3(lon = NULL, lat = NULL, res = NULL)
+geo_to_h3(lon = NULL, lat = NULL, res = NULL, simple = TRUE)
 }
 \arguments{
 \item{lon}{Number; Longitude in decimal degrees and WGS84 datum.}
@@ -14,10 +14,12 @@ geo_to_h3(lon = NULL, lat = NULL, res = NULL)
 \item{res}{Integer; Desired H3 resolution. See
 https://uber.github.io/h3/#/documentation/core-library/resolution-table for
 allowable values and related dimensions.}
+
+\item{simple}{Logical; whether to return a vector of outputs or a data frame
+containing both inputs and outpus.}
 }
 \value{
-A dataframe with input coordinates, resolution, and H3 address as
-  columns.
+By default, a character vector of H3 addresses.
 }
 \description{
 This function takes a latitude and longitude in WGS84 and returns a H3
@@ -25,14 +27,14 @@ address at the chosen resolution.
 }
 \note{
 You can supply multiple coordinates and resolutions as vectors, but
-  they must be recyclable against each other as they are coerced into a data
-  frame. It is safest to provide many points and one resolution, or one point
-  and many resolutions.
+  they must be recyclable against each other. It is safest to provide many
+  points and one resolution, or one point and many resolutions.
 }
 \examples{
 # where is the Brisbane Town Hall at resolution 15?
 brisbane <- geo_to_h3(lon = 153.023503, lat = -27.468920, res = 15)
 
 # where is it at multiple resolutions?
-brisbane_all <- geo_to_h3(lon = 153.023503, lat = -27.468920, res = seq(15))
+brisbane_all <- geo_to_h3(lon = 153.023503, lat = -27.468920,
+                          res = seq(15), simple = FALSE)
 }

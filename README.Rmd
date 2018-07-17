@@ -30,7 +30,7 @@ devtools::install_github("obrl-soil/h3jsr")
 
 ## Example
 
-At the moment, only the core API functions are accessible.
+At the moment, the core API functions are accessible, along with a couple of helper algorithms.
 
 ```{r example}
 library(h3jsr)
@@ -57,9 +57,6 @@ h3_is_rc3(h3_address = '8abe8d12acaffff')
 
 # What is Brisbane Town Hall's base cell number?
 h3_get_base_cell(h3_address = '8abe8d12acaffff')
-
-# What is Brisbane Town Hall's base cell number?
-#' h3_get_res(h3_address = '8abe8d12acaffff')
 
 # What is the hexagon over the Brisbane Town Hall at resolution 10?
 brisbane_hex_10 <- h3_to_geo_boundary(h3_address = '8abe8d12acaffff')
