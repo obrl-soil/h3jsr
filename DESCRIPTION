@@ -11,6 +11,7 @@ Depends:
     R (>= 2.10)
 Imports:
     V8
-Suggests: 
-    testthat
+Suggests:
+    testthat,
+    covr
 RoxygenNote: 6.0.1

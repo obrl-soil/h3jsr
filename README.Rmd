@@ -14,6 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
+[![Travis-CI Build Status](https://travis-ci.org/obrl-soil/h3jsr.svg?branch=master)](https://travis-ci.org/obrl-soil/h3jsr)
+[![Coverage Status](https://img.shields.io/codecov/c/github/obrl-soil/h3jsr/master.svg)](https://codecov.io/github/obrl-soil/h3jsr?branch=master)
+
 # h3jsr
 
 h3jsr provides access to [Uber's H3 library](https://github.com/uber/h3) via its [javascript bindings](https://github.com/uber/h3-js), using the magical power of [`V8`](https://github.com/jeroen/v8). This is a stopgap package that should keep us #rspatial nerds happy until someone writes proper R bindings.
