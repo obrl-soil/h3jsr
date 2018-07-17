@@ -2,6 +2,10 @@
 
 language: R
 sudo: false
+r_packages: 
+  # work around temporary travis + R 3.5 bug
+  - devtools 
+  - covr
 cache: packages
 after_success:
   - Rscript -e 'covr::codecov()'
