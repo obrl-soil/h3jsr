@@ -1,3 +1,7 @@
+# v. 0.1.4
+  
+  * 'h3_polyfill()` added; new dependencies on `sf`and `geojsonsf` have resulted.
+
 # v. 0.1.3
   
   * Simplified default output behaviour

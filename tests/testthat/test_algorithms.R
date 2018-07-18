@@ -107,3 +107,26 @@ test_that(
   )
 )
 
+# h3_polyfill
+test_that(
+  'h3_polyfill returns correctly',
+  c(
+    expect_error(h3_polyfill(geometry = 'a shape', res = 4)),
+    nc <- sf::st_read(system.file("shape/nc.shp", package="sf")),
+    expect_error(h3_polyfill(geometry = nc[1, ], res = 4)),
+    nc1 <- sf::st_cast(nc[1,], 'POLYGON'),
+    expect_warning(h3_polyfill(geometry = nc1, res = 1)),
+    val1 <- h3_polyfill(geometry = nc1, res = 4),
+    val2 <- h3_polyfill(geometry = nc1, res = 4,
+                        simple = FALSE),
+    expect_is(val1, 'list'),
+    expect_equal(length(val1), 1L),
+    expect_equal(val1[[1]], '842a993ffffffff'),
+    expect_is(val2, 'data.frame'),
+    expect_is(val2, 'sf'),
+    expect_is(val2$h3_polyfiller, 'list'),
+    expect_is(val2$h3_polyfiller[[1]], 'character'),
+    val3 <- h3_polyfill(geometry = nc1, res = 1),
+    expect_equal(val3[[1]], NA_character_)
+  )
+)

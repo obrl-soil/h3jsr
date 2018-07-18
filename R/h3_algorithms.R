@@ -204,3 +204,75 @@ h3_get_ring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
   }
 
 }
+
+#' get H3 addresses within a polygon
+#'
+#' This function returns all the H3 addresses within the supplied polygon
+#' geometry.
+#' @param geometry `sf` object of type 'POLYGON'.
+#' @param res Integer; Desired H3 resolution. See
+#'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
+#'   allowable values and related dimensions.
+#' @param simple Logical; whether to return a vector of outputs or an sf object
+#'   containing both inputs and outputs.
+#' @return By default, a list of length(h3_address). Each list element contains
+#'   a character vector of H3 addresses belonging to that polygon. A result of
+#'   NA indicates that no h3 addresses of the chosen resolution are centered
+#'   over the polygon.
+#' @note This function will be slow with a large number of polygons, and/or
+#'   polygons that are large relative to the hexagon area at the chosen
+#'   resolution.
+#' @examples
+#' # Which level 5 H3 addresses have centers inside County Ashe, NC?
+#' nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+#' nc1 <- nc[1, ]
+#' nc1 <- sf::st_cast(nc1, 'POLYGON')
+#' fillers <- h3_polyfill(geometry = nc1, res = 5)
+#' @import V8
+#' @importFrom sf st_as_sf st_crs st_geometry st_geometry_type st_sf
+#'   st_transform
+#' @importFrom geojsonsf sfc_geojson
+#' @export
+#'
+h3_polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
+
+  # welcome to the future, sp'ers *cackles*
+  #
+  # (I failed at UseMethod ;_; )
+  if(class(geometry)[[1]] != 'sf') {
+    stop('Please provide an sf polygon object')
+  }
+
+  # multipolygon support some other time... maybe
+  if(any(sf::st_geometry_type(geometry) != 'POLYGON')) {
+    stop('At least one of the supplied features is not of type POLYGON, please amend and try again.')
+  }
+
+  if(sf::st_crs(geometry)$epsg != 4326) {
+    warning('Data has been transformed to EPSG:4326.')
+    geometry <- sf::st_transform(geometry, 4326)
+  }
+
+  sesh <- V8::v8()
+  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
+  sesh$assign('res', res)
+
+  # make geoJSON
+  eval_geom <- geojsonsf::sfc_geojson(st_geometry(geometry))
+
+  # can only send one polygon thru at a time, possible bottleneck
+  results <- lapply(eval_geom, function(gm) {
+    sesh$eval(paste0('var evalGeom = ', gm, ';'))
+    sesh$eval('var out = h3.polyfill(evalGeom.coordinates, res, true);')
+    out <- sesh$get('out')
+    if(length(out) == 0) { NA_character_ } else { out }
+  })
+
+  if(simple == TRUE) {
+    results
+  } else {
+    geometry$h3_polyfillers <- results
+    sf::st_sf(geometry)
+  }
+}
+
