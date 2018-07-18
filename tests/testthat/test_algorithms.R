@@ -118,11 +118,11 @@ test_that(
 test_that(
   'h3_polyfill returns correctly',
   c(
-    expect_error(h3_polyfill(h3_address = '8abe8d12acaffff', res = 20)),
     expect_error(h3_polyfill(geometry = 'a shape', res = 4)),
     nc <- sf::st_read(system.file("shape/nc.shp", package="sf")),
     expect_error(h3_polyfill(geometry = nc[1, ], res = 4)),
     nc1 <- sf::st_cast(nc[1,], 'POLYGON'),
+    expect_error(h3_polyfill(geometry = nc1, res = 20)),
     expect_warning(h3_polyfill(geometry = nc1, res = 1)),
     val1 <- h3_polyfill(geometry = nc1, res = 4),
     val2 <- h3_polyfill(geometry = nc1, res = 4,

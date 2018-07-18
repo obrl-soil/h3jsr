@@ -145,6 +145,7 @@ test_that('h3 to geo returns an appropriate dataset',
 # h3_to_geo_boundary
 test_that('h3 to geo boundary returns an appropriate dataset',
           c(
+            expect_error(h3_to_geo_boundary(h3_address = 'whereami')),
             val1 <- h3_to_geo_boundary('8abe8d12acaffff'),
             val2 <- h3_to_geo_boundary('8abe8d12acaffff', simple = FALSE),
             expect_is(val1, 'list'),
