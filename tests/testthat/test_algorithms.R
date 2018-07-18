@@ -5,6 +5,8 @@ context('H3 Algorithms')
 test_that(
   'h3_to_parent returns correctly',
   c(
+    expect_error(h3_to_parent(h3_address = 'whereami', res = 1)),
+    expect_error(h3_to_parent(h3_address = '8abe8d12acaffff', res = 20)),
     val1 <- h3_to_parent(h3_address = '8abe8d12acaffff', res = 6),
     val2 <- h3_to_parent(h3_address = '8abe8d12acaffff', res = 6,
                          simple = FALSE),
@@ -22,6 +24,8 @@ test_that(
 test_that(
   'h3_to_children returns correctly',
   c(
+    expect_error(h3_to_children(h3_address = 'whereami', res = 12)),
+    expect_error(h3_to_children(h3_address = '8abe8d12acaffff', res = 20)),
     val1 <- h3_to_children(h3_address = '86be8d12fffffff', res = 8),
     val2 <- h3_to_children(h3_address = '86be8d12fffffff', res = 8,
                          simple = FALSE),
@@ -44,6 +48,7 @@ test_that(
 test_that(
   'h3_get_kring returns correctly',
   c(
+    expect_error(h3_get_kring(h3_address = 'whereami', ring_size = 2)),
     val1 <- h3_get_kring(h3_address = '86be8d12fffffff', ring_size = 2),
     val2 <- h3_get_kring(h3_address = '86be8d12fffffff', ring_size = 2,
                            simple = FALSE),
@@ -66,6 +71,7 @@ test_that(
 test_that(
   'h3_get_kring_dist returns correctly',
   c(
+    expect_error(h3_get_kring_list(h3_address = 'whereami', ring_size = 2)),
     val1 <- h3_get_kring_list(h3_address = '86be8d12fffffff', ring_size = 2),
     val2 <- h3_get_kring_list(h3_address = '86be8d12fffffff', ring_size = 2,
                          simple = FALSE),
@@ -89,6 +95,7 @@ test_that(
 test_that(
   'h3_get_ring returns correctly',
   c(
+    expect_error(h3_get_ring(h3_address = 'whereami', ring_size = 2)),
     val1 <- h3_get_ring(h3_address = '86be8d12fffffff', ring_size = 2),
     val2 <- h3_get_ring(h3_address = '86be8d12fffffff', ring_size = 2,
                          simple = FALSE),
@@ -111,6 +118,7 @@ test_that(
 test_that(
   'h3_polyfill returns correctly',
   c(
+    expect_error(h3_polyfill(h3_address = '8abe8d12acaffff', res = 20)),
     expect_error(h3_polyfill(geometry = 'a shape', res = 4)),
     nc <- sf::st_read(system.file("shape/nc.shp", package="sf")),
     expect_error(h3_polyfill(geometry = nc[1, ], res = 4)),

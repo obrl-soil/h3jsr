@@ -56,8 +56,8 @@ h3_is_valid <- function(h3_address = NULL, simple = TRUE) {
 #'
 h3_is_pentagon <- function(h3_address = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address, simple = TRUE)) == FALSE) {
-    return('Please provide a valid H3 address.')
+  if(any(h3_is_valid(h3_address)) == FALSE) {
+    stop('Invalid H3 address detected.')
   }
 
   sesh <- V8::v8()
@@ -92,8 +92,8 @@ h3_is_pentagon <- function(h3_address = NULL, simple = TRUE) {
 #'
 h3_is_rc3 <- function(h3_address = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address, simple = TRUE)) == FALSE) {
-    return('Please provide a valid H3 address.')
+  if(any(h3_is_valid(h3_address)) == FALSE) {
+    stop('Invalid H3 address detected.')
   }
 
   sesh <- V8::v8()
@@ -129,8 +129,8 @@ h3_is_rc3 <- function(h3_address = NULL, simple = TRUE) {
 #'
 h3_get_base_cell <- function(h3_address = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address, simple = TRUE)) == FALSE) {
-    return('Please provide a valid H3 address.')
+  if(any(h3_is_valid(h3_address)) == FALSE) {
+    stop('Invalid H3 address detected.')
   }
 
   sesh <- V8::v8()
@@ -165,8 +165,8 @@ h3_get_base_cell <- function(h3_address = NULL, simple = TRUE) {
 #'
 h3_get_res <- function(h3_address = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address, simple = TRUE)) == FALSE) {
-    return('Please provide a valid H3 address.')
+  if(any(h3_is_valid(h3_address)) == FALSE) {
+    stop('Invalid H3 address detected.')
   }
 
   sesh <- V8::v8()
@@ -218,7 +218,7 @@ geo_to_h3 <- function(lon = NULL, lat = NULL, res = NULL, simple = TRUE) {
 
   # failproof
   if(!any(res %in% seq(15))) {
-    return('Please provide a valid H3 resolution. Allowable values are 1-15 inclusive.')
+    stop('Please provide a valid H3 resolution. Allowable values are 1-15 inclusive.')
   }
 
   eval_this <- data.frame('X' = lon, 'Y' = lat, 'h3_res' = res,
@@ -259,8 +259,8 @@ geo_to_h3 <- function(lon = NULL, lat = NULL, res = NULL, simple = TRUE) {
 #'
 h3_to_geo <- function(h3_address = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address, simple = TRUE)) == FALSE) {
-    return('Please provide a valid H3 address.')
+  if(any(h3_is_valid(h3_address)) == FALSE) {
+    stop('Invalid H3 address detected.')
   }
 
   sesh <- V8::v8()
@@ -298,8 +298,8 @@ h3_to_geo <- function(h3_address = NULL, simple = TRUE) {
 #'
 h3_to_geo_boundary <- function(h3_address = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address, simple = TRUE)) == FALSE) {
-    return('Please provide a valid H3 address.')
+  if(any(h3_is_valid(h3_address)) == FALSE) {
+    stop('Invalid H3 address detected.')
   }
 
   sesh <- V8::v8()

@@ -17,6 +17,13 @@
 #'
 h3_to_parent <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 
+  if(any(h3_is_valid(h3_address)) == FALSE) {
+    stop('Invalid H3 address detected.')
+  }
+  if(!any(res %in% seq(15))) {
+    stop('Please provide a valid H3 resolution. Allowable values are 1-15 inclusive.')
+  }
+
   # Establish js interface
   sesh <- V8::v8()
 
@@ -64,6 +71,13 @@ h3_to_parent <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 #'
 h3_to_children <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 
+  if(any(h3_is_valid(h3_address)) == FALSE) {
+    stop('Invalid H3 address detected.')
+  }
+  if(!any(res %in% seq(15))) {
+    stop('Please provide a valid H3 resolution. Allowable values are 1-15 inclusive.')
+  }
+
   sesh <- V8::v8()
   sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   eval_this <- data.frame(h3_address, 'h3_res' = res, stringsAsFactors = FALSE)
@@ -109,6 +123,10 @@ h3_to_children <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 #'
 h3_get_kring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 
+  if(any(h3_is_valid(h3_address)) == FALSE) {
+    stop('Invalid H3 address detected.')
+  }
+
   sesh <- V8::v8()
   sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   eval_this <- data.frame(h3_address, ring_size, stringsAsFactors = FALSE)
@@ -149,6 +167,10 @@ h3_get_kring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #'
 h3_get_kring_list <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 
+  if(any(h3_is_valid(h3_address)) == FALSE) {
+    stop('Invalid H3 address detected.')
+  }
+
   sesh <- V8::v8()
   sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   eval_this <- data.frame(h3_address, ring_size, stringsAsFactors = FALSE)
@@ -185,6 +207,10 @@ h3_get_kring_list <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #' @export
 #'
 h3_get_ring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
+
+  if(any(h3_is_valid(h3_address)) == FALSE) {
+    stop('Invalid H3 address detected.')
+  }
 
   sesh <- V8::v8()
   sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
@@ -235,6 +261,10 @@ h3_get_ring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #' @export
 #'
 h3_polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
+
+  if(!any(res %in% seq(15))) {
+    stop('Please provide a valid H3 resolution. Allowable values are 1-15 inclusive.')
+  }
 
   # welcome to the future, sp'ers *cackles*
   #

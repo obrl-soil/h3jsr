@@ -23,6 +23,7 @@ test_that(
 test_that(
   'h3_is_pentagon returns correctly',
   c(
+    expect_error(h3_is_pentagon(h3_address = 'whereami')),
     val1 <- h3_is_pentagon(h3_address = '8abe8d12acaffff'),
     val2 <- h3_is_pentagon(h3_address = '8abe8d12acaffff', simple = FALSE),
     expect_is(val1, 'logical'),
@@ -39,6 +40,7 @@ test_that(
 test_that(
   'h3_is_rc3 returns correctly',
   c(
+    expect_error(h3_is_rc3(h3_address = 'whereami')),
     val1 <- h3_is_rc3(h3_address = '8abe8d12acaffff'),
     val2 <- h3_is_rc3(h3_address = '8abe8d12acaffff', simple = FALSE),
     expect_is(val1, 'logical'),
@@ -54,6 +56,7 @@ test_that(
 test_that(
   'h3_get_base_cell returns correctly',
   c(
+    expect_error(h3_get_base_cell(h3_address = 'whereami')),
     val1 <- h3_get_base_cell(h3_address = '8abe8d12acaffff'),
     val2 <- h3_get_base_cell(h3_address = '8abe8d12acaffff', simple = FALSE),
     expect_is(val1, 'integer'),
@@ -69,6 +72,7 @@ test_that(
 test_that(
   'h3_get_res returns correctly',
   c(
+    expect_error(h3_get_res(h3_address = 'whereami')),
     val1 <- h3_get_res(h3_address = '8abe8d12acaffff'),
     val2 <- h3_get_res(h3_address = '8abe8d12acaffff', simple = FALSE),
     expect_is(val1, 'integer'),
@@ -83,6 +87,7 @@ test_that(
 # geo_to_h3
 test_that('geo_to_h3 returns an appropriately structured data frame with single input',
           c(
+            expect_error(geo_to_h3(lon = 153.023503, lat = -27.468920, res = 20)),
             val1 <- geo_to_h3(lon = 153.023503, lat = -27.468920, res = 15),
             val2 <- geo_to_h3(lon = 153.023503, lat = -27.468920, res = 15,
                               simple = FALSE),
@@ -119,6 +124,7 @@ test_that('geo_to_h3 returns an appropriately structured data frame with multipl
 # h3_to_geo
 test_that('h3 to geo returns an appropriate dataset',
           c(
+            expect_error(h3_to_geo(h3_address = 'whereami')),
             val1 <- h3_to_geo('8abe8d12acaffff'),
             val2 <- h3_to_geo('8abe8d12acaffff', simple = FALSE),
             expect_is(val1, 'matrix'),
