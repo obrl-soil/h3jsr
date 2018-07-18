@@ -24,4 +24,10 @@ shape (usually a hexagon) in WGS84.
 # What is the hexagon over the Brisbane Town Hall at resolution 10?
 brisbane_hex_10 <- h3_to_geo_boundary(h3_address = '8abe8d12acaffff')
 
+# Give me some of the hexes over Brisbane Town Hall as an sf object
+BTH_hexes <-
+  h3_to_geo_boundary(h3_address = geo_to_h3(lon = 153.023503,
+                                            lat = -27.468920,
+                                            res = seq(10, 15),
+                                            simple = FALSE))
 }

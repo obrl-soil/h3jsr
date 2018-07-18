@@ -294,6 +294,13 @@ h3_to_geo <- function(h3_address = NULL, simple = TRUE) {
 #' # What is the hexagon over the Brisbane Town Hall at resolution 10?
 #' brisbane_hex_10 <- h3_to_geo_boundary(h3_address = '8abe8d12acaffff')
 #'
+#' # Give me some of the hexes over Brisbane Town Hall as an sf object
+#' BTH_hexes <-
+#'   h3_to_geo_boundary(h3_address = geo_to_h3(lon = 153.023503,
+#'                                             lat = -27.468920,
+#'                                             res = seq(10, 15),
+#'                                             simple = FALSE))
+#' @importFrom sf st_polygon st_sfc st_sf
 #' @export
 #'
 h3_to_geo_boundary <- function(h3_address = NULL, simple = TRUE) {
@@ -311,21 +318,26 @@ h3_to_geo_boundary <- function(h3_address = NULL, simple = TRUE) {
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
   # sesh$eval('console.log(JSON.stringify(h3.h3ToGeoBoundary(evalThis[0].h3_address)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_hex = h3.h3ToGeoBoundary(evalThis[i].h3_address);
+            evalThis[i].h3_geometry = h3.h3ToGeoBoundary(evalThis[i].h3_address);
             };')
 
   coords <- sesh$get('evalThis')
 
   # tidy up and convert to mat (goal is an easy cast to sf)
-  coords$h3_hex <- lapply(coords$h3_hex, function(hex) {
+  coords$h3_geometry <- lapply(coords$h3_geometry, function(hex) {
     hex <- rbind(hex, hex[1,])
     hex[, c(2,1)]
   })
 
   if(simple == TRUE) {
-    coords$h3_hex
+    coords$h3_geometry
   } else {
-    coords
+   geometry <- lapply(coords$h3_geometry, function(x) {
+     sf::st_polygon(list(x))
+     })
+   geometry <- sf::st_sfc(geometry, crs = 4326)
+   sf::st_sf('h3_address' = coords$h3_address, geometry,
+             stringsAsFactors = FALSE)
   }
 }
 

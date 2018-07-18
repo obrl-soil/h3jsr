@@ -1,6 +1,7 @@
-# v. 0.1.4
+# v. 0.2.1
   
   * `h3_polyfill()` added; new dependencies on `sf`and `geojsonsf` have resulted.
+  * `h3_to_geo_boundary()` now returns `sf` object of type `sfc_POLYGON` when `simple = FALSE`.
 
 # v. 0.1.3
   

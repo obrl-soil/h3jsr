@@ -75,9 +75,10 @@ h3_get_base_cell(h3_address = '8abe8d12acaffff')
 brisbane_hex_10 <- h3_to_geo_boundary(h3_address = '8abe8d12acaffff')
 
 # if you're feeling fancy,
-#sf::st_polygon(brisbane_hex_10$h3_hex) %>%
-#  sf::st_sfc(., crs = 4326) %>%
-#  mapview::mapview()
+# geo_to_h3(lon = 153.023503, lat = -27.468920, res = seq(5,15)) %>%
+#   h3_to_geo_boundary(., simple = FALSE) %>%
+#   mapview::mapview()
+#  
 ```
 
 Props to Joel Gombin, who's package [`concaveman`](https://github.com/joelgombin/concaveman) provided me with the implementation inspo.
