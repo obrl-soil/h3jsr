@@ -1,7 +1,8 @@
 # v. 0.2.1
   
   * `h3_polyfill()` and `h3_set_to_multipolygon()` added; new dependencies on `sf`and `geojsonsf` have resulted.
-  * `h3_to_geo_boundary()` now returns `sf` object of type `sfc_POLYGON` when `simple = FALSE`.
+  * `h3_to_geo_boundary()` now returns an object with `sf` geometry.
+  * `h3_compact()` and `h3_uncompact()` added, all public core algorithms now available.
 
 # v. 0.1.3
   

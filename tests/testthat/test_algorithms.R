@@ -155,3 +155,47 @@ test_that(
     expect_is(val2$h3_addresses[[1]], 'character')
     )
 )
+
+
+# h3_compact
+test_that(
+  'h3_compact returns correctly',
+  c(
+    nc <- sf::read_sf(system.file("shape/nc.shp", package="sf")),
+    nc1 <- nc[1, ],
+    nc1 <- sf::st_cast(nc1, 'POLYGON'),
+    fillers <- h3_polyfill(geometry = nc1, res = 6),
+    val1 <- h3_compact(fillers),
+    val2 <- h3_compact(fillers, simple = FALSE),
+    expect_is(val1, 'character'),
+    expect_equal(length(val1), 15L),
+    expect_is(val2, 'list'),
+    expect_equal(length(val2), 2L),
+    expect_equal(length(val2[[1]]), 33L),
+    expect_is(val2[[1]], 'character'),
+    expect_equal(length(val2[[2]]), 15L),
+    expect_is(val2[[2]], 'character')
+  )
+)
+
+# h3_uncompact
+test_that(
+  'h3_uncompact returns correctly',
+  c(
+    nc <- sf::read_sf(system.file("shape/nc.shp", package="sf")),
+    nc1 <- nc[1, ],
+    nc1 <- sf::st_cast(nc1, 'POLYGON'),
+    fillers <- h3_polyfill(geometry = nc1, res = 6),
+    comp <- h3_compact(fillers),
+    val1 <- h3_uncompact(fillers, res = 7),
+    val2 <- h3_uncompact(fillers, res = 7, simple = FALSE),
+    expect_is(val1, 'character'),
+    expect_equal(length(val1), 231L),
+    expect_is(val2, 'list'),
+    expect_equal(length(val2), 2L),
+    expect_equal(length(val2[[1]]), 33L),
+    expect_is(val2[[1]], 'character'),
+    expect_equal(length(val2[[2]]), 231L),
+    expect_is(val2[[2]], 'character')
+  )
+)

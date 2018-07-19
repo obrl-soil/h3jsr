@@ -328,14 +328,14 @@ h3_to_geo_boundary <- function(h3_address = NULL, simple = TRUE) {
     hex <- rbind(hex, hex[1,])
     hex[, c(2,1)]
   })
+  geometry <- lapply(coords$h3_geometry, function(x) {
+    sf::st_polygon(list(x))
+  })
+  geometry <- sf::st_sfc(geometry, crs = 4326)
 
   if(simple == TRUE) {
-    coords$h3_geometry
+    geometry
   } else {
-   geometry <- lapply(coords$h3_geometry, function(x) {
-     sf::st_polygon(list(x))
-     })
-   geometry <- sf::st_sfc(geometry, crs = 4326)
    sf::st_sf('h3_address' = coords$h3_address, geometry,
              stringsAsFactors = FALSE)
   }
