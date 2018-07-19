@@ -138,3 +138,20 @@ test_that(
     expect_equal(val3[[1]], NA_character_)
   )
 )
+
+# h3_set_to_multipolygon
+test_that(
+  'h3_set_to_multipolygon returns correctly',
+  c(
+    expect_error(h3_set_to_multipolygon(h3_addresses = 'whereami')),
+    val <- geo_to_h3(lon = 153.023503, lat = -27.468920, res = 10),
+    val <- h3_get_kring(h3_address = val, ring_size = 2),
+    val1 <- h3_set_to_multipolygon(unlist(val)),
+    val2 <- h3_set_to_multipolygon(unlist(val), simple = FALSE),
+    expect_equal(val1, h3_set_to_multipolygon(val)),
+    expect_is(val1, 'sfc'),
+    expect_is(val2, 'sf'),
+    expect_is(val2$h3_addresses, 'list'),
+    expect_is(val2$h3_addresses[[1]], 'character')
+    )
+)
