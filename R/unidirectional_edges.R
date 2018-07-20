@@ -43,7 +43,7 @@ h3_are_neighbours <- function(origin = NULL, destination = NULL, simple = TRUE) 
 
   # for debug:
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
-  # sesh$eval('console.log(JSON.stringify(h3.h3IsValid(evalThis[0].h3_address)));')
+  # sesh$eval('console.log(JSON.stringify(h3.h3IndexesAreNeighbors(evalThis[0].origin, evalThis[0].destination)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
             evalThis[i].h3_neighbours = h3.h3IndexesAreNeighbors(evalThis[i].origin, evalThis[i].destination);
             };')
@@ -62,10 +62,10 @@ h3_are_neighbours <- function(origin = NULL, destination = NULL, simple = TRUE) 
 #' destination.
 #' @inheritParams h3_are_neighbours
 #' @return By default, character vector of edges.
-#' @note \itemize{ \item{The number of addresses supplied to origin and
-#' destination must be equal.} }
+#' @note The number of addresses supplied to origin and destination must be
+#'   equal.
 #' @examples
-#' # Are the following addresses neighbours?
+#' # Get me the edge between these two addresses
 #' h3_get_udedge(origin = '86be8d12fffffff', destination = '86be8d127ffffff')
 #'
 #' @import V8
@@ -92,15 +92,250 @@ h3_get_udedge <- function(origin = NULL, destination = NULL, simple = TRUE) {
 
   # for debug:
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
-  # sesh$eval('console.log(JSON.stringify(h3.h3IsValid(evalThis[0].h3_address)));')
+  # sesh$eval('console.log(JSON.stringify(h3.getH3UnidirectionalEdge(evalThis[0].origin, evalThis[0].destination)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_udedge = h3.getH3UnidirectionalEdge(evalThis[i].origin, evalThis[i].destination);
+            evalThis[i].h3_edge = h3.getH3UnidirectionalEdge(evalThis[i].origin, evalThis[i].destination);
             };')
 
   if(simple == TRUE) {
-    sesh$get('evalThis')$h3_udedge
+    sesh$get('evalThis')$h3_edge
   } else {
     sesh$get('evalThis')
   }
 
   }
+
+#' check H3 unidirectional edge address
+#'
+#' This function checks whether an H3 unidirectional edge address is valid.
+#' @param h3_edge Address of unidirectional edge.
+#' @param simple Logical; whether to return a vector of outputs or a data frame
+#'   containing both inputs and outputs.
+#' @return By default, a logical vector of length(h3_edge).
+#' @examples
+#' # is the following edge address valid?
+#' h3_is_edge_valid(h3_edge = '166be8d12fffffff')
+#'
+#' @import V8
+#' @export
+#'
+h3_is_edge_valid <- function(h3_edge = NULL, simple = TRUE) {
+
+  sesh <- V8::v8()
+  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
+  sesh$assign('evalThis', data.frame(h3_edge, stringsAsFactors = FALSE))
+
+  # for debug:
+  # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
+  # sesh$eval('console.log(JSON.stringify(h3.h3UnidirectionalEdgeIsValid(evalThis[0].h3_edge)));')
+  sesh$eval('for (var i = 0; i < evalThis.length; i++) {
+            evalThis[i].h3_edge_valid = h3.h3UnidirectionalEdgeIsValid(evalThis[i].h3_edge);
+            };')
+
+  if(simple == TRUE) {
+    sesh$get('evalThis')$h3_edge_valid
+  } else {
+    sesh$get('evalThis')
+  }
+}
+
+#' get origin from unidirectional edge
+#'
+#' Get an H3 address representing the origin of a unidirectional edge.
+#' @inheritParams h3_is_edge_valid
+#' @return By default, character vector of h3 addresses.
+#' @examples
+#' # Get the origin of this edge
+#' h3_get_udorigin(h3_edge = '166be8d12fffffff')
+#'
+#' @import V8
+#' @export
+#'
+h3_get_udorigin <- function(h3_edge = NULL, simple = TRUE) {
+
+  if(any(h3_is_edge_valid(h3_edge) == FALSE)) {
+    stop('Invalid H3 edge address detected.')
+  }
+
+  sesh <- V8::v8()
+  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
+  sesh$assign('evalThis', data.frame(h3_edge, stringsAsFactors = FALSE))
+
+  # for debug:
+  # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
+  # sesh$eval('console.log(JSON.stringify(h3.getOriginH3IndexFromUnidirectionalEdge[0].h3_edge)));')
+  sesh$eval('for (var i = 0; i < evalThis.length; i++) {
+            evalThis[i].h3_origin = h3.getOriginH3IndexFromUnidirectionalEdge(evalThis[i].h3_edge);
+            };')
+
+  if(simple == TRUE) {
+    sesh$get('evalThis')$h3_origin
+  } else {
+    sesh$get('evalThis')
+  }
+
+  }
+
+#' get destination from unidirectional edge
+#'
+#' Get an H3 address representing the destination of a unidirectional edge.
+#' @inheritParams h3_is_edge_valid
+#' @return By default, character vector of h3 addresses.
+#' @examples
+#' # Get the destination of this edge
+#' h3_get_uddest(h3_edge = '166be8d12fffffff')
+#'
+#' @import V8
+#' @export
+#'
+h3_get_uddest <- function(h3_edge = NULL, simple = TRUE) {
+
+  if(any(h3_is_edge_valid(h3_edge) == FALSE)) {
+    stop('Invalid H3 edge address detected.')
+  }
+
+  sesh <- V8::v8()
+  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
+  sesh$assign('evalThis', data.frame(h3_edge, stringsAsFactors = FALSE))
+
+  # for debug:
+  # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
+  # sesh$eval('console.log(JSON.stringify(h3.getDestinationH3IndexFromUnidirectionalEdge(evalThis[0].h3_edge)));')
+  sesh$eval('for (var i = 0; i < evalThis.length; i++) {
+            evalThis[i].h3_destination = h3.getDestinationH3IndexFromUnidirectionalEdge(evalThis[i].h3_edge);
+};')
+
+  if(simple == TRUE) {
+    sesh$get('evalThis')$h3_destination
+  } else {
+    sesh$get('evalThis')
+  }
+}
+
+#' get origin and destination of unidirectional edge
+#'
+#' Get an H3 addresses representing the origin and destination of a
+#' unidirectional edge.
+#' @inheritParams h3_is_edge_valid
+#' @return By default, character matrix of h3 addresses.
+#' @examples
+#' # Get the origin and destination of this edge
+#' h3_get_udends(h3_edge = '166be8d12fffffff')
+#'
+#' @import V8
+#' @export
+#'
+h3_get_udends <- function(h3_edge = NULL, simple = TRUE) {
+
+  if(any(h3_is_edge_valid(h3_edge) == FALSE)) {
+    stop('Invalid H3 edge address detected.')
+  }
+
+  sesh <- V8::v8()
+  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
+  sesh$assign('evalThis', data.frame(h3_edge, stringsAsFactors = FALSE))
+
+  # for debug:
+  # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
+  # sesh$eval('console.log(JSON.stringify(h3.getH3IndexesFromUnidirectionalEdge(evalThis[0].h3_edge)));')
+  sesh$eval('for (var i = 0; i < evalThis.length; i++) {
+            evalThis[i].h3_ends = h3.getH3IndexesFromUnidirectionalEdge(evalThis[i].h3_edge);
+            };')
+
+  pairs <- sesh$get('evalThis')
+  pmat <- matrix(unlist(pairs$h3_ends), ncol = 2,
+                 dimnames = list(NULL, c('origin', 'destination')))
+
+  if(simple == TRUE) {
+    pmat
+  } else {
+    data.frame(cbind('h3_edge' = pairs$h3_edge, pmat), stringsAsFactors = FALSE)
+  }
+}
+
+#' get all unidirectional edges
+#'
+#' Get all unidirectional edges for a given H3 address.
+#' @inheritParams h3_is_valid
+#' @return By default, list of length(h3_address). Each list contains a
+#'   character vector of H3 edge addresses.
+#' @examples
+#' # Get all the edges for this address
+#' h3_get_udedges(h3_address = '86be8d12fffffff')
+#'
+#' @import V8
+#' @export
+#'
+h3_get_udedges <- function(h3_address = NULL, simple = TRUE) {
+
+  if(any(h3_is_valid(h3_address) == FALSE)) {
+    stop('Invalid H3 address detected.')
+  }
+
+  sesh <- V8::v8()
+  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
+  sesh$assign('evalThis', data.frame(h3_address, stringsAsFactors = FALSE))
+
+  # for debug:
+  # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
+  # sesh$eval('console.log(JSON.stringify(h3.getH3UnidirectionalEdgesFromHexagon(evalThis[0].h3_address)));')
+  sesh$eval('for (var i = 0; i < evalThis.length; i++) {
+            evalThis[i].h3_edges = h3.getH3UnidirectionalEdgesFromHexagon(evalThis[i].h3_address);
+            };')
+
+  if(simple == TRUE) {
+    sesh$get('evalThis')$h3_edges
+  } else {
+    sesh$get('evalThis')
+  }
+}
+
+#' get the geometry of an H3 edge
+#'
+#' This function takes an H3 edge address and returns the coordinates of its
+#' geometry in WGS84.
+#' @inheritParams h3_is_edge_valid
+#' @return By default, an object of type `sfc_LINESTRING`.
+#' @import V8
+#' @examples
+#' # get me the shape of this edge
+#' h3_to_geo_udedge(h3_edge = '166be8d12fffffff')
+#'
+#' @importFrom sf st_linestring st_sfc st_sf
+#' @export
+#'
+h3_to_geo_udedge <- function(h3_edge = NULL, simple = TRUE) {
+
+  # in case a list output from another function is supplied
+  h3_edge <- unlist(h3_edge, use.names = FALSE)
+
+  if(any(h3_is_edge_valid(h3_edge) == FALSE)) {
+    stop('Invalid H3 edge address detected.')
+  }
+
+  sesh <- V8::v8()
+  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
+  sesh$assign('evalThis', data.frame(h3_edge, stringsAsFactors = FALSE),
+              digits = NA)
+
+  # for debug:
+  # sesh$eval('console.log(JSON.stringify(evalThis))')
+  # sesh$eval('console.log(JSON.stringify(h3.getH3UnidirectionalEdgeBoundary(evalThis[0].h3_edge)));')
+  sesh$eval('for (var i = 0; i < evalThis.length; i++) {
+            evalThis[i].geometry = h3.getH3UnidirectionalEdgeBoundary(evalThis[i].h3_edge, formatAsGeoJson = true);
+            };')
+
+  coords <- sesh$get('evalThis')
+
+  coords$geometry <- lapply(coords$geometry, function(x) {
+    sf::st_linestring(x)
+  })
+  coords$geometry <- sf::st_sfc(coords$geometry, crs = 4326)
+
+  if(simple == TRUE) {
+    coords$geometry
+  } else {
+    sf::st_sf(coords, stringsAsFactors = FALSE)
+  }
+}
+

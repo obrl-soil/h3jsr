@@ -284,11 +284,10 @@ h3_to_geo <- function(h3_address = NULL, simple = TRUE) {
 
 #' get the bounding points of a H3 address
 #'
-#' This function takes a H3 address and returns the coordinates of its bounding
-#' shape (usually a hexagon) in WGS84.
+#' This function takes a H3 address and returns its bounding shape (usually a
+#' hexagon) in WGS84.
 #' @inheritParams h3_is_valid
-#' @return By default, a list of matrices suitable for use with
-#'   `sf::st_polygon()`.
+#' @return By default, an object of type `sfc_POLYGON`.
 #' @import V8
 #' @examples
 #' # What is the hexagon over the Brisbane Town Hall at resolution 10?
@@ -311,8 +310,8 @@ h3_to_geo_boundary <- function(h3_address = NULL, simple = TRUE) {
 
   sesh <- V8::v8()
   sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
-  eval_this <- data.frame(h3_address, stringsAsFactors = FALSE)
-  sesh$assign('evalThis', eval_this, digits = NA)
+  sesh$assign('evalThis', data.frame(h3_address, stringsAsFactors = FALSE),
+              digits = NA)
 
   # for debug:
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')

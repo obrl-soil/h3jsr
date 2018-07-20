@@ -1,6 +1,6 @@
 # v.0.2.2
 
-  * `h3_are_neighbours()` and `h3_get_udedge()` added
+  * All unidirectional algorithms added: `h3_are_neighbours()`, `h3_get_udedge()`, `h3_is_edge_valid()`, `h3_get_udorigin()`, `h3_get_uddest()`, `h3_get_udends()`, `h3_get_udedges()`, and `h3_to_geo_udedge()`.
 
 # v. 0.2.1
   

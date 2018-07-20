@@ -13,12 +13,11 @@ h3_to_geo_boundary(h3_address = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, a list of matrices suitable for use with
-  `sf::st_polygon()`.
+By default, an object of type `sfc_POLYGON`.
 }
 \description{
-This function takes a H3 address and returns the coordinates of its bounding
-shape (usually a hexagon) in WGS84.
+This function takes a H3 address and returns its bounding shape (usually a
+hexagon) in WGS84.
 }
 \examples{
 # What is the hexagon over the Brisbane Town Hall at resolution 10?

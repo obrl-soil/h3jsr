@@ -24,11 +24,11 @@ Get an H3 address representing a unidirectional edge for a given origin and
 destination.
 }
 \note{
-\itemize{ \item{The number of addresses supplied to origin and
-destination must be equal.} }
+The number of addresses supplied to origin and destination must be
+  equal.
 }
 \examples{
-# Are the following addresses neighbours?
+# Get me the edge between these two addresses
 h3_get_udedge(origin = '86be8d12fffffff', destination = '86be8d127ffffff')
 
 }
