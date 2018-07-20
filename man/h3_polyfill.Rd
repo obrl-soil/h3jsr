@@ -33,7 +33,7 @@ This function will be slow with a large number of polygons, and/or
 }
 \examples{
 # Which level 5 H3 addresses have centers inside County Ashe, NC?
-nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 nc1 <- nc[1, ]
 nc1 <- sf::st_cast(nc1, 'POLYGON')
 fillers <- h3_polyfill(geometry = nc1, res = 5)

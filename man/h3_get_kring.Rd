@@ -24,7 +24,7 @@ This function returns all the H3 addresses within a specified number of
 steps from the address supplied.
 }
 \note{
-While the parent function name `kRing` may imply returning a donut of
+While the parent function name `kring` may imply returning a donut of
   addresses, it actually returns a patch centered on the input. The number of
   addresses returned for each input address conforms to the [centered
   hexagonal number

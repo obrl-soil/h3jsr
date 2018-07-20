@@ -1,3 +1,7 @@
+# v.0.2.2
+
+  * `h3_are_neighbours()` and `h3_get_udedge()` added
+
 # v. 0.2.1
   
   * `h3_polyfill()` and `h3_set_to_multipolygon()` added; new dependencies on `sf`and `geojsonsf` have resulted.

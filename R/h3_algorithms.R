@@ -108,7 +108,7 @@ h3_to_children <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 #'   containing both inputs and outputs.
 #' @return By default, a list of length(h3_address). Each list element contains
 #'   a character vector of H3 addresses.
-#' @note While the parent function name `kRing` may imply returning a donut of
+#' @note While the parent function name `kring` may imply returning a donut of
 #'   addresses, it actually returns a patch centered on the input. The number of
 #'   addresses returned for each input address conforms to the [centered
 #'   hexagonal number
@@ -250,7 +250,7 @@ h3_get_ring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #'   resolution.
 #' @examples
 #' # Which level 5 H3 addresses have centers inside County Ashe, NC?
-#' nc <- sf::st_read(system.file("shape/nc.shp", package="sf"))
+#' nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 #' nc1 <- nc[1, ]
 #' nc1 <- sf::st_cast(nc1, 'POLYGON')
 #' fillers <- h3_polyfill(geometry = nc1, res = 5)
