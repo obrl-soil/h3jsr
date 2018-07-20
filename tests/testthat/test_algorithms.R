@@ -161,7 +161,7 @@ test_that(
 test_that(
   'h3_compact returns correctly',
   c(
-    nc <- sf::read_sf(system.file("shape/nc.shp", package="sf")),
+    nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE),
     nc1 <- nc[1, ],
     nc1 <- sf::st_cast(nc1, 'POLYGON'),
     fillers <- h3_polyfill(geometry = nc1, res = 6),
@@ -182,7 +182,7 @@ test_that(
 test_that(
   'h3_uncompact returns correctly',
   c(
-    nc <- sf::read_sf(system.file("shape/nc.shp", package="sf")),
+    nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE),
     nc1 <- nc[1, ],
     nc1 <- sf::st_cast(nc1, 'POLYGON'),
     fillers <- h3_polyfill(geometry = nc1, res = 6),
