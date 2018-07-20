@@ -384,7 +384,7 @@ h3_set_to_multipolygon <- function(h3_addresses = NULL, simple = TRUE) {
 #'   resolution of the output list matches the resolution of the input list.
 #' @examples \dontrun{
 #' # Give me a compacted representation of County Ashe, NC
-#' nc <- sf::read_sf(system.file("shape/nc.shp", package="sf"))
+#' nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 #' nc1 <- nc[1, ]
 #' nc1 <- sf::st_cast(nc1, 'POLYGON')
 #' fillers <- h3_polyfill(geometry = nc1, res = 6)
@@ -436,7 +436,7 @@ h3_compact <- function(h3_addresses = NULL, simple = TRUE) {
 #' @return A list of H3 addresses of the chosen resolution.
 #' @examples \dontrun{
 #' # Give me a compacted representation of County Ashe, NC
-#' nc <- sf::read_sf(system.file("shape/nc.shp", package="sf"))
+#' nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 #' nc1 <- nc[1, ]
 #' nc1 <- sf::st_cast(nc1, 'POLYGON')
 #' fillers <- h3_polyfill(geometry = nc1, res = 6)
