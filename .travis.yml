@@ -2,8 +2,7 @@ language: R
 sudo: required
 r_packages: 
   # work around temporary travis + R 3.5 bug
-  - devtools 
-  - tibble
+  - devtools
   - covr
 before_install:
   - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
