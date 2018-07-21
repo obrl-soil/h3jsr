@@ -213,14 +213,13 @@ h3_get_res <- function(h3_address = NULL, simple = TRUE) {
 #'
 geo_to_h3 <- function(lon = NULL, lat = NULL, res = NULL, simple = TRUE) {
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
-
   # failproof
-  if(!any(res %in% seq(15))) {
-    stop('Please provide a valid H3 resolution. Allowable values are 1-15 inclusive.')
+  if(!any(res %in% seq(0, 15))) {
+    stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
   }
 
+  sesh <- V8::v8()
+  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   eval_this <- data.frame('X' = lon, 'Y' = lat, 'h3_res' = res,
                           stringsAsFactors = FALSE)
 

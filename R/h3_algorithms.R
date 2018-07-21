@@ -20,8 +20,8 @@ h3_to_parent <- function(h3_address = NULL, res = NULL, simple = TRUE) {
   if(any(h3_is_valid(h3_address)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
-  if(!any(res %in% seq(15))) {
-    stop('Please provide a valid H3 resolution. Allowable values are 1-15 inclusive.')
+  if(!any(res %in% seq(0, 15))) {
+    stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
   }
 
   # Establish js interface
@@ -74,8 +74,8 @@ h3_to_children <- function(h3_address = NULL, res = NULL, simple = TRUE) {
   if(any(h3_is_valid(h3_address)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
-  if(!any(res %in% seq(15))) {
-    stop('Please provide a valid H3 resolution. Allowable values are 1-15 inclusive.')
+  if(!any(res %in% seq(0, 15))) {
+    stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
   }
 
   sesh <- V8::v8()
@@ -262,8 +262,8 @@ h3_get_ring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #'
 h3_polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
 
-  if(!any(res %in% seq(15))) {
-    stop('Please provide a valid H3 resolution. Allowable values are 1-15 inclusive.')
+  if(!any(res %in% seq(0, 15))) {
+    stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
   }
 
   # welcome to the future, sp'ers *cackles*
@@ -453,6 +453,10 @@ h3_uncompact <- function(h3_addresses = NULL, res = NULL, simple = TRUE) {
 
   if(any(h3_is_valid(h3_addresses)) == FALSE) {
     stop('Invalid H3 address detected.')
+  }
+
+  if(!any(res %in% seq(0, 15))) {
+    stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
   }
 
   sesh <- V8::v8()

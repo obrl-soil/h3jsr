@@ -1,3 +1,9 @@
+# v. 0.2.3
+
+  * Added public informational utilities `h3_res_area()`, `h3_res_edgelen()`, and `h3_count()`
+  * Added data table of h3 address info for fast retrieval of information using the above functions
+  * Fixed resolution validation bug, level 0 is now allowed
+
 # v.0.2.2
 
   * All unidirectional algorithms added: `h3_are_neighbours()`, `h3_get_udedge()`, `h3_is_edge_valid()`, `h3_get_udorigin()`, `h3_get_uddest()`, `h3_get_udends()`, `h3_get_udedges()`, and `h3_to_geo_udedge()`.

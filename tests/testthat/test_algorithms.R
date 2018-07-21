@@ -10,12 +10,10 @@ test_that(
     val1 <- h3_to_parent(h3_address = '8abe8d12acaffff', res = 6),
     val2 <- h3_to_parent(h3_address = '8abe8d12acaffff', res = 6,
                          simple = FALSE),
-    expect_is(val1, 'character'),
     expect_equal(val1, '86be8d12fffffff'),
     expect_is(val2, 'data.frame'),
     expect_is(val2$h3_address, 'character'),
     expect_is(val2$h3_res, 'integer'),
-    expect_is(val2$h3_parent, 'character'),
     expect_equal(val2$h3_parent, '86be8d12fffffff')
   )
 )
@@ -29,15 +27,11 @@ test_that(
     val1 <- h3_to_children(h3_address = '86be8d12fffffff', res = 8),
     val2 <- h3_to_children(h3_address = '86be8d12fffffff', res = 8,
                          simple = FALSE),
-    expect_is(val1, 'list'),
-    expect_equal(length(val1), 1L),
     expect_equal(length(val1[[1]]), 49L),
     expect_equal(val1[[1]][1], '88be8d1281fffff'),
     expect_is(val2, 'data.frame'),
     expect_is(val2$h3_address, 'character'),
     expect_is(val2$h3_res, 'integer'),
-    expect_is(val2$h3_children, 'list'),
-    expect_equal(length(val2$h3_children), 1),
     expect_equal(length(val2$h3_children[[1]]), 49L),
     expect_equal(val2$h3_children[[1]][1], '88be8d1281fffff')
 
@@ -53,14 +47,11 @@ test_that(
     val2 <- h3_get_kring(h3_address = '86be8d12fffffff', ring_size = 2,
                            simple = FALSE),
     expect_is(val1, 'list'),
-    expect_equal(length(val1), 1L),
     expect_equal(length(val1[[1]]), 19L),
     expect_equal(val1[[1]][1], '86be8d12fffffff'),
     expect_is(val2, 'data.frame'),
     expect_is(val2$h3_address, 'character'),
     expect_is(val2$ring_size, 'integer'),
-    expect_is(val2$h3_kring, 'list'),
-    expect_equal(length(val2$h3_kring), 1),
     expect_equal(length(val2$h3_kring[[1]]), 19L),
     expect_equal(val2$h3_kring[[1]][1], '86be8d12fffffff')
 
@@ -75,16 +66,12 @@ test_that(
     val1 <- h3_get_kring_list(h3_address = '86be8d12fffffff', ring_size = 2),
     val2 <- h3_get_kring_list(h3_address = '86be8d12fffffff', ring_size = 2,
                          simple = FALSE),
-    expect_is(val1, 'list'),
-    expect_equal(length(val1), 1L),
     expect_is(val1[[1]], 'list'),
     expect_equal(length(val1[[1]]), 3L),
     expect_equal(val1[[1]][[1]], '86be8d12fffffff'),
     expect_is(val2, 'data.frame'),
     expect_is(val2$h3_address, 'character'),
     expect_is(val2$ring_size, 'integer'),
-    expect_is(val2$h3_kringd, 'list'),
-    expect_equal(length(val2$h3_kringd), 1),
     expect_equal(length(val2$h3_kringd[[1]]), 3L),
     expect_equal(val2$h3_kringd[[1]][[1]], '86be8d12fffffff')
 
@@ -99,15 +86,11 @@ test_that(
     val1 <- h3_get_ring(h3_address = '86be8d12fffffff', ring_size = 2),
     val2 <- h3_get_ring(h3_address = '86be8d12fffffff', ring_size = 2,
                          simple = FALSE),
-    expect_is(val1, 'list'),
-    expect_equal(length(val1), 1L),
     expect_equal(length(val1[[1]]), 12L),
     expect_equal(val1[[1]][1], '86be8d8f7ffffff'),
     expect_is(val2, 'data.frame'),
     expect_is(val2$h3_address, 'character'),
     expect_is(val2$ring_size, 'integer'),
-    expect_is(val2$h3_ring, 'list'),
-    expect_equal(length(val2$h3_ring), 1),
     expect_equal(length(val2$h3_ring[[1]]), 12L),
     expect_equal(val2$h3_ring[[1]][1], '86be8d8f7ffffff')
 
@@ -127,12 +110,9 @@ test_that(
     val1 <- h3_polyfill(geometry = nc1, res = 4),
     val2 <- h3_polyfill(geometry = nc1, res = 4,
                         simple = FALSE),
-    expect_is(val1, 'list'),
-    expect_equal(length(val1), 1L),
     expect_equal(val1[[1]], '842a993ffffffff'),
     expect_is(val2, 'data.frame'),
     expect_is(val2, 'sf'),
-    expect_is(val2$h3_polyfiller, 'list'),
     expect_is(val2$h3_polyfiller[[1]], 'character'),
     val3 <- h3_polyfill(geometry = nc1, res = 1),
     expect_equal(val3[[1]], NA_character_)
@@ -151,7 +131,6 @@ test_that(
     expect_equal(val1, h3_set_to_multipolygon(val)),
     expect_is(val1, 'sfc'),
     expect_is(val2, 'sf'),
-    expect_is(val2$h3_addresses, 'list'),
     expect_is(val2$h3_addresses[[1]], 'character')
     )
 )
@@ -165,6 +144,7 @@ test_that(
     nc1 <- nc[1, ],
     nc1 <- sf::st_cast(nc1, 'POLYGON'),
     fillers <- h3_polyfill(geometry = nc1, res = 6),
+    expect_error(h3_compact(c('whereami', 'whoami'), res = 13)),
     val1 <- h3_compact(fillers),
     val2 <- h3_compact(fillers, simple = FALSE),
     expect_is(val1, 'character'),
@@ -187,12 +167,12 @@ test_that(
     nc1 <- sf::st_cast(nc1, 'POLYGON'),
     fillers <- h3_polyfill(geometry = nc1, res = 6),
     comp <- h3_compact(fillers),
+    expect_error(h3_uncompact(c('whereami', 'whoami'), res = 13)),
+    expect_error(h3_uncompact(fillers, res = 25)),
     val1 <- h3_uncompact(fillers, res = 7),
     val2 <- h3_uncompact(fillers, res = 7, simple = FALSE),
     expect_is(val1, 'character'),
     expect_equal(length(val1), 231L),
-    expect_is(val2, 'list'),
-    expect_equal(length(val2), 2L),
     expect_equal(length(val2[[1]]), 33L),
     expect_is(val2[[1]], 'character'),
     expect_equal(length(val2[[2]]), 231L),

@@ -12,7 +12,6 @@ test_that(
     val2 <- h3_are_neighbours(c('86be8d12fffffff', '86be8d107ffffff'),
                               c('86be8d127ffffff', '86be8d10fffffff'),
                               simple = FALSE),
-    expect_is(val1, 'logical'),
     expect_equal(val1, TRUE),
     expect_is(val2, 'data.frame'),
     expect_equal(names(val2), c('origin', 'destination', 'h3_neighbours')),
@@ -33,7 +32,6 @@ test_that(
     val2 <- h3_get_udedge(c('86be8d12fffffff', '86be8d107ffffff'),
                           c('86be8d127ffffff', '86be8d10fffffff'),
                           simple = FALSE),
-    expect_is(val1, 'character'),
     expect_equal(val1, '166be8d12fffffff'),
     expect_is(val2, 'data.frame'),
     expect_equal(names(val2), c('origin', 'destination', 'h3_edge')),
@@ -50,13 +48,10 @@ test_that(
     val2 <- h3_is_edge_valid(h3_edge = c('whereami', '166be8d12fffffff')),
     val3 <- h3_is_edge_valid(h3_edge = c('whereami', '166be8d12fffffff'),
                         simple = FALSE),
-    expect_is(val1, 'logical'),
     expect_equal(val1, TRUE),
-    expect_is(val2, 'logical'),
     expect_equal(val2, c(FALSE, TRUE)),
     expect_is(val3, 'data.frame'),
     expect_is(val3$h3_edge, 'character'),
-    expect_is(val3$h3_edge_valid, 'logical'),
     expect_equal(val3$h3_edge_valid, c(FALSE, TRUE))
   )
 )
@@ -68,11 +63,9 @@ test_that(
     expect_error(h3_get_udorigin('edgy')),
     val1 <- h3_get_udorigin('166be8d12fffffff'),
     val2 <- h3_get_udorigin('166be8d12fffffff', simple = FALSE),
-    expect_is(val1, 'character'),
     expect_equal(val1, '86be8d12fffffff'),
     expect_is(val2, 'data.frame'),
     expect_equal(names(val2), c('h3_edge', 'h3_origin')),
-    expect_equal(nrow(val2), 1),
     expect_equal(val2$h3_origin, '86be8d12fffffff')
   )
 )
@@ -84,11 +77,9 @@ test_that(
     expect_error(h3_get_uddest('edgy')),
     val1 <- h3_get_uddest('166be8d12fffffff'),
     val2 <- h3_get_uddest('166be8d12fffffff', simple = FALSE),
-    expect_is(val1, 'character'),
     expect_equal(val1, '86be8d127ffffff'),
     expect_is(val2, 'data.frame'),
     expect_equal(names(val2), c('h3_edge', 'h3_destination')),
-    expect_equal(nrow(val2), 1),
     expect_equal(val2$h3_destination, '86be8d127ffffff')
   )
 )
@@ -105,7 +96,6 @@ test_that(
     expect_equal(val1[2], '86be8d127ffffff'),
     expect_is(val2, 'data.frame'),
     expect_equal(names(val2), c('h3_edge', 'origin', 'destination')),
-    expect_equal(nrow(val2), 1),
     expect_equal(val2$origin, '86be8d12fffffff'),
     expect_equal(val2$destination, '86be8d127ffffff')
   )
@@ -118,11 +108,9 @@ test_that(
     expect_error(h3_get_udedges('whereami')),
     val1 <- h3_get_udedges(h3_address = '86be8d12fffffff'),
     val2 <- h3_get_udedges(h3_address = '86be8d12fffffff', simple = FALSE),
-    expect_is(val1, 'list'),
     expect_equal(val1[[1]][1], '116be8d12fffffff'),
     expect_is(val2, 'data.frame'),
     expect_equal(names(val2), c('h3_address', 'h3_edges')),
-    expect_equal(nrow(val2), 1),
     expect_is(val2$h3_edges, 'list'),
     expect_equal(val2$h3_edges[[1]][1], '116be8d12fffffff')
   )
@@ -139,7 +127,6 @@ test_that(
     expect_is(val2, 'sf'),
     expect_equal(sf::st_crs(val1)$epsg, 4326),
     expect_equal(names(val2), c('h3_edge', 'geometry')),
-    expect_equal(nrow(val2), 1),
     expect_is(val2$geometry, 'sfc_LINESTRING'),
     expect_equal(val2$h3_edge, '166be8d12fffffff')
   )

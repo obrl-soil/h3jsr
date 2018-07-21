@@ -33,8 +33,6 @@ devtools::install_github("obrl-soil/h3jsr")
 
 ## Example
 
-At the moment, the core API functions are accessible, along with a couple of helper algorithms.
-
 ```{r example}
 library(h3jsr)
 
