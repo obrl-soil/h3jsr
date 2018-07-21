@@ -188,58 +188,87 @@ h3_get_res <- function(h3_address = NULL, simple = TRUE) {
 
 #' Convert point location to H3 address
 #'
-#' This function takes a latitude and longitude in WGS84 and returns a H3
-#' address at the chosen resolution.
-#' @param lon Number; Longitude in decimal degrees and WGS84 datum.
-#' @param lat Number; Latitude in decimal degrees and WGS84 datum
+#' This function takes point location data and returns a H3 address for each
+#' point at the chosen resolution(s).
+#' @param points object of class sfc_POINT. If crs is not WGS84, it will be
+#'   converted.
 #' @param res Integer; Desired H3 resolution. See
 #'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
 #'   allowable values and related dimensions.
-#' @param simple Logical; whether to return a vector of outputs or a data frame
-#'   containing both inputs and outpus.
-#' @return By default, a character vector of H3 addresses.
-#' @note You can supply multiple coordinates and resolutions as vectors, but
-#'   they must be recyclable against each other. It is safest to provide many
-#'   points and one resolution, or one point and many resolutions.
+#' @param simple Logical; whether to return only outputs, or an `sf` object
+#'   containing both inputs and outputs.
+#' @return By default, a character vector of H3 addresses. if `simple = FALSE`,
+#'   the input sf object is returned with new columns, one for each requested
+#'   resolution. If `simple = TRUE` and multiple resolutions are requested, a
+#'   data.frame is returned.
+#' @note While multiple resolutions can be requested for multiple points, be
+#'   aware of the memory demand on large datasets.
 #' @import V8
+#' @importFrom methods is
+#' @importFrom sf st_crs st_geometry st_sf
+#' @importFrom tidyr spread
 #' @examples
 #' # where is the Brisbane Town Hall at resolution 15?
-#' brisbane <- geo_to_h3(lon = 153.023503, lat = -27.468920, res = 15)
+#' bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326)
+#' bth_15 <- geo_to_h3(bth, res = 15)
 #'
-#' # where is it at multiple resolutions?
-#' brisbane_all <- geo_to_h3(lon = 153.023503, lat = -27.468920,
-#'                           res = seq(15), simple = FALSE)
+#' # where is it at several resolutions?
+#' bth_many <- geo_to_h3(bth, res = seq(10, 15), simple = FALSE)
 #' @export
 #'
-geo_to_h3 <- function(lon = NULL, lat = NULL, res = NULL, simple = TRUE) {
+geo_to_h3 <- function(points = NULL, res = NULL, simple = TRUE) {
 
-  # failproof
+  if(!methods::is(sf::st_geometry(points), 'sfc_POINT')) {
+    stop('Please supply an sfc_POINT object')
+  }
+
   if(!any(res %in% seq(0, 15))) {
     stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
-  eval_this <- data.frame('X' = lon, 'Y' = lat, 'h3_res' = res,
-                          stringsAsFactors = FALSE)
-
-  # NB digits = NA is for toJSON(), to prevent numerical precision loss
-  sesh$assign('evalThis', eval_this, digits = NA)
-
-  # for debug:
-  # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
-  # sesh$eval('console.log(JSON.stringify(h3.geoToH3(evalThis[0].Y, evalThis[0].X, evalThis[0].res));')
-  sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_address = h3.geoToH3(evalThis[i].Y, evalThis[i].X, evalThis[i].h3_res);
-            };')
-
-  # NB no need to specify digits on return trip
-  if(simple == TRUE) {
-    sesh$get('evalThis')$h3_address
-  } else {
-    sesh$get('evalThis')
+  if(sf::st_crs(points)$epsg != 4326) {
+    warning('Data has been transformed to EPSG:4326.')
+    points <- sf::st_transform(points, 4326)
   }
 
+  sesh <- V8::v8()
+  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
+
+  # There are some serious shenanigans from here on to deal with multiple points
+  # and multiple resolutions, just roll with it
+  eval_this <- data.frame('X' = rep(sapply(sf::st_geometry(points), function(pt) pt[1]),
+                                    length(res)),
+                          'Y' = rep(sapply(sf::st_geometry(points), function(pt) pt[2]),
+                                    length(res)),
+                          'h3_res' = rep(res, each = length(sf::st_geometry(points))),
+                          stringsAsFactors = FALSE)
+
+  sesh$assign('evalThis', eval_this, digits = NA)
+  # sesh$eval('console.log(evalThis[0].X);')
+  # sesh$eval('console.log(JSON.stringify(h3.geoToH3(evalThis[0].Y, evalThis[0].X, evalThis[0].res));')
+  sesh$eval('var h3_address = [];
+            for (var i = 0; i < evalThis.length; i++) {
+              h3_address[i] = h3.geoToH3(evalThis[i].Y, evalThis[i].X, evalThis[i].h3_res);
+            };')
+
+  # get data back. If length(res != 1), divide up outputs properly
+  addys <- data.frame('n' = seq(length(sf::st_geometry(points))),
+                      'res' = rep(res, each = length(sf::st_geometry(points))),
+                      'h3_address' = sesh$get('h3_address'),
+                      stringsAsFactors = FALSE)
+  addys <- tidyr::spread(addys, 'res', 'h3_address')
+  addys$n <- NULL
+  names(addys) <- paste0('h3_resolution_', names(addys))
+
+  if (simple == TRUE) {
+    if (length(res) == 1) {
+      unlist(addys, use.names = FALSE)
+    } else {
+      addys
+    }
+  } else {
+    sf::st_sf(data.frame(addys, 'geometry' = points), stringsAsFactors = FALSE)
+  }
 }
 
 #' Convert H3 address to point location
@@ -293,11 +322,10 @@ h3_to_geo <- function(h3_address = NULL, simple = TRUE) {
 #' brisbane_hex_10 <- h3_to_geo_boundary(h3_address = '8abe8d12acaffff')
 #'
 #' # Give me some of the hexes over Brisbane Town Hall as an sf object
-#' BTH_hexes <-
-#'   h3_to_geo_boundary(h3_address = geo_to_h3(lon = 153.023503,
-#'                                             lat = -27.468920,
-#'                                             res = seq(10, 15),
-#'                                             simple = FALSE))
+#' bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326)
+#' bth_addys <- unlist(geo_to_h3(bth, res = seq(10, 15)), use.names = FALSE)
+#' bth_hexes <- h3_to_geo_boundary(h3_address = bth_addys)
+#' plot(bth_hexes, axes = TRUE)
 #' @importFrom sf st_polygon st_sfc st_sf
 #' @export
 #'

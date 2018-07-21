@@ -1,3 +1,7 @@
+# v. 0.3.0
+
+  * Reworked `geo_to_h3()` to take in an `sf` point object and return the same when `simple = FALSE`, resulting in a new dependency on `tidyr`. On the upside, one can now request addresses for multiple resolutions at multiple points, if one wishes to test the limits of one's system.
+
 # v. 0.2.3
 
   * Added public informational utilities `h3_res_area()`, `h3_res_edgelen()`, and `h3_count()`

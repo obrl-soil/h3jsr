@@ -122,9 +122,10 @@ test_that(
 # h3_set_to_multipolygon
 test_that(
   'h3_set_to_multipolygon returns correctly',
-  c(
+  c(library(sf),
+    bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326),
     expect_error(h3_set_to_multipolygon(h3_addresses = 'whereami')),
-    val <- geo_to_h3(lon = 153.023503, lat = -27.468920, res = 10),
+    val <- geo_to_h3(bth, res = 10),
     val <- h3_get_kring(h3_address = val, ring_size = 2),
     val1 <- h3_set_to_multipolygon(unlist(val)),
     val2 <- h3_set_to_multipolygon(unlist(val), simple = FALSE),

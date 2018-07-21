@@ -75,35 +75,45 @@ test_that(
 
 # geo_to_h3
 test_that('geo_to_h3 returns an appropriately structured data frame with single input',
-          c(
-            expect_error(geo_to_h3(lon = 153.023503, lat = -27.468920, res = 20)),
-            val1 <- geo_to_h3(lon = 153.023503, lat = -27.468920, res = 15),
-            val2 <- geo_to_h3(lon = 153.023503, lat = -27.468920, res = 15,
-                              simple = FALSE),
+          c(library(sf),
+            bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326),
+            bth2 <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4283),
+            expect_error(geo_to_h3(bth, res = 20)),
+            expect_error(geo_to_h3(st_point(c(153.023503, -27.468920)), 15)),
+            expect_warning(geo_to_h3(bth2, res = 1)),
+            val1 <- geo_to_h3(bth, res = 15),
+            val2 <- geo_to_h3(bth, res = 15, simple = FALSE),
+            val3 <- geo_to_h3(sf::st_sf('geometry' = bth), 15, simple = FALSE),
+            expect_identical(val2, val3),
             expect_equal(val1, '8fbe8d12acad2f3'),
-            expect_is(val2, 'data.frame'),
-            expect_equal(ncol(val2), 4),
+            expect_is(val2, 'sf'),
+            expect_equal(ncol(val2), 2),
             expect_equal(nrow(val2), 1),
-            expect_equal(names(val2), c('X', 'Y', 'h3_res', 'h3_address')),
-            expect_is(val2$X, 'numeric'),
-            expect_is(val2$Y, 'numeric'),
-            # xy checks
-            expect_equal(val2$h3_address, '8fbe8d12acad2f3')
+            expect_equal(names(val2), c('h3_resolution_15', 'geometry')),
+            expect_equal(val2$h3_resolution_15, '8fbe8d12acad2f3')
           ))
 
-test_that('geo_to_h3 returns an appropriately structured data frame with multiple input',
-          c(
-            val1 <- geo_to_h3(lon = 153.023503, lat = -27.468920, res = seq(0,15)),
-            val2 <- geo_to_h3(lon = 153.023503, lat = -27.468920, res = seq(0,15),
-                              simple = FALSE),
-            expect_equal(val1[16], '8fbe8d12acad2f3'),
-            expect_is(val2, 'data.frame'),
-            expect_equal(ncol(val2), 4L),
-            expect_equal(nrow(val2), 16L),
-            expect_equal(names(val2), c('X', 'Y', 'h3_res', 'h3_address')),
-            expect_is(val2$X, 'numeric'),
-            expect_is(val2$Y, 'numeric'),
-            expect_is(val2$h3_address, 'character')
+test_that('geo_to_h3 returns an appropriately structured data frame with multiple inputs',
+          c(library(sf),
+            bpts <- list(c(153.02350, -27.46892),
+                         c(153.02456, -27.47071),
+                         c(153.02245, -27.47078)),
+            bpts <- lapply(bpts, sf::st_point),
+            bpts <- sf::st_sfc(bpts, crs = 4326),
+            bpts_sf <- sf::st_sf('geometry' = bpts),
+            # several points 1 res
+            val1 <- geo_to_h3(bpts, res = 11),
+            val2 <- geo_to_h3(bpts, res = 11, simple = FALSE),
+            # several points several res
+            val3 <- geo_to_h3(bpts, res = c(11,12)),
+            val4 <- geo_to_h3(bpts, res = c(11,12), simple = FALSE),
+            expect_equal(val1[1], '8bbe8d12acadfff'),
+            expect_is(val2, 'sf'),
+            expect_is(val3, 'data.frame'),
+            expect_is(val4, 'sf'),
+            expect_identical(val2$h3_resolution_11, val3$h3_resolution_11,
+                             val4$h3_resolution_11),
+            expect_identical(val3, sf::st_set_geometry(val4, NULL))
           ))
 
 # h3_to_geo

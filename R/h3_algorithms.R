@@ -322,9 +322,10 @@ h3_polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
 #' @examples
 #' # Give me the outline of the hexagons around Brisbane Town Hall at
 #' # resolution 10
-#' bth <- geo_to_h3(lon = 153.023503, lat = -27.468920, res = 10)
-#' bth_patch <- h3_get_kring(h3_address = bth, ring_size = 2)
-#' bth_patch_sf <- h3_set_to_multipolygon(bth)
+#' bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326)
+#' bth_10 <- geo_to_h3(bth, res = 10)
+#' bth_patch <- h3_get_kring(h3_address = bth_10, ring_size = 2)
+#' bth_patch_sf <- h3_set_to_multipolygon(bth_patch)
 #'
 #' @import V8
 #' @importFrom sf st_is_valid st_sf

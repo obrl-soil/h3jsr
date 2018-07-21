@@ -35,12 +35,14 @@ devtools::install_github("obrl-soil/h3jsr")
 
 ```{r example}
 library(h3jsr)
+library(sf)
 
 # where is the Brisbane Town Hall at resolution 15?
-geo_to_h3(lon = 153.023503, lat = -27.468920, res = 15)
+bth <- st_sfc(st_point(c(153.023503, -27.468920)), crs = 4326)
+geo_to_h3(bth, res = 15)
 
-# where is it at multiple resolutions?
-geo_to_h3(lon = 153.023503, lat = -27.468920, res = seq(15), simple = FALSE)
+# where is it at several resolutions?
+geo_to_h3(bth, res = seq(10, 15), simple = FALSE)
 
 # Where is the center of the hexagon over the Brisbane Town 
 # Hall at resolution 10?
@@ -63,7 +65,7 @@ h3_get_base_cell(h3_address = '8abe8d12acaffff')
 brisbane_hex_10 <- h3_to_geo_boundary(h3_address = '8abe8d12acaffff')
 
 # if you're feeling fancy,
-# geo_to_h3(lon = 153.023503, lat = -27.468920, res = seq(5,15)) %>%
+# geo_to_h3(bth, res = seq(10,15)) %>%
 #   h3_to_geo_boundary(., simple = FALSE) %>%
 #   mapview::mapview()
 #  

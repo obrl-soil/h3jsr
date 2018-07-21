@@ -4,37 +4,38 @@
 \alias{geo_to_h3}
 \title{Convert point location to H3 address}
 \usage{
-geo_to_h3(lon = NULL, lat = NULL, res = NULL, simple = TRUE)
+geo_to_h3(points = NULL, res = NULL, simple = TRUE)
 }
 \arguments{
-\item{lon}{Number; Longitude in decimal degrees and WGS84 datum.}
-
-\item{lat}{Number; Latitude in decimal degrees and WGS84 datum}
+\item{points}{object of class sfc_POINT. If crs is not WGS84, it will be
+converted.}
 
 \item{res}{Integer; Desired H3 resolution. See
 https://uber.github.io/h3/#/documentation/core-library/resolution-table for
 allowable values and related dimensions.}
 
-\item{simple}{Logical; whether to return a vector of outputs or a data frame
-containing both inputs and outpus.}
+\item{simple}{Logical; whether to return only outputs, or an `sf` object
+containing both inputs and outputs.}
 }
 \value{
-By default, a character vector of H3 addresses.
+By default, a character vector of H3 addresses. if `simple = FALSE`,
+  the input sf object is returned with new columns, one for each requested
+  resolution. If `simple = TRUE` and multiple resolutions are requested, a
+  data.frame is returned.
 }
 \description{
-This function takes a latitude and longitude in WGS84 and returns a H3
-address at the chosen resolution.
+This function takes point location data and returns a H3 address for each
+point at the chosen resolution(s).
 }
 \note{
-You can supply multiple coordinates and resolutions as vectors, but
-  they must be recyclable against each other. It is safest to provide many
-  points and one resolution, or one point and many resolutions.
+While multiple resolutions can be requested for multiple points, be
+  aware of the memory demand on large datasets.
 }
 \examples{
 # where is the Brisbane Town Hall at resolution 15?
-brisbane <- geo_to_h3(lon = 153.023503, lat = -27.468920, res = 15)
+bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326)
+bth_15 <- geo_to_h3(bth, res = 15)
 
-# where is it at multiple resolutions?
-brisbane_all <- geo_to_h3(lon = 153.023503, lat = -27.468920,
-                          res = seq(15), simple = FALSE)
+# where is it at several resolutions?
+bth_many <- geo_to_h3(bth, res = seq(10, 15), simple = FALSE)
 }

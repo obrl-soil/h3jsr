@@ -24,9 +24,8 @@ hexagon) in WGS84.
 brisbane_hex_10 <- h3_to_geo_boundary(h3_address = '8abe8d12acaffff')
 
 # Give me some of the hexes over Brisbane Town Hall as an sf object
-BTH_hexes <-
-  h3_to_geo_boundary(h3_address = geo_to_h3(lon = 153.023503,
-                                            lat = -27.468920,
-                                            res = seq(10, 15),
-                                            simple = FALSE))
+bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326)
+bth_addys <- unlist(geo_to_h3(bth, res = seq(10, 15)), use.names = FALSE)
+bth_hexes <- h3_to_geo_boundary(h3_address = bth_addys)
+plot(bth_hexes, axes = TRUE)
 }
