@@ -122,17 +122,13 @@ test_that('h3 to geo returns an appropriate dataset',
             expect_error(h3_to_geo(h3_address = 'whereami')),
             val1 <- h3_to_geo('8abe8d12acaffff'),
             val2 <- h3_to_geo('8abe8d12acaffff', simple = FALSE),
-            expect_is(val1, 'matrix'),
-            expect_equal(dim(val1), c(1L,2L)),
-            expect_equal(val1[1,1], 153.0239032),
-            expect_equal(val1[1,2], -27.46852938),
-            expect_is(val2, 'data.frame'),
-            expect_equal(ncol(val2), 3),
-            expect_equal(nrow(val2), 1),
-            expect_equal(names(val2), c('h3_address', 'h3_x', 'h3_y')),
-            # xy checks
-            expect_equal(val2$h3_x, 153.0239032),
-            expect_equal(val2$h3_y, -27.46852938)
+            expect_is(val1, 'sfc_POINT'),
+            expect_equal(val1, val2$geometry),
+            # lock in in case underlying fn gets fixed
+            expect_equal(val1[[1]][1], 153.0239032),
+            expect_equal(val1[[1]][2], -27.46852938),
+            expect_is(val2, 'sf'),
+            expect_equal(names(val2), c('h3_address', 'h3_resolution', 'geometry'))
           ))
 
 # h3_to_geo_boundary
@@ -144,16 +140,9 @@ test_that('h3 to geo boundary returns an appropriate dataset',
             # xy checks
             expect_equal(val1[[1]][[1]][1,1], 153.0245835),
             expect_equal(val1[[1]][[1]][1,2], -27.46896347),
-            expect_equal(length(val1), 1L),
             expect_is(val1, 'sfc_POLYGON'),
             expect_is(val2, 'sf'),
-            expect_equal(ncol(val2), 2),
-            expect_equal(nrow(val2), 1),
-            expect_equal(names(val2), c('h3_address', 'geometry')),
-            expect_is(sf::st_geometry(val2), 'sfc_POLYGON'),
-            expect_equal(sf::st_crs(val1)$epsg, 4326),
-            expect_equal(sf::st_crs(val2)$epsg, 4326),
-            # xy checks
-            expect_equal(sf::st_geometry(val2)[[1]][[1]][1,1], 153.0245835),
-            expect_equal(sf::st_geometry(val2)[[1]][[1]][1,2], -27.46896347)
+            expect_identical(val1, val2$geometry),
+            expect_equal(names(val2), c('h3_address', 'h3_resolution', 'geometry')),
+            expect_equal(sf::st_crs(val1)$epsg, 4326)
           ))

@@ -62,7 +62,8 @@ h3_is_rc3(h3_address = '8abe8d12acaffff')
 h3_get_base_cell(h3_address = '8abe8d12acaffff')
 
 # What is the hexagon over the Brisbane Town Hall at resolution 10?
-brisbane_hex_10 <- h3_to_geo_boundary(h3_address = '8abe8d12acaffff')
+brisbane_hex_10 <- h3_to_geo_boundary(h3_address = '8abe8d12acaffff', 
+                                      simple = FALSE)
 
 # if you're feeling fancy,
 # geo_to_h3(bth, res = seq(10,15)) %>%

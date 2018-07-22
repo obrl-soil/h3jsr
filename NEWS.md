@@ -1,3 +1,8 @@
+# v. 0.3.1
+  
+  * Reworked `h3_to_geo()` to return an `sfc_POINT` object, or an `sf` point data frame where `simple = FALSE`.
+  * Improved outputs of `h3_to_geo_boundary()` to have a similar structure to `h3_to_geo()`.
+  
 # v. 0.3.0
 
   * Reworked `geo_to_h3()` to take in an `sf` point object and return the same when `simple = FALSE`, resulting in a new dependency on `tidyr`. On the upside, one can now request addresses for multiple resolutions at multiple points, if one wishes to test the limits of one's system.

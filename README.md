@@ -48,8 +48,13 @@ geo_to_h3(bth, res = seq(10, 15), simple = FALSE)
 # Hall at resolution 10?
 brisbane_10 <- h3_to_geo(h3_address = '8abe8d12acaffff')
 brisbane_10
-#>       h3_x      h3_y
-#> 1 153.0239 -27.46853
+#> Geometry set for 1 feature 
+#> geometry type:  POINT
+#> dimension:      XY
+#> bbox:           xmin: 153.0239 ymin: -27.46853 xmax: 153.0239 ymax: -27.46853
+#> epsg (SRID):    4326
+#> proj4string:    +proj=longlat +datum=WGS84 +no_defs
+#> POINT (153.0239 -27.46853)
 
 # Is that a valid H3 address?
 h3_is_valid(h3_address = '8abe8d12acaffff')
@@ -68,7 +73,8 @@ h3_get_base_cell(h3_address = '8abe8d12acaffff')
 #> [1] 95
 
 # What is the hexagon over the Brisbane Town Hall at resolution 10?
-brisbane_hex_10 <- h3_to_geo_boundary(h3_address = '8abe8d12acaffff')
+brisbane_hex_10 <- h3_to_geo_boundary(h3_address = '8abe8d12acaffff', 
+                                      simple = FALSE)
 
 # if you're feeling fancy,
 # geo_to_h3(bth, res = seq(10,15)) %>%

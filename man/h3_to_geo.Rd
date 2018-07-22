@@ -13,7 +13,7 @@ h3_to_geo(h3_address = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, a two-column matrix containing X and Y coordinates in
+By default, an `sfc_POINT` object of `length(h3_address)`.
   EPSG:WGS84.
 }
 \description{

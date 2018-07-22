@@ -276,7 +276,7 @@ geo_to_h3 <- function(points = NULL, res = NULL, simple = TRUE) {
 #' This function takes a H3 address and returns the coordinates of the center of
 #' that H3 hexagon in WGS84.
 #' @inheritParams h3_is_valid
-#' @return By default, a two-column matrix containing X and Y coordinates in
+#' @return By default, an `sfc_POINT` object of `length(h3_address)`.
 #'   EPSG:WGS84.
 #' @import V8
 #' @examples
@@ -299,23 +299,31 @@ h3_to_geo <- function(h3_address = NULL, simple = TRUE) {
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
   # sesh$eval('console.log(JSON.stringify(h3.h3ToGeo(evalThis[0].h3_address)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_x = h3.h3ToGeo(evalThis[i].h3_address)[1];
-            evalThis[i].h3_y = h3.h3ToGeo(evalThis[i].h3_address)[0];
+            evalThis[i].h3_resolution = h3.h3GetResolution(evalThis[i].h3_address);
+            evalThis[i].geometry = h3.h3ToGeo(evalThis[i].h3_address);
             };')
+
+  pts <- sesh$get('evalThis')
+  pts$geometry <- lapply(pts$geometry, function(x) {
+    # the coords come back as y,x ;_;
+    sf::st_point(c(x[2], x[1]))
+  })
+  pts$geometry <- sf::st_sfc(pts$geometry, crs = 4326)
+
   if(simple == TRUE) {
-    as.matrix(sesh$get('evalThis')[, c(2,3)])
+    pts$geometry
   } else {
-    sesh$get('evalThis')
+    sf::st_sf(pts)
   }
 
 }
 
-#' get the bounding points of a H3 address
+#' Get the boundary of an H3 address
 #'
-#' This function takes a H3 address and returns its bounding shape (usually a
+#' This function takes an H3 address and returns its bounding shape (usually a
 #' hexagon) in WGS84.
 #' @inheritParams h3_is_valid
-#' @return By default, an object of type `sfc_POLYGON`.
+#' @return By default, an `sfc_POLYGON` object of `length(h3_address)`.
 #' @import V8
 #' @examples
 #' # What is the hexagon over the Brisbane Town Hall at resolution 10?
@@ -344,38 +352,22 @@ h3_to_geo_boundary <- function(h3_address = NULL, simple = TRUE) {
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
   # sesh$eval('console.log(JSON.stringify(h3.h3ToGeoBoundary(evalThis[0].h3_address)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_geometry = h3.h3ToGeoBoundary(evalThis[i].h3_address);
+            evalThis[i].h3_resolution = h3.h3GetResolution(evalThis[i].h3_address);
+            evalThis[i].geometry = h3.h3ToGeoBoundary(evalThis[i].h3_address, formatAsGeoJson = true);
             };')
 
-  coords <- sesh$get('evalThis')
+  hexes <- sesh$get('evalThis')
 
-  # tidy up and convert to mat (goal is an easy cast to sf)
-  coords$h3_geometry <- lapply(coords$h3_geometry, function(hex) {
-    hex <- rbind(hex, hex[1,])
-    hex[, c(2,1)]
+  # spatialise
+  hexes$geometry <- lapply(hexes$geometry, function(hex) {
+    sf::st_polygon(list(hex))
   })
-  geometry <- lapply(coords$h3_geometry, function(x) {
-    sf::st_polygon(list(x))
-  })
-  geometry <- sf::st_sfc(geometry, crs = 4326)
+
+  hexes$geometry <- sf::st_sfc(hexes$geometry, crs = 4326)
 
   if(simple == TRUE) {
-    geometry
+    hexes$geometry
   } else {
-   sf::st_sf('h3_address' = coords$h3_address, geometry,
-             stringsAsFactors = FALSE)
+   sf::st_sf(hexes, stringsAsFactors = FALSE)
   }
 }
-
-#microbenchmark::microbenchmark(
-#  'A' = {
-#    hex <- coords$h3_hex[[1]]
-#    rbind(hex, hex[1,])
-#    hex[, c(2,1)]
-#  },
-#  'B' = {
-#    hex <- coords$h3_hex[[1]]
-#    matrix(c(hex[ ,2], hex[1, 2], hex[, 1], hex[1, 1]),
-#           ncol = 2, byrow = FALSE)
-#  }, times = 10000)
-

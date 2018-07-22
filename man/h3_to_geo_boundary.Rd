@@ -2,7 +2,7 @@
 % Please edit documentation in R/core_api.R
 \name{h3_to_geo_boundary}
 \alias{h3_to_geo_boundary}
-\title{get the bounding points of a H3 address}
+\title{Get the boundary of an H3 address}
 \usage{
 h3_to_geo_boundary(h3_address = NULL, simple = TRUE)
 }
@@ -13,10 +13,10 @@ h3_to_geo_boundary(h3_address = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, an object of type `sfc_POLYGON`.
+By default, an `sfc_POLYGON` object of `length(h3_address)`.
 }
 \description{
-This function takes a H3 address and returns its bounding shape (usually a
+This function takes an H3 address and returns its bounding shape (usually a
 hexagon) in WGS84.
 }
 \examples{
