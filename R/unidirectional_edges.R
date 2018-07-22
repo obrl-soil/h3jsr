@@ -17,14 +17,14 @@
 #'  }
 #' @examples
 #' # Are the following addresses neighbours?
-#' h3_are_neighbours(origin = '86be8d12fffffff', destination = '86be8d127ffffff')
+#' are_neighbours(origin = '86be8d12fffffff', destination = '86be8d127ffffff')
 #'
 #' @import V8
 #' @export
 #'
-h3_are_neighbours <- function(origin = NULL, destination = NULL, simple = TRUE) {
+are_neighbours <- function(origin = NULL, destination = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(c(origin, destination))) == FALSE) {
+  if(any(is_valid(c(origin, destination))) == FALSE) {
     stop('Invalid H3 address detected.')
   }
 
@@ -56,24 +56,24 @@ h3_are_neighbours <- function(origin = NULL, destination = NULL, simple = TRUE) 
 
 }
 
-#' get a unidirectional edge
+#' gGt a unidirectional edge
 #'
 #' Get an H3 address representing a unidirectional edge for a given origin and
 #' destination.
-#' @inheritParams h3_are_neighbours
+#' @inheritParams are_neighbours
 #' @return By default, character vector of edges.
 #' @note The number of addresses supplied to origin and destination must be
 #'   equal.
 #' @examples
 #' # Get me the edge between these two addresses
-#' h3_get_udedge(origin = '86be8d12fffffff', destination = '86be8d127ffffff')
+#' get_udedge(origin = '86be8d12fffffff', destination = '86be8d127ffffff')
 #'
 #' @import V8
 #' @export
 #'
-h3_get_udedge <- function(origin = NULL, destination = NULL, simple = TRUE) {
+get_udedge <- function(origin = NULL, destination = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(c(origin, destination))) == FALSE) {
+  if(any(is_valid(c(origin, destination))) == FALSE) {
     stop('Invalid H3 address detected.')
   }
 
@@ -105,7 +105,7 @@ h3_get_udedge <- function(origin = NULL, destination = NULL, simple = TRUE) {
 
   }
 
-#' check H3 unidirectional edge address
+#' Check H3 unidirectional edge address
 #'
 #' This function checks whether an H3 unidirectional edge address is valid.
 #' @param h3_edge Address of unidirectional edge.
@@ -114,12 +114,12 @@ h3_get_udedge <- function(origin = NULL, destination = NULL, simple = TRUE) {
 #' @return By default, a logical vector of length(h3_edge).
 #' @examples
 #' # is the following edge address valid?
-#' h3_is_edge_valid(h3_edge = '166be8d12fffffff')
+#' is_valid_edge(h3_edge = '166be8d12fffffff')
 #'
 #' @import V8
 #' @export
 #'
-h3_is_edge_valid <- function(h3_edge = NULL, simple = TRUE) {
+is_valid_edge <- function(h3_edge = NULL, simple = TRUE) {
 
   sesh <- V8::v8()
   sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
@@ -139,21 +139,21 @@ h3_is_edge_valid <- function(h3_edge = NULL, simple = TRUE) {
   }
 }
 
-#' get origin from unidirectional edge
+#' Get origin from unidirectional edge
 #'
 #' Get an H3 address representing the origin of a unidirectional edge.
-#' @inheritParams h3_is_edge_valid
+#' @inheritParams is_valid_edge
 #' @return By default, character vector of h3 addresses.
 #' @examples
 #' # Get the origin of this edge
-#' h3_get_udorigin(h3_edge = '166be8d12fffffff')
+#' get_udorigin(h3_edge = '166be8d12fffffff')
 #'
 #' @import V8
 #' @export
 #'
-h3_get_udorigin <- function(h3_edge = NULL, simple = TRUE) {
+get_udorigin <- function(h3_edge = NULL, simple = TRUE) {
 
-  if(any(h3_is_edge_valid(h3_edge) == FALSE)) {
+  if(any(is_valid_edge(h3_edge) == FALSE)) {
     stop('Invalid H3 edge address detected.')
   }
 
@@ -176,21 +176,21 @@ h3_get_udorigin <- function(h3_edge = NULL, simple = TRUE) {
 
   }
 
-#' get destination from unidirectional edge
+#' Get destination from unidirectional edge
 #'
 #' Get an H3 address representing the destination of a unidirectional edge.
-#' @inheritParams h3_is_edge_valid
+#' @inheritParams is_valid_edge
 #' @return By default, character vector of h3 addresses.
 #' @examples
 #' # Get the destination of this edge
-#' h3_get_uddest(h3_edge = '166be8d12fffffff')
+#' get_uddest(h3_edge = '166be8d12fffffff')
 #'
 #' @import V8
 #' @export
 #'
-h3_get_uddest <- function(h3_edge = NULL, simple = TRUE) {
+get_uddest <- function(h3_edge = NULL, simple = TRUE) {
 
-  if(any(h3_is_edge_valid(h3_edge) == FALSE)) {
+  if(any(is_valid_edge(h3_edge) == FALSE)) {
     stop('Invalid H3 edge address detected.')
   }
 
@@ -212,22 +212,22 @@ h3_get_uddest <- function(h3_edge = NULL, simple = TRUE) {
   }
 }
 
-#' get origin and destination of unidirectional edge
+#' Get origin and destination of unidirectional edge
 #'
 #' Get an H3 addresses representing the origin and destination of a
 #' unidirectional edge.
-#' @inheritParams h3_is_edge_valid
+#' @inheritParams is_valid_edge
 #' @return By default, character matrix of h3 addresses.
 #' @examples
 #' # Get the origin and destination of this edge
-#' h3_get_udends(h3_edge = '166be8d12fffffff')
+#' get_udends(h3_edge = '166be8d12fffffff')
 #'
 #' @import V8
 #' @export
 #'
-h3_get_udends <- function(h3_edge = NULL, simple = TRUE) {
+get_udends <- function(h3_edge = NULL, simple = TRUE) {
 
-  if(any(h3_is_edge_valid(h3_edge) == FALSE)) {
+  if(any(is_valid_edge(h3_edge) == FALSE)) {
     stop('Invalid H3 edge address detected.')
   }
 
@@ -253,22 +253,22 @@ h3_get_udends <- function(h3_edge = NULL, simple = TRUE) {
   }
 }
 
-#' get all unidirectional edges
+#' Get all unidirectional edges
 #'
 #' Get all unidirectional edges for a given H3 address.
-#' @inheritParams h3_is_valid
+#' @inheritParams is_valid
 #' @return By default, list of length(h3_address). Each list contains a
 #'   character vector of H3 edge addresses.
 #' @examples
 #' # Get all the edges for this address
-#' h3_get_udedges(h3_address = '86be8d12fffffff')
+#' get_udedges(h3_address = '86be8d12fffffff')
 #'
 #' @import V8
 #' @export
 #'
-h3_get_udedges <- function(h3_address = NULL, simple = TRUE) {
+get_udedges <- function(h3_address = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address) == FALSE)) {
+  if(any(is_valid(h3_address) == FALSE)) {
     stop('Invalid H3 address detected.')
   }
 
@@ -290,26 +290,26 @@ h3_get_udedges <- function(h3_address = NULL, simple = TRUE) {
   }
 }
 
-#' get the geometry of an H3 edge
+#' Get the geometry of an H3 edge
 #'
-#' This function takes an H3 edge address and returns the coordinates of its
-#' geometry in WGS84.
-#' @inheritParams h3_is_edge_valid
+#' This function takes an H3 unidirectional edge address and returns the
+#' coordinates of its geometry in WGS84.
+#' @inheritParams is_valid_edge
 #' @return By default, an object of type `sfc_LINESTRING`.
 #' @import V8
 #' @examples
 #' # get me the shape of this edge
-#' h3_to_geo_udedge(h3_edge = '166be8d12fffffff')
+#' udedge_to_line(h3_edge = '166be8d12fffffff')
 #'
 #' @importFrom sf st_linestring st_sfc st_sf
 #' @export
 #'
-h3_to_geo_udedge <- function(h3_edge = NULL, simple = TRUE) {
+udedge_to_line <- function(h3_edge = NULL, simple = TRUE) {
 
   # in case a list output from another function is supplied
   h3_edge <- unlist(h3_edge, use.names = FALSE)
 
-  if(any(h3_is_edge_valid(h3_edge) == FALSE)) {
+  if(any(is_valid_edge(h3_edge) == FALSE)) {
     stop('Invalid H3 edge address detected.')
   }
 
@@ -338,4 +338,3 @@ h3_to_geo_udedge <- function(h3_edge = NULL, simple = TRUE) {
     sf::st_sf(coords, stringsAsFactors = FALSE)
   }
 }
-

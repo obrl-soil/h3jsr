@@ -7,11 +7,11 @@
 #' @return By default, a logical vector of length(h3_address).
 #' @examples
 #' # is the following address valid?
-#' h3_is_valid(h3_address = '8abe8d12acaffff')
+#' is_valid(h3_address = '8abe8d12acaffff')
 #' @import V8
 #' @export
 #'
-h3_is_valid <- function(h3_address = NULL, simple = TRUE) {
+is_valid <- function(h3_address = NULL, simple = TRUE) {
 
   # Establish js interface
   sesh <- V8::v8()
@@ -46,17 +46,17 @@ h3_is_valid <- function(h3_address = NULL, simple = TRUE) {
 #'
 #' This function checks whether a H3 address refers to one of the pentagons
 #' that occur at icosahedron corners.
-#' @inheritParams h3_is_valid
+#' @inheritParams is_valid
 #' @return By default, a logical vector of length(h3_address).
 #' @examples
 #' # is the following address a pentagon?
-#' h3_is_pentagon(h3_address = '8abe8d12acaffff')
+#' is_pentagon(h3_address = '8abe8d12acaffff')
 #' @import V8
 #' @export
 #'
-h3_is_pentagon <- function(h3_address = NULL, simple = TRUE) {
+is_pentagon <- function(h3_address = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address)) == FALSE) {
+  if(any(is_valid(h3_address)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
 
@@ -82,17 +82,17 @@ h3_is_pentagon <- function(h3_address = NULL, simple = TRUE) {
 #' This function checks whether a H3 address is in a Class III resolution
 #' (rotated versus the icosahedron and subject to shape distortion adding extra
 #' points on icosahedron edges, making them not true hexagons).
-#' @inheritParams h3_is_valid
+#' @inheritParams is_valid
 #' @return By default, a logical vector of length(h3_address).
 #' @examples
 #' # is the following address Class III?
-#' h3_is_rc3(h3_address = '8abe8d12acaffff')
+#' is_rc3(h3_address = '8abe8d12acaffff')
 #' @import V8
 #' @export
 #'
-h3_is_rc3 <- function(h3_address = NULL, simple = TRUE) {
+is_rc3 <- function(h3_address = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address)) == FALSE) {
+  if(any(is_valid(h3_address)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
 
@@ -118,18 +118,18 @@ h3_is_rc3 <- function(h3_address = NULL, simple = TRUE) {
 #'
 #' This function returns the number of the base (Level 1) cell for an H3
 #' address.
-#' @inheritParams h3_is_valid
+#' @inheritParams is_valid
 #' @return By default, an integer vector of length(h3_address), ranging from
 #'   0 to 121.
 #' @examples
 #' # What is Brisbane Town Hall's base cell number?
-#' h3_get_base_cell(h3_address = '8abe8d12acaffff')
+#' get_base_cell(h3_address = '8abe8d12acaffff')
 #' @import V8
 #' @export
 #'
-h3_get_base_cell <- function(h3_address = NULL, simple = TRUE) {
+get_base_cell <- function(h3_address = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address)) == FALSE) {
+  if(any(is_valid(h3_address)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
 
@@ -154,18 +154,18 @@ h3_get_base_cell <- function(h3_address = NULL, simple = TRUE) {
 #' get the resolution of an H3 address
 #'
 #' This function returns an H3 address' resolution level.
-#' @inheritParams h3_is_valid
+#' @inheritParams is_valid
 ##' @return By default, an integer vector of length(h3_address), ranging from
 #'   1 to 15.
 #' @examples
 #' # What is the H3 resolution of this address?
-#' h3_get_res(h3_address = '8abe8d12acaffff')
+#' get_res(h3_address = '8abe8d12acaffff')
 #' @import V8
 #' @export
 #'
-h3_get_res <- function(h3_address = NULL, simple = TRUE) {
+get_res <- function(h3_address = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address)) == FALSE) {
+  if(any(is_valid(h3_address)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
 
@@ -210,13 +210,13 @@ h3_get_res <- function(h3_address = NULL, simple = TRUE) {
 #' @examples
 #' # where is the Brisbane Town Hall at resolution 15?
 #' bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326)
-#' bth_15 <- geo_to_h3(bth, res = 15)
+#' bth_15 <- point_to_h3(bth, res = 15)
 #'
 #' # where is it at several resolutions?
-#' bth_many <- geo_to_h3(bth, res = seq(10, 15), simple = FALSE)
+#' bth_many <- point_to_h3(bth, res = seq(10, 15), simple = FALSE)
 #' @export
 #'
-geo_to_h3 <- function(points = NULL, res = NULL, simple = TRUE) {
+point_to_h3 <- function(points = NULL, res = NULL, simple = TRUE) {
 
   if(!methods::is(sf::st_geometry(points), 'sfc_POINT')) {
     stop('Please supply an sfc_POINT object')
@@ -267,7 +267,7 @@ geo_to_h3 <- function(points = NULL, res = NULL, simple = TRUE) {
       addys
     }
   } else {
-    sf::st_sf(data.frame(addys, 'geometry' = points), stringsAsFactors = FALSE)
+    sf::st_sf(data.frame(addys, points), stringsAsFactors = FALSE)
   }
 }
 
@@ -275,19 +275,19 @@ geo_to_h3 <- function(points = NULL, res = NULL, simple = TRUE) {
 #'
 #' This function takes a H3 address and returns the coordinates of the center of
 #' that H3 hexagon in WGS84.
-#' @inheritParams h3_is_valid
+#' @inheritParams is_valid
 #' @return By default, an `sfc_POINT` object of `length(h3_address)`.
 #'   EPSG:WGS84.
 #' @import V8
 #' @examples
 #' # Where is the center of the hexagon over the Brisbane Town Hall at resolution 10?
-#' brisbane_10 <- h3_to_geo(h3_address = '8abe8d12acaffff')
+#' brisbane_10 <- h3_to_point(h3_address = '8abe8d12acaffff')
 #'
 #' @export
 #'
-h3_to_geo <- function(h3_address = NULL, simple = TRUE) {
+h3_to_point <- function(h3_address = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address)) == FALSE) {
+  if(any(is_valid(h3_address)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
 
@@ -322,24 +322,24 @@ h3_to_geo <- function(h3_address = NULL, simple = TRUE) {
 #'
 #' This function takes an H3 address and returns its bounding shape (usually a
 #' hexagon) in WGS84.
-#' @inheritParams h3_is_valid
+#' @inheritParams is_valid
 #' @return By default, an `sfc_POLYGON` object of `length(h3_address)`.
 #' @import V8
 #' @examples
 #' # What is the hexagon over the Brisbane Town Hall at resolution 10?
-#' brisbane_hex_10 <- h3_to_geo_boundary(h3_address = '8abe8d12acaffff')
+#' brisbane_hex_10 <- h3_to_polygon(h3_address = '8abe8d12acaffff')
 #'
 #' # Give me some of the hexes over Brisbane Town Hall as an sf object
 #' bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326)
-#' bth_addys <- unlist(geo_to_h3(bth, res = seq(10, 15)), use.names = FALSE)
-#' bth_hexes <- h3_to_geo_boundary(h3_address = bth_addys)
+#' bth_addys <- unlist(point_to_h3(bth, res = seq(10, 15)), use.names = FALSE)
+#' bth_hexes <- h3_to_polygon(h3_address = bth_addys)
 #' plot(bth_hexes, axes = TRUE)
 #' @importFrom sf st_polygon st_sfc st_sf
 #' @export
 #'
-h3_to_geo_boundary <- function(h3_address = NULL, simple = TRUE) {
+h3_to_polygon <- function(h3_address = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address)) == FALSE) {
+  if(any(is_valid(h3_address)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
 

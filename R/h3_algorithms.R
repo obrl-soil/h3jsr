@@ -11,13 +11,13 @@
 #' @return By default, a logical vector of length(h3_address).
 #' @examples
 #' # What is the parent of this address at resolution 6?
-#' h3_to_parent(h3_address = '8abe8d12acaffff', res = 6)
+#' get_parent(h3_address = '8abe8d12acaffff', res = 6)
 #' @import V8
 #' @export
 #'
-h3_to_parent <- function(h3_address = NULL, res = NULL, simple = TRUE) {
+get_parent <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address)) == FALSE) {
+  if(any(is_valid(h3_address)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
   if(!any(res %in% seq(0, 15))) {
@@ -57,7 +57,7 @@ h3_to_parent <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 #'
 #' This function returns the children of a particular H3 address at the
 #' requested resolution.
-#' @inheritParams h3_to_parent
+#' @inheritParams get_parent
 #' @return By default, a list of length(h3_address). Each list element contains
 #'   a vector of H3 addresses.
 #' @note The number of addresses returned for each request is `7 ^ (parent_res -
@@ -65,13 +65,13 @@ h3_to_parent <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 #'   This can cause memory issues with larger requests.
 #' @examples
 #' # What are the children of this resolution 6 address at resolution 8?
-#' h3_to_children(h3_address = '86be8d12fffffff', res = 8)
+#' get_children(h3_address = '86be8d12fffffff', res = 8)
 #' @import V8
 #' @export
 #'
-h3_to_children <- function(h3_address = NULL, res = NULL, simple = TRUE) {
+get_children <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address)) == FALSE) {
+  if(any(is_valid(h3_address)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
   if(!any(res %in% seq(0, 15))) {
@@ -97,7 +97,7 @@ h3_to_children <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 
 }
 
-#' get nearby H3 addresses
+#' Get nearby H3 addresses
 #'
 #' This function returns all the H3 addresses within a specified number of
 #' steps from the address supplied.
@@ -117,13 +117,13 @@ h3_to_children <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 #'   the input address, the rest follow in a spiral anticlockwise order.
 #' @examples
 #' # What are all the neighbours of this address within two steps?
-#' h3_get_kring(h3_address = '86be8d12fffffff', ring_size = 2)
+#' get_kring(h3_address = '86be8d12fffffff', ring_size = 2)
 #' @import V8
 #' @export
 #'
-h3_get_kring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
+get_kring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address)) == FALSE) {
+  if(any(is_valid(h3_address)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
 
@@ -146,11 +146,11 @@ h3_get_kring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 
 }
 
-#' get nearby H3 addresses separated by distance
+#' Get nearby H3 addresses separated by distance
 #'
 #' This function returns all the H3 addresses within a specified number of steps
-#' from the address supplied, listed by step.
-#' @inheritParams h3_get_kring
+#' from the address supplied, grouped by step.
+#' @inheritParams get_kring
 #' @return By default, a list of length(h3_address). Each list element contains
 #'   a list of `length(ring_size + 1)`. Each of those lists contains a character
 #'   vector of H3 addresses belonging to that step away from the input address.
@@ -161,13 +161,13 @@ h3_get_kring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #'   separate lists, one for each step.
 #' @examples
 #' # What are the nested neighbours of this address within two steps?
-#' h3_get_kring_list(h3_address = '86be8d12fffffff', ring_size = 2)
+#' get_kring_list(h3_address = '86be8d12fffffff', ring_size = 2)
 #' @import V8
 #' @export
 #'
-h3_get_kring_list <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
+get_kring_list <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address)) == FALSE) {
+  if(any(is_valid(h3_address)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
 
@@ -190,11 +190,11 @@ h3_get_kring_list <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 
 }
 
-#' get a donut of H3 addresses
+#' Get a donut of H3 addresses
 #'
 #' This function returns all the H3 addresses at the specified step from the
 #' address supplied.
-#' @inheritParams h3_get_kring
+#' @inheritParams get_kring
 #' @return By default, a list of length(h3_address). Each list element contains
 #'   a character vector of H3 addresses belonging to that step away from the
 #'   input address.
@@ -202,13 +202,13 @@ h3_get_kring_list <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #'   `ring_size \* 6`.
 #' @examples
 #' # What are the neighbours of this address at step 2?
-#' h3_get_ring(h3_address = '86be8d12fffffff', ring_size = 2)
+#' get_ring(h3_address = '86be8d12fffffff', ring_size = 2)
 #' @import V8
 #' @export
 #'
-h3_get_ring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
+get_ring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 
-  if(any(h3_is_valid(h3_address)) == FALSE) {
+  if(any(is_valid(h3_address)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
 
@@ -231,7 +231,7 @@ h3_get_ring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 
 }
 
-#' get H3 addresses within a polygon
+#' Get H3 addresses within a polygon
 #'
 #' This function returns all the H3 addresses within the supplied polygon
 #' geometry.
@@ -243,7 +243,7 @@ h3_get_ring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #'   containing both inputs and outputs.
 #' @return By default, a list of length(h3_address). Each list element contains
 #'   a character vector of H3 addresses belonging to that polygon. A result of
-#'   NA indicates that no h3 addresses of the chosen resolution are centered
+#'   NA indicates that no H3 addresses of the chosen resolution are centered
 #'   over the polygon.
 #' @note This function will be slow with a large number of polygons, and/or
 #'   polygons that are large relative to the hexagon area at the chosen
@@ -253,14 +253,14 @@ h3_get_ring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #' nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 #' nc1 <- nc[1, ]
 #' nc1 <- sf::st_cast(nc1, 'POLYGON')
-#' fillers <- h3_polyfill(geometry = nc1, res = 5)
+#' fillers <- polyfill(geometry = nc1, res = 5)
 #' @import V8
 #' @importFrom sf st_as_sf st_crs st_geometry st_geometry_type st_sf
 #'   st_transform
 #' @importFrom geojsonsf sfc_geojson
 #' @export
 #'
-h3_polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
+polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
 
   if(!any(res %in% seq(0, 15))) {
     stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
@@ -306,38 +306,38 @@ h3_polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
   }
 }
 
-#' get geometry for a set of H3 addresses
+#' Get geometry for a set of H3 addresses
 #'
 #' This function returns geometry associated with a set of H3 addresses, as a
-#' single sfc_MULTIPOLYGON.
+#' single `sfc_MULTIPOLYGON`.
 #' @param h3_addresses Character vector or list of 15-character addresses
 #'   generated by H3.
-#' @param simple Logical; whether to return an sfc_MULTIPOLYGON or an sf object
-#'   including the input addresses.
-#' @return By default, object of type sfc_MULTIPOLYGON of length 1.
+#' @param simple Logical; whether to return an `sfc_MULTIPOLYGON` or an `sf`
+#'   object including the input addresses.
+#' @return By default, object of type `sfc_MULTIPOLYGON` of length 1.
 #' @note The geometry returned by this function will not be valid where the
-#'   addresses supplied overlap at the same resolution. THe main use case for
-#'   this function appears to be visualising the outputs of `h3_polyfill()` and
-#'   `h3_compact()`.
+#'   addresses supplied overlap at the same resolution. The main use case for
+#'   this function appears to be visualising the outputs of `polyfill()` and
+#'   `compact()`.
 #' @examples
 #' # Give me the outline of the hexagons around Brisbane Town Hall at
 #' # resolution 10
 #' bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326)
-#' bth_10 <- geo_to_h3(bth, res = 10)
-#' bth_patch <- h3_get_kring(h3_address = bth_10, ring_size = 2)
-#' bth_patch_sf <- h3_set_to_multipolygon(bth_patch)
+#' bth_10 <- point_to_h3(bth, res = 10)
+#' bth_patch <- get_kring(h3_address = bth_10, ring_size = 2)
+#' bth_patch_sf <- set_to_multipolygon(bth_patch)
 #'
 #' @import V8
 #' @importFrom sf st_is_valid st_sf
 #' @importFrom geojsonsf geojson_sf
 #' @export
 #'
-h3_set_to_multipolygon <- function(h3_addresses = NULL, simple = TRUE) {
+set_to_multipolygon <- function(h3_addresses = NULL, simple = TRUE) {
 
   # in case a list output from another function is supplied
   h3_addresses <- unlist(h3_addresses, use.names = FALSE)
 
-  if(any(h3_is_valid(h3_addresses)) == FALSE) {
+  if(any(is_valid(h3_addresses)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
 
@@ -372,13 +372,13 @@ h3_set_to_multipolygon <- function(h3_addresses = NULL, simple = TRUE) {
   }
 }
 
-#' compact H3 geometry
+#' Compact H3 addresses
 #'
 #' This function compacts a set of hexagons of the same resolution into a set of
 #' hexagons across multiple levels that represents the same area.
 #' @param h3_addresses Character vector or list of 15-character addresses
 #'   generated by H3 at a single resolution, generally the output of
-#'   `h3_polyfill()`.
+#'   \code{\link[h3jsr:polyfill]{polyfill}}.
 #' @param simple Logical; whether to return a vector of outputs or a list object
 #'   containing both inputs and outputs.
 #' @return A list of H3 addresses with multiple resolutions. The minimum
@@ -388,17 +388,17 @@ h3_set_to_multipolygon <- function(h3_addresses = NULL, simple = TRUE) {
 #' nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 #' nc1 <- nc[1, ]
 #' nc1 <- sf::st_cast(nc1, 'POLYGON')
-#' fillers <- h3_polyfill(geometry = nc1, res = 6)
-#' compacted <- h3_compact(fillers)
+#' fillers <- polyfill(geometry = nc1, res = 6)
+#' compacted <- compact(fillers)
 #' }
 #' @import V8
 #' @export
 #'
-h3_compact <- function(h3_addresses = NULL, simple = TRUE) {
+compact <- function(h3_addresses = NULL, simple = TRUE) {
 
   h3_addresses <- unlist(h3_addresses, use.names = FALSE)
 
-  if(any(h3_is_valid(h3_addresses)) == FALSE) {
+  if(any(is_valid(h3_addresses)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
 
@@ -422,13 +422,12 @@ h3_compact <- function(h3_addresses = NULL, simple = TRUE) {
   }
 }
 
-#' uncompact H3 geometry
+#' Uncompact H3 addresses
 #'
-#' This function uncompacta a compacted set of hexagons to hexagons of the same
-#' resolution.
+#' This function uncompacts a compacted set of H3 addresses to addresses of the
+#' target resolution.
 #' @param h3_addresses Character vector or list of 15-character addresses
-#'   generated by H3 at a single resolution, generally the output of
-#'   `h3_polyfill()`.
+#'   generated by H3.
 #' @param res Integer; Desired H3 resolution. See
 #'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
 #'   allowable values and related dimensions.
@@ -440,19 +439,19 @@ h3_compact <- function(h3_addresses = NULL, simple = TRUE) {
 #' nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 #' nc1 <- nc[1, ]
 #' nc1 <- sf::st_cast(nc1, 'POLYGON')
-#' fillers <- h3_polyfill(geometry = nc1, res = 6)
-#' compacted <- h3_compact(fillers)
+#' fillers <- polyfill(geometry = nc1, res = 6)
+#' compacted <- compact(fillers)
 #' # uncompact to resolution 7
-#' uncompacted <- h3_uncompact(compacted, res = 7)
+#' uncompacted <- uncompact(compacted, res = 7)
 #' }
 #' @import V8
 #' @export
 #'
-h3_uncompact <- function(h3_addresses = NULL, res = NULL, simple = TRUE) {
+uncompact <- function(h3_addresses = NULL, res = NULL, simple = TRUE) {
 
   h3_addresses <- unlist(h3_addresses, use.names = FALSE)
 
-  if(any(h3_is_valid(h3_addresses)) == FALSE) {
+  if(any(is_valid(h3_addresses)) == FALSE) {
     stop('Invalid H3 address detected.')
   }
 
@@ -480,4 +479,3 @@ h3_uncompact <- function(h3_addresses = NULL, res = NULL, simple = TRUE) {
          'uncompacted_addresses' = unlist(sesh$get('comp')))
   }
 }
-

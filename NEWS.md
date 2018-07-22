@@ -1,44 +1,50 @@
+# v 0.4.0
+
+  * Naming things is hard, but its vignette time so, y'know, now or never. Function names are shorter now and make more sense.
+  * Added another info utility `res_cendist()` for getting the average distance between the center of each region represented by a H3 address at a given resolution.
+  * Vignette covering core functionality added.
+
 # v. 0.3.1
   
-  * Reworked `h3_to_geo()` to return an `sfc_POINT` object, or an `sf` point data frame where `simple = FALSE`.
-  * Improved outputs of `h3_to_geo_boundary()` to have a similar structure to `h3_to_geo()`.
+  * Reworked `to_point()` to return an `sfc_POINT` object, or an `sf` point data frame where `simple = FALSE`.
+  * Improved outputs of `to_polygon()` to have a similar structure to `h3_to_geo()`. 
   
 # v. 0.3.0
 
-  * Reworked `geo_to_h3()` to take in an `sf` point object and return the same when `simple = FALSE`, resulting in a new dependency on `tidyr`. On the upside, one can now request addresses for multiple resolutions at multiple points, if one wishes to test the limits of one's system.
+  * Reworked `point_to_h3()` to take in an `sf` point object and return the same when `simple = FALSE`, resulting in a new dependency on `tidyr`. On the upside, one can now request addresses for multiple resolutions at multiple points, if one wishes to test the limits of one's system.
 
 # v. 0.2.3
 
-  * Added public informational utilities `h3_res_area()`, `h3_res_edgelen()`, and `h3_count()`
+  * Added public informational utilities `res_area()`, `res_edgelen()`, and `res_count()`
   * Added data table of h3 address info for fast retrieval of information using the above functions
   * Fixed resolution validation bug, level 0 is now allowed
 
 # v.0.2.2
 
-  * All unidirectional algorithms added: `h3_are_neighbours()`, `h3_get_udedge()`, `h3_is_edge_valid()`, `h3_get_udorigin()`, `h3_get_uddest()`, `h3_get_udends()`, `h3_get_udedges()`, and `h3_to_geo_udedge()`.
+  * All unidirectional algorithms added: `are_neighbours()`, `get_udedge()`, `is_valid_edge()`, `get_udorigin()`, `get_uddest()`, `get_udends()`, `get_udedges()`, and `udedge_to_line()`.
 
 # v. 0.2.1
   
-  * `h3_polyfill()` and `h3_set_to_multipolygon()` added; new dependencies on `sf`and `geojsonsf` have resulted.
-  * `h3_to_geo_boundary()` now returns an object with `sf` geometry.
-  * `h3_compact()` and `h3_uncompact()` added, all public core algorithms now available.
+  * `polyfill()` and `set_to_multipolygon()` added; new dependencies on `sf`and `geojsonsf` have resulted.
+  * `to_polygon()` now returns an object with `sf` geometry.
+  * `compact()` and `uncompact()` added, all public core algorithms now available.
 
 # v. 0.1.3
   
   * Simplified default output behaviour
-  * `h3_to_parent()`, `h3_to_children()`, `h3_get_kring()`, `h3_get_kring_list()`, and `h3_get_ring()` added.
+  * `get_parent()`, `get_children()`, `get_kring()`, `get_kring_list()`, and `get_ring()` added.
 
 # v. 0.1.2
 
-  * Added remaining core functions `h3_is_valid()`, `h3_is_pentagon()`, `h3_is_rc3()`, `h3_get_base_cell()`, `h3_get_res()`, and `h3_to_geo_boundary()`.
+  * Added remaining core functions `is_valid()`, `is_pentagon()`, `is_rc3()`, `get_base_cell()`, `get_res()`, and `to_polygon()`.
   * unit tests on all core functions.
   
 # v. 0.1.1
  
-  * `h3_to_geo()` added.
-  * `geo_to_h3()` bugfix. A pox on devs who think y,x is ok.
+  * `to_point()` added.
+  * `point_to_h3()` bugfix. A pox on devs who think y,x is ok.
   * NEWS and README added.
 
 # v. 0.1.0
 
-  * `geo_to_h3()` - first function implemented.
+  * `point_to_h3()` - first function implemented.

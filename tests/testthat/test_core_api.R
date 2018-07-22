@@ -1,12 +1,11 @@
 context('Core H3 API')
 
-# h3_is_valid
 test_that(
-  'h3_is_valid returns correctly',
+  'is_valid returns correctly',
   c(
-    val1 <- h3_is_valid(h3_address = '8abe8d12acaffff'),
-    val2 <- h3_is_valid(h3_address = c('whereami', '8abe8d12acaffff')),
-    val3 <- h3_is_valid(h3_address = c('whereami', '8abe8d12acaffff'),
+    val1 <- is_valid(h3_address = '8abe8d12acaffff'),
+    val2 <- is_valid(h3_address = c('whereami', '8abe8d12acaffff')),
+    val3 <- is_valid(h3_address = c('whereami', '8abe8d12acaffff'),
                         simple = FALSE),
     expect_equal(val1, TRUE),
     expect_equal(val2, c(FALSE, TRUE)),
@@ -16,13 +15,12 @@ test_that(
   )
 )
 
-# h3_is_pentagon
 test_that(
-  'h3_is_pentagon returns correctly',
+  'is_pentagon returns correctly',
   c(
-    expect_error(h3_is_pentagon(h3_address = 'whereami')),
-    val1 <- h3_is_pentagon(h3_address = '8abe8d12acaffff'),
-    val2 <- h3_is_pentagon(h3_address = '8abe8d12acaffff', simple = FALSE),
+    expect_error(is_pentagon(h3_address = 'whereami')),
+    val1 <- is_pentagon(h3_address = '8abe8d12acaffff'),
+    val2 <- is_pentagon(h3_address = '8abe8d12acaffff', simple = FALSE),
     expect_equal(val1, FALSE),
     expect_is(val2, 'data.frame'),
     expect_is(val2$h3_address, 'character'),
@@ -31,13 +29,13 @@ test_that(
   )
 )
 
-# h3_is_rc3
+# is_rc3
 test_that(
-  'h3_is_rc3 returns correctly',
+  'is_rc3 returns correctly',
   c(
-    expect_error(h3_is_rc3(h3_address = 'whereami')),
-    val1 <- h3_is_rc3(h3_address = '8abe8d12acaffff'),
-    val2 <- h3_is_rc3(h3_address = '8abe8d12acaffff', simple = FALSE),
+    expect_error(is_rc3(h3_address = 'whereami')),
+    val1 <- is_rc3(h3_address = '8abe8d12acaffff'),
+    val2 <- is_rc3(h3_address = '8abe8d12acaffff', simple = FALSE),
     expect_equal(val1, FALSE),
     expect_is(val2, 'data.frame'),
     expect_is(val2$h3_address, 'character'),
@@ -45,13 +43,12 @@ test_that(
   )
 )
 
-# h3_get_base_cell
 test_that(
-  'h3_get_base_cell returns correctly',
+  'get_base_cell returns correctly',
   c(
-    expect_error(h3_get_base_cell(h3_address = 'whereami')),
-    val1 <- h3_get_base_cell(h3_address = '8abe8d12acaffff'),
-    val2 <- h3_get_base_cell(h3_address = '8abe8d12acaffff', simple = FALSE),
+    expect_error(get_base_cell(h3_address = 'whereami')),
+    val1 <- get_base_cell(h3_address = '8abe8d12acaffff'),
+    val2 <- get_base_cell(h3_address = '8abe8d12acaffff', simple = FALSE),
     expect_equal(val1, 95L),
     expect_is(val2, 'data.frame'),
     expect_is(val2$h3_address, 'character'),
@@ -59,13 +56,12 @@ test_that(
   )
 )
 
-# h3_get_res
 test_that(
-  'h3_get_res returns correctly',
+  'get_res returns correctly',
   c(
-    expect_error(h3_get_res(h3_address = 'whereami')),
-    val1 <- h3_get_res(h3_address = '8abe8d12acaffff'),
-    val2 <- h3_get_res(h3_address = '8abe8d12acaffff', simple = FALSE),
+    expect_error(get_res(h3_address = 'whereami')),
+    val1 <- get_res(h3_address = '8abe8d12acaffff'),
+    val2 <- get_res(h3_address = '8abe8d12acaffff', simple = FALSE),
     expect_equal(val1, 10L),
     expect_is(val2, 'data.frame'),
     expect_is(val2$h3_address, 'character'),
@@ -73,17 +69,16 @@ test_that(
   )
 )
 
-# geo_to_h3
-test_that('geo_to_h3 returns an appropriately structured data frame with single input',
-          c(library(sf),
+test_that('point_to_h3 returns an appropriately structured data frame with single input',
+          c(library(sf), # :/
             bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326),
             bth2 <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4283),
-            expect_error(geo_to_h3(bth, res = 20)),
-            expect_error(geo_to_h3(st_point(c(153.023503, -27.468920)), 15)),
-            expect_warning(geo_to_h3(bth2, res = 1)),
-            val1 <- geo_to_h3(bth, res = 15),
-            val2 <- geo_to_h3(bth, res = 15, simple = FALSE),
-            val3 <- geo_to_h3(sf::st_sf('geometry' = bth), 15, simple = FALSE),
+            expect_error(point_to_h3(bth, res = 20)),
+            expect_error(point_to_h3(st_point(c(153.023503, -27.468920)), 15)),
+            expect_warning(point_to_h3(bth2, res = 1)),
+            val1 <- point_to_h3(bth, res = 15),
+            val2 <- point_to_h3(bth, res = 15, simple = FALSE),
+            val3 <- point_to_h3(sf::st_sf('geometry' = bth), 15, simple = FALSE),
             expect_identical(val2, val3),
             expect_equal(val1, '8fbe8d12acad2f3'),
             expect_is(val2, 'sf'),
@@ -93,7 +88,7 @@ test_that('geo_to_h3 returns an appropriately structured data frame with single 
             expect_equal(val2$h3_resolution_15, '8fbe8d12acad2f3')
           ))
 
-test_that('geo_to_h3 returns an appropriately structured data frame with multiple inputs',
+test_that('point_to_h3 returns an appropriately structured data frame with multiple inputs',
           c(library(sf),
             bpts <- list(c(153.02350, -27.46892),
                          c(153.02456, -27.47071),
@@ -102,11 +97,11 @@ test_that('geo_to_h3 returns an appropriately structured data frame with multipl
             bpts <- sf::st_sfc(bpts, crs = 4326),
             bpts_sf <- sf::st_sf('geometry' = bpts),
             # several points 1 res
-            val1 <- geo_to_h3(bpts, res = 11),
-            val2 <- geo_to_h3(bpts, res = 11, simple = FALSE),
+            val1 <- point_to_h3(bpts, res = 11),
+            val2 <- point_to_h3(bpts, res = 11, simple = FALSE),
             # several points several res
-            val3 <- geo_to_h3(bpts, res = c(11,12)),
-            val4 <- geo_to_h3(bpts, res = c(11,12), simple = FALSE),
+            val3 <- point_to_h3(bpts, res = c(11,12)),
+            val4 <- point_to_h3(bpts, res = c(11,12), simple = FALSE),
             expect_equal(val1[1], '8bbe8d12acadfff'),
             expect_is(val2, 'sf'),
             expect_is(val3, 'data.frame'),
@@ -116,12 +111,11 @@ test_that('geo_to_h3 returns an appropriately structured data frame with multipl
             expect_identical(val3, sf::st_set_geometry(val4, NULL))
           ))
 
-# h3_to_geo
-test_that('h3 to geo returns an appropriate dataset',
+test_that('h3_to_point returns an appropriate dataset',
           c(
-            expect_error(h3_to_geo(h3_address = 'whereami')),
-            val1 <- h3_to_geo('8abe8d12acaffff'),
-            val2 <- h3_to_geo('8abe8d12acaffff', simple = FALSE),
+            expect_error(h3_to_point(h3_address = 'whereami')),
+            val1 <- h3_to_point('8abe8d12acaffff'),
+            val2 <- h3_to_point('8abe8d12acaffff', simple = FALSE),
             expect_is(val1, 'sfc_POINT'),
             expect_equal(val1, val2$geometry),
             # lock in in case underlying fn gets fixed
@@ -134,9 +128,9 @@ test_that('h3 to geo returns an appropriate dataset',
 # h3_to_geo_boundary
 test_that('h3 to geo boundary returns an appropriate dataset',
           c(
-            expect_error(h3_to_geo_boundary(h3_address = 'whereami')),
-            val1 <- h3_to_geo_boundary('8abe8d12acaffff'),
-            val2 <- h3_to_geo_boundary('8abe8d12acaffff', simple = FALSE),
+            expect_error(h3_to_polygon(h3_address = 'whereami')),
+            val1 <- h3_to_polygon('8abe8d12acaffff'),
+            val2 <- h3_to_polygon('8abe8d12acaffff', simple = FALSE),
             # xy checks
             expect_equal(val1[[1]][[1]][1,1], 153.0245835),
             expect_equal(val1[[1]][[1]][1,2], -27.46896347),

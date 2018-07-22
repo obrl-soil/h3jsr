@@ -1,16 +1,15 @@
 context('unidirectional edges')
 
-# h3_are_neighbours
 test_that(
-  'h3_are_neighbours returns correctly',
+  'are_neighbours returns correctly',
   c(
-    expect_error(h3_are_neighbours('whereami', 'whoami')),
-    expect_error(h3_are_neighbours('whereami')),
-    expect_error(h3_are_neighbours('86be8d12fffffff',
-                                   c('86be8d127ffffff', '86be8d107ffffff'))),
-    val1 <- h3_are_neighbours('86be8d12fffffff', '86be8d127ffffff'),
-    val2 <- h3_are_neighbours(c('86be8d12fffffff', '86be8d107ffffff'),
-                              c('86be8d127ffffff', '86be8d10fffffff'),
+    expect_error(are_neighbours('whereami', 'whoami')),
+    expect_error(are_neighbours('whereami')),
+    expect_error(are_neighbours('86be8d12fffffff',
+                                c('86be8d127ffffff', '86be8d107ffffff'))),
+    val1 <- are_neighbours('86be8d12fffffff', '86be8d127ffffff'),
+    val2 <- are_neighbours(c('86be8d12fffffff', '86be8d107ffffff'),
+                             c('86be8d127ffffff', '86be8d10fffffff'),
                               simple = FALSE),
     expect_equal(val1, TRUE),
     expect_is(val2, 'data.frame'),
@@ -20,17 +19,16 @@ test_that(
   )
 )
 
-# h3_get_udedge
 test_that(
-  'h3_get_udedge returns correctly',
+  'get_udedge returns correctly',
   c(
-    expect_error(h3_get_udedge('whereami', 'whoami')),
-    expect_error(h3_get_udedge('whereami')),
-    expect_error(h3_get_udedge('86be8d12fffffff',
-                               c('86be8d127ffffff', '86be8d107ffffff'))),
-    val1 <- h3_get_udedge('86be8d12fffffff', '86be8d127ffffff'),
-    val2 <- h3_get_udedge(c('86be8d12fffffff', '86be8d107ffffff'),
-                          c('86be8d127ffffff', '86be8d10fffffff'),
+    expect_error(get_udedge('whereami', 'whoami')),
+    expect_error(get_udedge('whereami')),
+    expect_error(get_udedge('86be8d12fffffff',
+                            c('86be8d127ffffff', '86be8d107ffffff'))),
+    val1 <- get_udedge('86be8d12fffffff', '86be8d127ffffff'),
+    val2 <- get_udedge(c('86be8d12fffffff', '86be8d107ffffff'),
+                       c('86be8d127ffffff', '86be8d10fffffff'),
                           simple = FALSE),
     expect_equal(val1, '166be8d12fffffff'),
     expect_is(val2, 'data.frame'),
@@ -40,13 +38,12 @@ test_that(
   )
 )
 
-# h3_is_edge_valid
 test_that(
-  'h3_is_edge_valid returns correctly',
+  'is_valid_edge returns correctly',
   c(
-    val1 <- h3_is_edge_valid(h3_edge = '166be8d12fffffff'),
-    val2 <- h3_is_edge_valid(h3_edge = c('whereami', '166be8d12fffffff')),
-    val3 <- h3_is_edge_valid(h3_edge = c('whereami', '166be8d12fffffff'),
+    val1 <- is_valid_edge(h3_edge = '166be8d12fffffff'),
+    val2 <- is_valid_edge(h3_edge = c('whereami', '166be8d12fffffff')),
+    val3 <- is_valid_edge(h3_edge = c('whereami', '166be8d12fffffff'),
                         simple = FALSE),
     expect_equal(val1, TRUE),
     expect_equal(val2, c(FALSE, TRUE)),
@@ -56,13 +53,12 @@ test_that(
   )
 )
 
-# h3_get_udorigin
 test_that(
-  'h3_get_udorigin returns correctly',
+  'get_udorigin returns correctly',
   c(
     expect_error(h3_get_udorigin('edgy')),
-    val1 <- h3_get_udorigin('166be8d12fffffff'),
-    val2 <- h3_get_udorigin('166be8d12fffffff', simple = FALSE),
+    val1 <- get_udorigin('166be8d12fffffff'),
+    val2 <- get_udorigin('166be8d12fffffff', simple = FALSE),
     expect_equal(val1, '86be8d12fffffff'),
     expect_is(val2, 'data.frame'),
     expect_equal(names(val2), c('h3_edge', 'h3_origin')),
@@ -70,13 +66,12 @@ test_that(
   )
 )
 
-# h3_get_uddest
 test_that(
-  'h3_get_uddest returns correctly',
+  'get_uddest returns correctly',
   c(
-    expect_error(h3_get_uddest('edgy')),
-    val1 <- h3_get_uddest('166be8d12fffffff'),
-    val2 <- h3_get_uddest('166be8d12fffffff', simple = FALSE),
+    expect_error(get_uddest('edgy')),
+    val1 <- get_uddest('166be8d12fffffff'),
+    val2 <- get_uddest('166be8d12fffffff', simple = FALSE),
     expect_equal(val1, '86be8d127ffffff'),
     expect_is(val2, 'data.frame'),
     expect_equal(names(val2), c('h3_edge', 'h3_destination')),
@@ -84,13 +79,12 @@ test_that(
   )
 )
 
-# h3_get_udends
 test_that(
-  'h3_get_udends returns correctly',
+  'get_udends returns correctly',
   c(
-    expect_error(h3_get_udends('edgy')),
-    val1 <- h3_get_udends('166be8d12fffffff'),
-    val2 <- h3_get_udends('166be8d12fffffff', simple = FALSE),
+    expect_error(get_udends('edgy')),
+    val1 <- get_udends('166be8d12fffffff'),
+    val2 <- get_udends('166be8d12fffffff', simple = FALSE),
     expect_is(val1, 'matrix'),
     expect_equal(val1[1], '86be8d12fffffff'),
     expect_equal(val1[2], '86be8d127ffffff'),
@@ -101,13 +95,12 @@ test_that(
   )
 )
 
-# h3_get_udedges
 test_that(
-  'h3_get_udedges returns correctly',
+  'get_udedges returns correctly',
   c(
-    expect_error(h3_get_udedges('whereami')),
-    val1 <- h3_get_udedges(h3_address = '86be8d12fffffff'),
-    val2 <- h3_get_udedges(h3_address = '86be8d12fffffff', simple = FALSE),
+    expect_error(get_udedges('whereami')),
+    val1 <- get_udedges(h3_address = '86be8d12fffffff'),
+    val2 <- get_udedges(h3_address = '86be8d12fffffff', simple = FALSE),
     expect_equal(val1[[1]][1], '116be8d12fffffff'),
     expect_is(val2, 'data.frame'),
     expect_equal(names(val2), c('h3_address', 'h3_edges')),
@@ -116,13 +109,12 @@ test_that(
   )
 )
 
-# h3_to_geo_udedge
 test_that(
-  'h3_to_geo_udedge returns correctly',
+  'udedge_to_line returns correctly',
   c(
-    expect_error(h3_to_geo_udedge('edgy')),
-    val1 <- h3_to_geo_udedge(h3_edge = '166be8d12fffffff'),
-    val2 <- h3_to_geo_udedge(h3_edge = '166be8d12fffffff', simple = FALSE),
+    expect_error(udedge_to_line('edgy')),
+    val1 <- udedge_to_line(h3_edge = '166be8d12fffffff'),
+    val2 <- udedge_to_line(h3_edge = '166be8d12fffffff', simple = FALSE),
     expect_is(val1, 'sfc_LINESTRING'),
     expect_is(val2, 'sf'),
     expect_equal(sf::st_crs(val1)$epsg, 4326),

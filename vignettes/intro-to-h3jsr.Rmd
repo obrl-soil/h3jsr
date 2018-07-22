@@ -1,0 +1,250 @@
+---
+title: "Introduction to h3jsr"
+author: "Lauren O'Brien"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: inline
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 6, fig.height = 6, fig.align = 'center'
+)
+```
+
+```{r 'pkgs', warning = FALSE, message = FALSE}
+library(sf)
+library(dplyr)
+library(ggplot2)
+library(h3jsr)
+options(stringsAsFactors = FALSE)
+```
+
+## General information
+
+h3jsr connects Uber's H3 geospatial library to R, via its JavaScript bindings. The library has extensive potential applications in network analysis, trip routing, and geospatial data aggregation. The wrapper functions provided are intended to interface well with the existing R-spatial ecosystem, particularly `sf`.
+
+  * Documentation for the core H3 library is at [H3's github page](https://uber.github.io/h3/#/documentation/overview/introduction).
+  * The core library only understands WGS84 coordinates, so multiple projection support is limited. All spatial objects are returned in WGS84, and ideally should be supplied as such. Its always safer to do your own spatial transformations and verify the results. If spatial data in a coordinate system other than WGS84 is supplied, it is transformed using `sf::st_transform()` and a warning is issued.
+  * For each function in `h3jsr`, default behaviour is to return data in as simple a structure as is practical, but there is always an option to return a data frame, list or `sf`-object containing both input and output data, as appropriate for the function in question.
+  * This package uses `V8` to interface with the JavaScript bindings for H3, as no direct C-to-R bindings exist yet. As such, a lot of the overhead for each function is related to setting up temporary virtual JS environments. Feeding larger datasets in often gives faster results than one might expect from the toy examples below.
+
+## Core Functions
+
+Eight core functions exist - three for translating spatial data into and out of the H3 system, and five information utilities, including an address validity checker.
+
+`point_to_h3()` takes in `sf` point datasets and will return the address each point falls into. You can extract addresses for one resolution or many. 
+
+```{r 'c1'}
+# This is the location of the Brisbane Town Hall:
+bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326)
+
+# where is the Brisbane Town Hall at resolution 15?
+point_to_h3(bth, res = 15)
+```
+
+By default, a character vector is returned for a single resolution, and a data frame where multiple resolutions are requested. If `simple = FALSE`, an `sfc_POINT` object is returned with a new attribute column for each resolution requested. 
+
+```{r 'c2'}
+nc <- st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
+nc_pts <- st_centroid(nc)
+# shhhh i know its just a demo!!
+nc_pts <- st_transform(nc_pts, crs = 4326)
+nc_pts <- dplyr::select(nc_pts, CNTY_ID, NAME)
+
+# Give me the address for the center of each NC county at every resolution
+nc_all_res <- point_to_h3(nc_pts, res = seq(0, 15), simple = FALSE)
+```
+
+H3 addresses can be translated back to a point at a given resolution with `point_to_h3()`. A polygon (almost always a hexagon), can be retrieved with `h3_to_polygon()`.
+
+```{r 'c4'}
+# plot a few
+ashe_hexes <- st_set_geometry(nc_all_res[1, c(6,7,8,9,10)], NULL)
+ashe_hexes <- unlist(ashe_hexes, use.names = FALSE)
+ashe_hexes <- h3_to_polygon(ashe_hexes, simple = FALSE)
+ggplot(nc[1,]) +
+  geom_sf(fill = NA, colour = 'black') +
+  geom_sf(data = ashe_hexes, aes(fill = h3_address), alpha = 0.5) +
+  scale_fill_viridis_d() +
+  ggtitle('H3 hexagons over County Ashe, NC', subtitle = 'Resolutions 6-10') +
+  theme_minimal() +
+  coord_sf()
+```
+
+Hopefully the above plot gives a sense of the large scale changes between resolution levels - each level is seven times more detailed than the last.
+
+H3 address validity checks are done with `is_valid()`:
+
+```{r 'isval'}
+is_valid(h3_address = '8abe8d12acaffff')
+is_valid(h3_address = '8abe8d12aca')
+```
+
+You can check whether an address refers to one of the pentagons that occur on icosahedron corners at each resolution with `is_pentagon()`. This is relevant where subsequent area or distance calculations will be carried out.
+
+```{r 'ispent'}
+# is the following address a pentagon?
+is_pentagon(h3_address = '8abe8d12acaffff')
+```
+
+`is_rc3()` checks whether an H3 address has a resolution with Class III orientation. This refers to the [orientation of the hex grid](https://uber.github.io/h3/#/documentation/core-library/coordinate-systems) relative to the next coarser resolution. 
+
+```{r 'isrc3'}
+is_rc3(h3_address = '8abe8d12acaffff')
+```
+
+The number of the base (resolution-0) cell for any H3 address can be retrieved with `get_base_cell()`. These run from 0 at the North Pole to 121 at the South.
+
+```{r 'getb'}
+get_base_cell(h3_address = '8abe8d12acaffff')
+```
+
+Lastly, the resolution of an H3 address can be retrieved with `get_res()`. 
+
+```{r 'gr'}
+get_res(h3_address = '8abe8d12acaffff')
+```
+
+## Neighbour Algorithms
+
+As the H3 grid system is hierarchical, addresses have parents and children. A parent address is the one that contains the given address at a coarser resolution. A child address is contained by the given address. Parents and children can be requested at any resolution above and below the input, respectively.
+
+```{r 'fam'}
+# input is res 10:
+get_parent(h3_address = '8abe8d12acaffff', res = 6)
+# input is res 6:
+get_children(h3_address = '86be8d12fffffff', res = 7)
+```
+
+The number of addresses returned for each request is `7 ^ (parent_res - child_res)`, so jumping three levels will return 343 addresses for a single input.
+
+Within the same resolution, addresses within *n* 'steps' from a central address can be retrieved with `get_kring()` or `get_kring_list()`. The latter function returns an output where addresses are listed separately for each step away from the input. The input address is included in the output.
+
+```{r 'krings'}
+get_kring(h3_address = '86be8d12fffffff', ring_size = 2)
+
+get_kring_list(h3_address = '86be8d12fffffff', ring_size = 2)
+
+```
+
+A 'donut' of addresses at exactly *n* steps is obtained with `get_ring()`.
+
+```{r 'ring'}
+get_ring(h3_address = '86be8d12fffffff', ring_size = 2)
+```
+
+These address lists can all be spatialised with `set_to_multipolygon()`.
+
+```{r 'stmp'}
+patch <- get_kring(h3_address = '86be8d12fffffff', ring_size = 2)
+
+donut <- get_ring(h3_address = '86be8d12fffffff', ring_size = 2)
+
+patch_sf <- set_to_multipolygon(patch, simple = FALSE)
+donut_sf <- set_to_multipolygon(donut, simple = FALSE)
+
+ggplot() +
+  geom_sf(data = patch_sf, alpha = 0.5) +
+  theme_minimal() +
+  geom_sf(data = donut_sf, alpha = 0.5) +
+  coord_sf()
+
+```
+
+But it may be more interesting to use `h3_to_polygon()`
+
+```{r 'coolplot'}
+patch_singles <- h3_to_polygon(unlist(patch, use.names = FALSE), simple = FALSE)
+donut_singles <- h3_to_polygon(unlist(donut, use.names = FALSE), simple = FALSE)
+
+ggplot(patch_singles) +
+  geom_sf(aes(fill = 1:nrow(patch_singles)), show.legend = FALSE) +
+  scale_fill_viridis_c() +
+  theme_minimal() +
+  coord_sf()
+ggplot(donut_singles) +
+  geom_sf(aes(fill = 1:nrow(donut_singles)), show.legend = FALSE) +
+  scale_fill_viridis_c() +
+  theme_minimal() +
+  coord_sf()
+
+```
+
+`polyfill()` will return all the h3 addresses whose centers intersect a given polygon. There is no support for multipolygon geometry just yet.
+
+```{r 'pf'}
+ashe <- st_cast(nc[1,], 'POLYGON')
+ashe <- st_transform(ashe, crs = 4326)
+ashe_6 <- polyfill(ashe, res = 6, simple = FALSE)
+ashe_6 <- h3_to_polygon(unlist(ashe_6$h3_polyfillers), simple = FALSE)
+
+ggplot() +
+  geom_sf(data = ashe, fill = NA) +
+  geom_sf(data = ashe_6, fill = NA, colour = 'red') +
+  ggtitle('Resolution 6 hexagons', subtitle = 'County Ashe, NC') +
+  theme_minimal() +
+  coord_sf()
+```
+
+A representation like this can be 'compacted' with `compact()`
+
+```{r 'compact'}
+ashe_comp <- compact(ashe_6$h3_address)
+ashe_comp <- h3_to_polygon(ashe_comp, simple = FALSE)
+
+ggplot() +
+  geom_sf(data = ashe, fill = NA) +
+  geom_sf(data = ashe_comp, fill = NA, colour = 'red') +
+  ggtitle('Compacted hexes from resolution 6', subtitle = 'County Ashe, NC') +
+  theme_minimal() +
+  coord_sf()
+
+```
+
+Note the orientation shift at each resolution change. A compacted representation can be uncompacted back to any resolution with `uncompact()`, with some loss when the chosen resolution is more detailed than the original `polyfill()` operation.
+
+```{r 'unc'}
+ashe_comp <- compact(ashe_6$h3_address)
+ashe_uncomp <- uncompact(ashe_comp, res = 8)
+
+ashe_uncomp <- h3_to_polygon(ashe_uncomp, simple = FALSE)
+
+ggplot() +
+  geom_sf(data = ashe, fill = NA) +
+  geom_sf(data = ashe_uncomp, fill = NA, colour = 'red') +
+  theme_minimal() +
+  ggtitle('Uncompacted hexes to resolution 8', subtitle = 'County Ashe, NC') +
+  coord_sf()
+
+```
+
+## Unidirectional edges
+
+TBD
+
+## Info utilities
+
+A set of general information utilities give information about the characteristics of the hexagons at each resolution. This includes area, edge length, the distance between hexagon centers, and the total number of addresses. This data is stored locally but can also be calculated from source.
+
+```{r 'info'}
+res_area(6, 'km2')
+
+res_length(6, 'km')
+
+res_cendist(6, 'km')
+
+res_count(6)
+
+data("h3_info_table")
+str(h3_info_table)
+```
+
+***
