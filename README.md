@@ -28,11 +28,11 @@ library(sf)
 
 # where is the Brisbane Town Hall at resolution 15?
 bth <- st_sfc(st_point(c(153.023503, -27.468920)), crs = 4326)
-geo_to_h3(bth, res = 15)
+point_to_h3(bth, res = 15)
 #> [1] "8fbe8d12acad2f3"
 
 # where is it at several resolutions?
-geo_to_h3(bth, res = seq(10, 15), simple = FALSE)
+point_to_h3(bth, res = seq(10, 15), simple = FALSE)
 #> Simple feature collection with 1 feature and 6 fields
 #> geometry type:  POINT
 #> dimension:      XY
@@ -46,7 +46,7 @@ geo_to_h3(bth, res = seq(10, 15), simple = FALSE)
 
 # Where is the center of the hexagon over the Brisbane Town 
 # Hall at resolution 10?
-brisbane_10 <- h3_to_geo(h3_address = '8abe8d12acaffff')
+brisbane_10 <- h3_to_point(h3_address = '8abe8d12acaffff')
 brisbane_10
 #> Geometry set for 1 feature 
 #> geometry type:  POINT
@@ -57,28 +57,27 @@ brisbane_10
 #> POINT (153.0239 -27.46853)
 
 # Is that a valid H3 address?
-h3_is_valid(h3_address = '8abe8d12acaffff')
+is_valid(h3_address = '8abe8d12acaffff')
 #> [1] TRUE
 
 # is it a pentagon?
-h3_is_pentagon(h3_address = '8abe8d12acaffff')
+is_pentagon(h3_address = '8abe8d12acaffff')
 #> [1] FALSE
 
 # is it Class III?
-h3_is_rc3(h3_address = '8abe8d12acaffff')
+is_rc3(h3_address = '8abe8d12acaffff')
 #> [1] FALSE
 
 # What is Brisbane Town Hall's base cell number?
-h3_get_base_cell(h3_address = '8abe8d12acaffff')
+get_base_cell(h3_address = '8abe8d12acaffff')
 #> [1] 95
 
 # What is the hexagon over the Brisbane Town Hall at resolution 10?
-brisbane_hex_10 <- h3_to_geo_boundary(h3_address = '8abe8d12acaffff', 
-                                      simple = FALSE)
+brisbane_hex_10 <- h3_to_polygon(h3_address = '8abe8d12acaffff', simple = FALSE)
 
 # if you're feeling fancy,
-# geo_to_h3(bth, res = seq(10,15)) %>%
-#   h3_to_geo_boundary(., simple = FALSE) %>%
+# point_to_h3(bth, res = seq(10,15)) %>%
+#   to_polygon(., simple = FALSE) %>%
 #   mapview::mapview()
 #  
 ```
