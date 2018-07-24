@@ -4,6 +4,7 @@ r_packages:
   # work around temporary travis + R 3.5 bug
   - devtools
   - covr
+  - lwgeom
 before_install:
   - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
   - sudo apt-get --yes --force-yes update -qq
