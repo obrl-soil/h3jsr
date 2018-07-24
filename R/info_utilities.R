@@ -27,7 +27,7 @@ res_area <- function(res = NULL, units = c('m2', 'km2'), fast = TRUE) {
   units <-  match.arg(units)
 
   if(fast == TRUE) {
-    utils::data('h3_info_table')
+    utils::data('h3_info_table', envir = environment())
     h3_info_table <- h3_info_table[h3_info_table$h3_resolution %in% res,
                                    switch(units, 'm2'  = 'avg_area_sqm',
                                                  'km2' = 'avg_area_sqkm')]
@@ -75,7 +75,7 @@ res_length <- function(res = NULL, units = c('m', 'km'), fast = TRUE) {
   units <-  match.arg(units)
 
   if(fast == TRUE) {
-    utils::data('h3_info_table')
+    utils::data('h3_info_table', envir = environment())
     h3_info_table <- h3_info_table[h3_info_table$h3_resolution %in% res,
                                    switch(units, 'm'  = 'avg_edge_m',
                                                  'km' = 'avg_edge_km')]
@@ -124,7 +124,7 @@ res_cendist <- function(res = NULL, units = c('m', 'km'), fast = TRUE) {
   units <-  match.arg(units)
 
   if(fast == TRUE) {
-    utils::data('h3_info_table')
+    utils::data('h3_info_table', envir = environment())
     h3_info_table <- h3_info_table[h3_info_table$h3_resolution %in% res,
                                    switch(units, 'm'  = 'avg_cendist_m',
                                                  'km' = 'avg_cendist_km')]
