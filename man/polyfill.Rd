@@ -7,7 +7,7 @@
 polyfill(geometry = NULL, res = NULL, simple = TRUE)
 }
 \arguments{
-\item{geometry}{`sf` object of type 'POLYGON'.}
+\item{geometry}{`sf` object of type 'POLYGON' or 'MULTIPOLYGON'.}
 
 \item{res}{Integer; Desired H3 resolution. See
 https://uber.github.io/h3/#/documentation/core-library/resolution-table for
@@ -18,9 +18,9 @@ containing both inputs and outputs.}
 }
 \value{
 By default, a list of length(h3_address). Each list element contains
-  a character vector of H3 addresses belonging to that polygon. A result of
+  a character vector of H3 addresses belonging to that geometry. A result of
   NA indicates that no H3 addresses of the chosen resolution are centered
-  over the polygon.
+  over the geometry
 }
 \description{
 This function returns all the H3 addresses within the supplied polygon
@@ -29,12 +29,12 @@ geometry.
 \note{
 This function will be slow with a large number of polygons, and/or
   polygons that are large relative to the hexagon area at the chosen
-  resolution.
+  resolution. A message is printed to console where the total input area is
+  (roughly) > 100000x the area of the chosen H3 resolution.
 }
 \examples{
 # Which level 5 H3 addresses have centers inside County Ashe, NC?
 nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 nc1 <- nc[1, ]
-nc1 <- sf::st_cast(nc1, 'POLYGON')
 fillers <- polyfill(geometry = nc1, res = 5)
 }

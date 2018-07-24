@@ -227,7 +227,7 @@ point_to_h3 <- function(points = NULL, res = NULL, simple = TRUE) {
   }
 
   if(sf::st_crs(points)$epsg != 4326) {
-    warning('Data has been transformed to EPSG:4326.')
+    message('Data has been transformed to EPSG:4326.')
     points <- sf::st_transform(points, 4326)
   }
 

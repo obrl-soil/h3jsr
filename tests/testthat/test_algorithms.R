@@ -96,10 +96,10 @@ test_that(
   c(
     expect_error(polyfill(geometry = 'a shape', res = 4)),
     nc <- sf::st_read(system.file("shape/nc.shp", package="sf")),
-    expect_error(polyfill(geometry = nc[1, ], res = 4)),
-    nc1 <- sf::st_cast(nc[1,], 'POLYGON'),
+    nc1 <- nc[1, ],
     expect_error(polyfill(geometry = nc1, res = 20)),
-    expect_warning(polyfill(geometry = nc1, res = 1)),
+    expect_message(polyfill(geometry = sf::st_transform(nc1, 4326), res = 10)),
+    expect_message(polyfill(geometry = nc, res = 1)),
     val1 <- polyfill(geometry = nc1, res = 4),
     val2 <- polyfill(geometry = nc1, res = 4,
                         simple = FALSE),

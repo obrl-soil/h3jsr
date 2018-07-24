@@ -235,29 +235,30 @@ get_ring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #'
 #' This function returns all the H3 addresses within the supplied polygon
 #' geometry.
-#' @param geometry `sf` object of type 'POLYGON'.
+#' @param geometry `sf` object of type 'POLYGON' or 'MULTIPOLYGON'.
 #' @param res Integer; Desired H3 resolution. See
 #'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
 #'   allowable values and related dimensions.
 #' @param simple Logical; whether to return a vector of outputs or an sf object
 #'   containing both inputs and outputs.
 #' @return By default, a list of length(h3_address). Each list element contains
-#'   a character vector of H3 addresses belonging to that polygon. A result of
+#'   a character vector of H3 addresses belonging to that geometry. A result of
 #'   NA indicates that no H3 addresses of the chosen resolution are centered
-#'   over the polygon.
+#'   over the geometry
 #' @note This function will be slow with a large number of polygons, and/or
 #'   polygons that are large relative to the hexagon area at the chosen
-#'   resolution.
+#'   resolution. A message is printed to console where the total input area is
+#'   (roughly) > 100000x the area of the chosen H3 resolution.
 #' @examples
 #' # Which level 5 H3 addresses have centers inside County Ashe, NC?
 #' nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 #' nc1 <- nc[1, ]
-#' nc1 <- sf::st_cast(nc1, 'POLYGON')
 #' fillers <- polyfill(geometry = nc1, res = 5)
 #' @import V8
-#' @importFrom sf st_as_sf st_crs st_geometry st_geometry_type st_sf
-#'   st_transform
-#' @importFrom geojsonsf sfc_geojson
+#' @importFrom geojsonsf sf_geojson
+#' @importFrom sf st_area st_bbox st_as_sfc st_crs st_geometry st_geometry_type
+#'   st_sf st_transform
+#' @importFrom utils data
 #' @export
 #'
 polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
@@ -273,14 +274,22 @@ polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
     stop('Please provide an sf polygon object')
   }
 
-  # multipolygon support some other time... maybe
-  if(any(sf::st_geometry_type(geometry) != 'POLYGON')) {
-    stop('At least one of the supplied features is not of type POLYGON, please amend and try again.')
+  if(!any(sf::st_geometry_type(geometry) %in% c('POLYGON', 'MULTIPOLYGON'))) {
+    stop('At least one of the supplied features is not a POLYGON or MULTIPOLYGON, please amend and try again.')
   }
 
   if(sf::st_crs(geometry)$epsg != 4326) {
-    warning('Data has been transformed to EPSG:4326.')
+    message('Data has been transformed to EPSG:4326.')
     geometry <- sf::st_transform(geometry, 4326)
+  }
+
+  # warn for poor life choices
+  utils::data("h3_info_table", envir = environment())
+  h3_info_table <- h3_info_table[h3_info_table$h3_resolution %in% res, 'avg_area_sqm']
+  # doesn't need to be super accurate so shhhhh
+  footprint <- suppressWarnings(as.numeric(sf::st_area(sf::st_as_sfc(sf::st_bbox(geometry)))))
+  if(footprint > 100000 * h3_info_table) {
+    message('Resolution is very small relative to input dataset. This might take a while...')
   }
 
   sesh <- V8::v8()
@@ -288,15 +297,33 @@ polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
   sesh$assign('res', res)
 
   # make geoJSON
-  eval_geom <- geojsonsf::sfc_geojson(st_geometry(geometry))
+  eval_geom <- geojsonsf::sf_geojson(geometry)
+  sesh$assign('evalThis', V8::JS(eval_geom))
 
-  # can only send one polygon thru at a time, possible bottleneck
-  results <- lapply(eval_geom, function(gm) {
-    sesh$eval(paste0('var evalGeom = ', gm, ';'))
-    sesh$eval('var out = h3.polyfill(evalGeom.coordinates, res, true);')
-    out <- sesh$get('out')
-    if(length(out) == 0) { NA_character_ } else { out }
-  })
+  #sesh$eval('console.log(JSON.stringify(evalThis.features[3].geometry.coordinates.length));')
+  # are nested loops as bad in JS as they are in R? Guess we'll find out!
+  sesh$eval('var h3_addresses = {};
+            for (var i = 0; i < evalThis.features.length; i++) {
+              var comp_h3a = [];
+              if (evalThis.features[i].geometry.type == "MultiPolygon") {
+                for (var j = 0; j < evalThis.features[i].geometry.coordinates.length; j++) {
+                comp_h3a.push(h3.polyfill(evalThis.features[i].geometry.coordinates[j], res, true));
+              }
+              h3_addresses[i] = [].concat.apply([], comp_h3a)
+              } else {
+                h3_addresses[i] = h3.polyfill(evalThis.features[i].geometry.coordinates, res, true);
+              }};')
+
+  # consider writing to tmp when lge as retrieval can be slow
+  results <- sesh$get('h3_addresses')
+  results <-
+    lapply(results, function(x) {
+      if (length(x) == 0) {
+        NA_character_
+      } else {
+        x
+      }
+    })
 
   if(simple == TRUE) {
     results
@@ -319,14 +346,14 @@ polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
 #'   addresses supplied overlap at the same resolution. The main use case for
 #'   this function appears to be visualising the outputs of `polyfill()` and
 #'   `compact()`.
-#' @examples
+#' @examples \dontrun{
 #' # Give me the outline of the hexagons around Brisbane Town Hall at
-#' # resolution 10
+#' # resolution 10 (not run as slow-ish)
 #' bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326)
 #' bth_10 <- point_to_h3(bth, res = 10)
 #' bth_patch <- get_kring(h3_address = bth_10, ring_size = 2)
 #' bth_patch_sf <- set_to_multipolygon(bth_patch)
-#'
+#' }
 #' @import V8
 #' @importFrom sf st_is_valid st_sf
 #' @importFrom geojsonsf geojson_sf

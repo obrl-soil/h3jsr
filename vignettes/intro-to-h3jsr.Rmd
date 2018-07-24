@@ -32,9 +32,9 @@ options(stringsAsFactors = FALSE)
 h3jsr connects Uber's H3 geospatial library to R, via its JavaScript bindings. The library has extensive potential applications in network analysis, trip routing, and geospatial data aggregation. The wrapper functions provided are intended to interface well with the existing R-spatial ecosystem, particularly `sf`.
 
   * Documentation for the core H3 library is at [H3's github page](https://uber.github.io/h3/#/documentation/overview/introduction).
-  * The core library only understands WGS84 coordinates, so multiple projection support is limited. All spatial objects are returned in WGS84, and ideally should be supplied as such. Its always safer to do your own spatial transformations and verify the results. If spatial data in a coordinate system other than WGS84 is supplied, it is transformed using `sf::st_transform()` and a warning is issued.
+  * The core library only understands WGS84 coordinates, so multiple projection support is limited. All spatial objects are returned in WGS84, and ideally should be supplied as such. Its always safer to do your own spatial transformations and verify the results. If spatial data in a coordinate system other than WGS84 is supplied, it is transformed using `sf::st_transform()` and a message is issued.
   * For each function in `h3jsr`, default behaviour is to return data in as simple a structure as is practical, but there is always an option to return a data frame, list or `sf`-object containing both input and output data, as appropriate for the function in question.
-  * This package uses `V8` to interface with the JavaScript bindings for H3, as no direct C-to-R bindings exist yet. As such, a lot of the overhead for each function is related to setting up temporary virtual JS environments. Feeding larger datasets in often gives faster results than one might expect from the toy examples below.
+  * This package uses `V8` to interface with the JavaScript bindings for H3, as no direct C-to-R bindings exist yet. As such, a lot of the overhead for each function call is related to setting up a temporary virtual JS environment. Feeding large datasets in often gives faster results than one might expect from the toy examples below. Avoid using these functions in conjunction with e.g. `base::lapply` or `purrr::map` on individual geometries!
 
 ## Core Functions
 
@@ -61,6 +61,7 @@ nc_pts <- dplyr::select(nc_pts, CNTY_ID, NAME)
 
 # Give me the address for the center of each NC county at every resolution
 nc_all_res <- point_to_h3(nc_pts, res = seq(0, 15), simple = FALSE)
+head(nc_all_res)
 ```
 
 H3 addresses can be translated back to a point at a given resolution with `point_to_h3()`. A polygon (almost always a hexagon), can be retrieved with `h3_to_polygon()`.
@@ -178,11 +179,10 @@ ggplot(donut_singles) +
 
 ```
 
-`polyfill()` will return all the h3 addresses whose centers intersect a given polygon. There is no support for multipolygon geometry just yet.
+`polyfill()` will return all the h3 addresses whose centers intersect a given polygon. Multipolygons are supported as well.
 
 ```{r 'pf'}
-ashe <- st_cast(nc[1,], 'POLYGON')
-ashe <- st_transform(ashe, crs = 4326)
+ashe <- st_transform(nc[1, ], crs = 4326)
 ashe_6 <- polyfill(ashe, res = 6, simple = FALSE)
 ashe_6 <- h3_to_polygon(unlist(ashe_6$h3_polyfillers), simple = FALSE)
 

@@ -161,7 +161,7 @@ res_count <- function(res = NULL, fast = TRUE) {
   }
 
   if(fast == TRUE) {
-    utils::data('h3_info_table')
+    utils::data('h3_info_table', envir = environment())
     h3_info_table <- h3_info_table[h3_info_table$h3_resolution %in% res,
                                    'total_unique_indexes']
     return(h3_info_table)

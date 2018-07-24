@@ -1,3 +1,8 @@
+# v. 0.4.1
+
+  * Warnings converted to messages
+  * Multipolygon support for `h3_polyfill()`, plus a message when output resolution is way smaller than input extent.
+
 # v 0.4.0
 
   * Naming things is hard, but its vignette time so, y'know, now or never. Function names are shorter now and make more sense.

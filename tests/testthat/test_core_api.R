@@ -75,7 +75,7 @@ test_that('point_to_h3 returns an appropriately structured data frame with singl
             bth2 <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4283),
             expect_error(point_to_h3(bth, res = 20)),
             expect_error(point_to_h3(st_point(c(153.023503, -27.468920)), 15)),
-            expect_warning(point_to_h3(bth2, res = 1)),
+            expect_message(point_to_h3(bth2, res = 1)),
             val1 <- point_to_h3(bth, res = 15),
             val2 <- point_to_h3(bth, res = 15, simple = FALSE),
             val3 <- point_to_h3(sf::st_sf('geometry' = bth), 15, simple = FALSE),
