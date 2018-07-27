@@ -1,6 +1,8 @@
 ^.*\.Rproj$
+^.V8history$
 ^\.Rproj\.user$
 ^README\.Rmd$
 ^README-.*\.png$
 ^\.travis\.yml$
 ^codecov\.yml$
+

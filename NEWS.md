@@ -1,3 +1,7 @@
+# v 0.4.2
+
+  * Update h3-js to release 3.0.2 - https://github.com/uber/h3-js/releases/tag/v3.0.2
+
 # v. 0.4.1
 
   * Warnings converted to messages
