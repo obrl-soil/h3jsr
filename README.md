@@ -23,7 +23,6 @@ Example
 ``` r
 library(h3jsr)
 library(sf)
-#> Warning: package 'sf' was built under R version 3.5.1
 #> Linking to GEOS 3.6.1, GDAL 2.2.3, proj.4 4.9.3
 
 # where is the Brisbane Town Hall at resolution 15?
@@ -77,7 +76,8 @@ brisbane_hex_10 <- h3_to_polygon(h3_address = '8abe8d12acaffff', simple = FALSE)
 
 # if you're feeling fancy,
 # point_to_h3(bth, res = seq(10,15)) %>%
-#   to_polygon(., simple = FALSE) %>%
+#   unlist() %>%
+#   h3_to_polygon(., simple = FALSE) %>%
 #   mapview::mapview()
 #  
 ```

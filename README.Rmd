@@ -10,7 +10,8 @@ output:
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "README-",
+  warning = FALSE
 )
 ```
 
@@ -66,7 +67,8 @@ brisbane_hex_10 <- h3_to_polygon(h3_address = '8abe8d12acaffff', simple = FALSE)
 
 # if you're feeling fancy,
 # point_to_h3(bth, res = seq(10,15)) %>%
-#   to_polygon(., simple = FALSE) %>%
+#   unlist() %>%
+#   h3_to_polygon(., simple = FALSE) %>%
 #   mapview::mapview()
 #  
 
