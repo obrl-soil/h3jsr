@@ -8,14 +8,14 @@ test_that(
     expect_error(are_neighbours('86be8d12fffffff',
                                 c('86be8d127ffffff', '86be8d107ffffff'))),
     val1 <- are_neighbours('86be8d12fffffff', '86be8d127ffffff'),
-    val2 <- are_neighbours(c('86be8d12fffffff', '86be8d107ffffff'),
-                             c('86be8d127ffffff', '86be8d10fffffff'),
-                              simple = FALSE),
+    val2 <- are_neighbours(c('86be8d12fffffff', '86be8d107ffffff', '86be8d127ffffff'),
+                           c('86be8d127ffffff', '86be8d10fffffff', '86be8d10fffffff'),
+                           simple = FALSE),
     expect_equal(val1, TRUE),
     expect_is(val2, 'data.frame'),
     expect_equal(names(val2), c('origin', 'destination', 'h3_neighbours')),
-    expect_equal(nrow(val2), 2),
-    expect_equal(val2$h3_neighbours, c(TRUE, TRUE))
+    expect_equal(nrow(val2), 3),
+    expect_equal(val2$h3_neighbours, c(TRUE, TRUE, FALSE))
   )
 )
 

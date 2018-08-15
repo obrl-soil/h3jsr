@@ -169,3 +169,22 @@ test_that(
     expect_is(val2[[2]], 'character')
   )
 )
+
+test_that(
+  'grid_distance returns correctly',
+  c(
+    expect_error(grid_distance('whereami', 'whoami')),
+    expect_error(grid_distance('whereami')),
+    expect_error(grid_distance('86be8d12fffffff',
+                             c('86be8d127ffffff', '86be8d107ffffff'))),
+    val1 <- grid_distance('86be8d12fffffff', '86be8d127ffffff'),
+    val2 <- grid_distance(c('86be8d12fffffff', '86be8d107ffffff', '86be8d127ffffff'),
+                        c('86be8d127ffffff', '86be8d10fffffff', '86be8d10fffffff'),
+                        simple = FALSE),
+    expect_equal(val1, 1L),
+    expect_is(val2, 'data.frame'),
+    expect_equal(names(val2), c('origin', 'destination', 'grid_distance')),
+    expect_equal(nrow(val2), 3),
+    expect_equal(val2$grid_distance, c(1L, 1L, 2L))
+  )
+)

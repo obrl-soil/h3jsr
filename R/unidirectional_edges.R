@@ -56,7 +56,7 @@ are_neighbours <- function(origin = NULL, destination = NULL, simple = TRUE) {
 
 }
 
-#' gGt a unidirectional edge
+#' Get a unidirectional edge
 #'
 #' Get an H3 address representing a unidirectional edge for a given origin and
 #' destination.

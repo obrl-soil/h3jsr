@@ -1,4 +1,9 @@
-# v 0.4.2
+# v. 0.4.3
+
+  * Update h3-js to release 3.1.0 - https://github.com/uber/h3-js/releases/tag/v3.1.0
+  * Add `grid_distance()`, which returns the number of 'steps' required to get from one H3 address to another (within the same resolution).
+
+# v. 0.4.2
 
   * Update h3-js to release 3.0.2 - https://github.com/uber/h3-js/releases/tag/v3.0.2
 

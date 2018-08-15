@@ -2,7 +2,7 @@
 % Please edit documentation in R/unidirectional_edges.R
 \name{get_udedge}
 \alias{get_udedge}
-\title{gGt a unidirectional edge}
+\title{Get a unidirectional edge}
 \usage{
 get_udedge(origin = NULL, destination = NULL, simple = TRUE)
 }
