@@ -283,6 +283,11 @@ polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
     geometry <- sf::st_transform(geometry, 4326)
   }
 
+  # handle sf objects with only a geometry column (e.g. from geojson_sf)
+  if(ncol(geometry) == 1) {
+    geometry$ID_H3 <- seq(st_geometry(geometry))
+  }
+
   # warn for poor life choices
   utils::data("h3_info_table", envir = environment())
   h3_info_table <- h3_info_table[h3_info_table$h3_resolution %in% res, 'avg_area_sqm']

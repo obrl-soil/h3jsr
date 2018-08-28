@@ -1,3 +1,7 @@
+# v. 0.4.4
+ 
+  * bugfix for `polyfill()`. Where input `sf` object only has a geometry column, a column called 'ID_H3' containing a sequential ID field is now added before sending the geometry to the V8 session.
+
 # v. 0.4.3
 
   * Update h3-js to release 3.1.0 - https://github.com/uber/h3-js/releases/tag/v3.1.0
