@@ -5,4 +5,4 @@
 ^README-.*\.png$
 ^\.travis\.yml$
 ^codecov\.yml$
-
+^update_process.txt$
