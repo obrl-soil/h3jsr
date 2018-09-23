@@ -1,3 +1,7 @@
+# v. 0.5.0
+ 
+  * change to v8 session handling (speed enhancement)
+
 # v. 0.4.5
 
   * update core library to v 3.1.1

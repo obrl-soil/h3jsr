@@ -33,8 +33,6 @@ res_area <- function(res = NULL, units = c('m2', 'km2'), fast = TRUE) {
                                                  'km2' = 'avg_area_sqkm')]
     return(h3_info_table)
   } else {
-    sesh <- V8::v8()
-    sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
     sesh$assign('evalThis', data.frame(res))
     sesh$assign('unit', units)
     # sesh$eval('console.log(unit);')
@@ -81,8 +79,6 @@ res_length <- function(res = NULL, units = c('m', 'km'), fast = TRUE) {
                                                  'km' = 'avg_edge_km')]
     return(h3_info_table)
   } else {
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(res))
   sesh$assign('unit', match.arg(units))
   # sesh$eval('console.log(unit);')
@@ -166,8 +162,6 @@ res_count <- function(res = NULL, fast = TRUE) {
                                    'total_unique_indexes']
     return(h3_info_table)
   } else {
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(res))
   # sesh$eval('console.log(unit);')
   # sesh$eval('console.log(JSON.stringify(h3.numHexagons(evalThis[0].res)));')

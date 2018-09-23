@@ -24,12 +24,6 @@ get_parent <- function(h3_address = NULL, res = NULL, simple = TRUE) {
     stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
   }
 
-  # Establish js interface
-  sesh <- V8::v8()
-
-  # load required js packages from bundle
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
-
   # frame up for JSON conversion
   eval_this <- data.frame(h3_address, 'h3_res' = res, stringsAsFactors = FALSE)
 
@@ -78,8 +72,6 @@ get_children <- function(h3_address = NULL, res = NULL, simple = TRUE) {
     stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   eval_this <- data.frame(h3_address, 'h3_res' = res, stringsAsFactors = FALSE)
   sesh$assign('evalThis', eval_this)
 
@@ -127,8 +119,6 @@ get_kring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
     stop('Invalid H3 address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   eval_this <- data.frame(h3_address, ring_size, stringsAsFactors = FALSE)
   sesh$assign('evalThis', eval_this)
 
@@ -171,8 +161,6 @@ get_kring_list <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
     stop('Invalid H3 address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   eval_this <- data.frame(h3_address, ring_size, stringsAsFactors = FALSE)
   sesh$assign('evalThis', eval_this)
 
@@ -212,8 +200,6 @@ get_ring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
     stop('Invalid H3 address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   eval_this <- data.frame(h3_address, ring_size, stringsAsFactors = FALSE)
   sesh$assign('evalThis', eval_this)
 
@@ -297,8 +283,6 @@ polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
     message('Resolution is very small relative to input dataset. This might take a while...')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('res', res)
 
   # make geoJSON
@@ -373,8 +357,6 @@ set_to_multipolygon <- function(h3_addresses = NULL, simple = TRUE) {
     stop('Invalid H3 address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   # handle single address supplied, although doing that would be silly
   if(length(h3_addresses) == 1) {
     sesh$assign('evalThis', list(h3_addresses))
@@ -434,8 +416,6 @@ compact <- function(h3_addresses = NULL, simple = TRUE) {
     stop('Invalid H3 address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   # handle single address supplied, although doing that would be silly
   if(length(h3_addresses) == 1) {
     sesh$assign('evalThis', list(h3_addresses))
@@ -491,8 +471,6 @@ uncompact <- function(h3_addresses = NULL, res = NULL, simple = TRUE) {
     stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('res', res)
   # handle single address supplied
   if(length(h3_addresses) == 1) {
@@ -554,8 +532,6 @@ grid_distance <- function(origin = NULL, destination = NULL, simple = TRUE) {
     stop('Invalid H3 address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   # handle single pair supplied
   sesh$assign('evalThis', data.frame(origin, destination,
                                      stringsAsFactors = FALSE))

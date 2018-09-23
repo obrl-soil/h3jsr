@@ -13,12 +13,6 @@
 #'
 is_valid <- function(h3_address = NULL, simple = TRUE) {
 
-  # Establish js interface
-  sesh <- V8::v8()
-
-  # load required js packages from bundle
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
-
   # frame up for JSON conversion
   eval_this <- data.frame(h3_address, stringsAsFactors = FALSE)
 
@@ -60,8 +54,6 @@ is_pentagon <- function(h3_address = NULL, simple = TRUE) {
     stop('Invalid H3 address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(h3_address, stringsAsFactors = FALSE))
 
   # for debug:
@@ -96,8 +88,6 @@ is_rc3 <- function(h3_address = NULL, simple = TRUE) {
     stop('Invalid H3 address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(h3_address, stringsAsFactors = FALSE))
 
   # for debug:
@@ -133,8 +123,6 @@ get_base_cell <- function(h3_address = NULL, simple = TRUE) {
     stop('Invalid H3 address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(h3_address, stringsAsFactors = FALSE))
 
   # for debug:
@@ -169,8 +157,6 @@ get_res <- function(h3_address = NULL, simple = TRUE) {
     stop('Invalid H3 address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(h3_address, stringsAsFactors = FALSE))
 
   # for debug:
@@ -231,9 +217,6 @@ point_to_h3 <- function(points = NULL, res = NULL, simple = TRUE) {
     points <- sf::st_transform(points, 4326)
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
-
   # There are some serious shenanigans from here on to deal with multiple points
   # and multiple resolutions, just roll with it
   eval_this <- data.frame('X' = rep(sapply(sf::st_geometry(points), function(pt) pt[1]),
@@ -291,8 +274,6 @@ h3_to_point <- function(h3_address = NULL, simple = TRUE) {
     stop('Invalid H3 address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(h3_address, stringsAsFactors = FALSE))
 
   # for debug:
@@ -343,8 +324,6 @@ h3_to_polygon <- function(h3_address = NULL, simple = TRUE) {
     stop('Invalid H3 address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(h3_address, stringsAsFactors = FALSE),
               digits = NA)
 

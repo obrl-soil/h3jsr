@@ -36,8 +36,6 @@ are_neighbours <- function(origin = NULL, destination = NULL, simple = TRUE) {
     stop('Uneven origin and destination addresses supplied.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(origin, destination,
                                      stringsAsFactors = FALSE))
 
@@ -85,8 +83,6 @@ get_udedge <- function(origin = NULL, destination = NULL, simple = TRUE) {
     stop('Uneven origin and destination addresses supplied.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(origin, destination,
                                      stringsAsFactors = FALSE))
 
@@ -121,8 +117,6 @@ get_udedge <- function(origin = NULL, destination = NULL, simple = TRUE) {
 #'
 is_valid_edge <- function(h3_edge = NULL, simple = TRUE) {
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(h3_edge, stringsAsFactors = FALSE))
 
   # for debug:
@@ -157,8 +151,6 @@ get_udorigin <- function(h3_edge = NULL, simple = TRUE) {
     stop('Invalid H3 edge address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(h3_edge, stringsAsFactors = FALSE))
 
   # for debug:
@@ -194,8 +186,6 @@ get_uddest <- function(h3_edge = NULL, simple = TRUE) {
     stop('Invalid H3 edge address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(h3_edge, stringsAsFactors = FALSE))
 
   # for debug:
@@ -231,8 +221,6 @@ get_udends <- function(h3_edge = NULL, simple = TRUE) {
     stop('Invalid H3 edge address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(h3_edge, stringsAsFactors = FALSE))
 
   # for debug:
@@ -272,8 +260,6 @@ get_udedges <- function(h3_address = NULL, simple = TRUE) {
     stop('Invalid H3 address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(h3_address, stringsAsFactors = FALSE))
 
   # for debug:
@@ -313,8 +299,6 @@ udedge_to_line <- function(h3_edge = NULL, simple = TRUE) {
     stop('Invalid H3 edge address detected.')
   }
 
-  sesh <- V8::v8()
-  sesh$source(system.file('js', 'h3js_bundle.js', package = 'h3jsr'))
   sesh$assign('evalThis', data.frame(h3_edge, stringsAsFactors = FALSE),
               digits = NA)
 
