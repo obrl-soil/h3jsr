@@ -1,3 +1,7 @@
+£ v. 0.5.1
+  
+  * Added custom function `min_path()` to find a minimum-steps path between two H3 addresses of the same resolution.
+
 # v. 0.5.0
  
   * change to v8 session handling (speed enhancement)

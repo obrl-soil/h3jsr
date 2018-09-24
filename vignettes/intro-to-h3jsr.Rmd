@@ -8,7 +8,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
-  chunk_output_type: inline
+  chunk_output_type: console
 ---
 
 ```{r setup, include = FALSE}
@@ -35,7 +35,7 @@ h3jsr connects Uber's H3 geospatial library to R, via its JavaScript bindings. T
   * Documentation for the core H3 library is at [H3's github page](https://uber.github.io/h3/#/documentation/overview/introduction).
   * The core library only understands WGS84 coordinates, so multiple projection support is limited. All spatial objects are returned in WGS84, and ideally should be supplied as such. Its always safer to do your own spatial transformations and verify the results. If spatial data in a coordinate system other than WGS84 is supplied, it is transformed using `sf::st_transform()` and a message is issued.
   * For each function in `h3jsr`, default behaviour is to return data in as simple a structure as is practical, but there is always an option to return a data frame, list or `sf`-object containing both input and output data, as appropriate for the function in question.
-  * This package uses `V8` to interface with the JavaScript bindings for H3, as no direct C-to-R bindings exist yet. As such, a lot of the overhead for each function call is related to setting up a temporary virtual JS environment. Feeding large datasets in often gives faster results than one might expect from the toy examples below. Avoid using these functions in conjunction with e.g. `base::lapply` or `purrr::map` on individual geometries!
+  * This package uses `V8` to interface with the JavaScript bindings for H3, as no direct C-to-R bindings exist yet. As such, a lot of the overhead for each function call is related to sending data to and from V8 via JSON conversion. Feeding large datasets in often gives faster results than one might expect from the toy examples below. Avoid using these functions in conjunction with e.g. `base::lapply` or `purrr::map` on individual geometries!
 
 ## Core Functions
 
@@ -148,7 +148,7 @@ These address lists can all be spatialised with `set_to_multipolygon()`.
 ```{r 'stmp'}
 patch <- get_kring(h3_address = '86be8d12fffffff', ring_size = 2)
 
-donut <- get_ring(h3_address = '86be8d12fffffff', ring_size = 2)
+donut <- get_ring(h3_address = '86be8d12fffffff', ring_size = 5)
 
 patch_sf <- set_to_multipolygon(patch, simple = FALSE)
 donut_sf <- set_to_multipolygon(donut, simple = FALSE)
@@ -156,7 +156,7 @@ donut_sf <- set_to_multipolygon(donut, simple = FALSE)
 ggplot() +
   geom_sf(data = patch_sf, alpha = 0.5) +
   theme_minimal() +
-  geom_sf(data = donut_sf, alpha = 0.5) +
+  geom_sf(data = donut_sf, alpha = 0.5, fill = 'palegreen') +
   coord_sf()
 
 ```
@@ -184,13 +184,13 @@ ggplot(donut_singles) +
 
 ```{r 'pf'}
 ashe <- st_transform(nc[1, ], crs = 4326)
-ashe_6 <- polyfill(ashe, res = 6, simple = FALSE)
-ashe_6 <- h3_to_polygon(unlist(ashe_6$h3_polyfillers), simple = FALSE)
+ashe_7 <- polyfill(ashe, res = 7, simple = FALSE)
+ashe_7 <- h3_to_polygon(unlist(ashe_7$h3_polyfillers), simple = FALSE)
 
 ggplot() +
   geom_sf(data = ashe, fill = NA) +
-  geom_sf(data = ashe_6, fill = NA, colour = 'red') +
-  ggtitle('Resolution 6 hexagons', subtitle = 'County Ashe, NC') +
+  geom_sf(data = ashe_7, fill = NA, colour = 'red') +
+  ggtitle('Resolution 7 hexagons', subtitle = 'County Ashe, NC') +
   theme_minimal() +
   coord_sf()
 ```
@@ -198,13 +198,13 @@ ggplot() +
 A representation like this can be 'compacted' with `compact()`
 
 ```{r 'compact'}
-ashe_comp <- compact(ashe_6$h3_address)
+ashe_comp <- compact(ashe_7$h3_address)
 ashe_comp <- h3_to_polygon(ashe_comp, simple = FALSE)
 
 ggplot() +
   geom_sf(data = ashe, fill = NA) +
   geom_sf(data = ashe_comp, fill = NA, colour = 'red') +
-  ggtitle('Compacted hexes from resolution 6', subtitle = 'County Ashe, NC') +
+  ggtitle('Compacted hexes from resolution 7', subtitle = 'County Ashe, NC') +
   theme_minimal() +
   coord_sf()
 
@@ -213,7 +213,7 @@ ggplot() +
 Note the orientation shift at each resolution change. A compacted representation can be uncompacted back to any resolution with `uncompact()`, with some loss when the chosen resolution is more detailed than the original `polyfill()` operation.
 
 ```{r 'unc'}
-ashe_comp <- compact(ashe_6$h3_address)
+ashe_comp <- compact(ashe_7$h3_address)
 ashe_uncomp <- uncompact(ashe_comp, res = 8)
 
 ashe_uncomp <- h3_to_polygon(ashe_uncomp, simple = FALSE)
