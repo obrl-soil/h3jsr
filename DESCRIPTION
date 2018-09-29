@@ -13,6 +13,7 @@ Imports:
     geojsonsf,
 	lwgeom,
 	methods,
+	purrr,
 	sf,
 	tidyr,
 	utils,

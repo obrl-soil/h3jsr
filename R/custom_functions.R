@@ -11,17 +11,18 @@
 #' @return A list of H3 addresses if simple = TRUE, an sf LINESTRING if not.
 #' @note
 #' \itemize{
-#'   \item{The number of addresses supplied to origin and
-#' destination must be equal.}
+#'   \item{At present, this function accepts a single origin and destination
+#'   address.}
 #'   \item{Multiple minimum-step pathways exist between any two hexagons; this
 #'   function will pick one at random.}
 #'  }
 #' @examples
 #' # Draw a path between Brisbane and Sydney at resolution 6
-#' min_path(origin = '86be8d127ffffff', destination = '86be0e35fffffff', simple = FALSE)
+#' BNE_SYD <- min_path(origin = '86be8d127ffffff',
+#'                     destination = '86be0e35fffffff', simple = FALSE)
 #'
 #' @import V8
-#' @import sf
+#' @importFrom sf st_cast st_sf
 #' @export
 #'
 min_path <- function(origin = NULL, destination = NULL, simple = TRUE) {
@@ -92,3 +93,121 @@ min_path <- function(origin = NULL, destination = NULL, simple = TRUE) {
 
 }
 
+#' Use H3 to find nearest neighbours
+#'
+#' This function finds nearest neighbours among a set of spatial points.
+#' @param locations sf POINT data frame with >1 rows.
+#' @param res Integer; Desired H3 resolution. See
+#'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
+#'   allowable values and related dimensions.
+#' @return The input object, with the addition of a secondary geometry column
+#'   containing the nearest neighbouring point.
+#' @note The true nearest neighbour for any
+#'   point should always be one of the points with the shortest
+#'   \code{\link[h3jsr:grid_distance]{grid_distance}} from the origin, or at
+#'   most, grid_distance + 2 if the origin is close to a hex boundary. Where
+#'   more than one point is a candidate for nearest neighbour,
+#'   \code{\link[sf:st_distance]{st_distance}} is used to pick the closest
+#'   point, so results may not be truly accurate unless the input dataset has
+#'   been projected using an appropriate distance-preserving coordinate
+#'   transformation. This function will probably not be accurate at continental
+#'   scales.
+#' @examples \dontrun{
+#' # Find the nearest neighbours for spData::cycle_hire()
+#' data(cycle_hire, package = 'spData')
+#' # UTM projection should give accurate enough distances at this extent
+#' cycle_hire <- sf::st_transform(cycle_hire, 32630)
+#' # ~10 seconds on a mid-range 2018 laptop:
+#' cycle_hire <- near_neighbours(locations = cycle_hire, res = 11)
+#'
+#' # check results against spatstat::nncross(), which incidentally is a lot
+#' faster...
+#' st_as_ppp <- function(x = NULL) {
+#'   ecks <- sapply(seq.int(length(x$geometry)), function(y) {
+#'     x$geometry[[y]][1]
+#'   })
+#'   why <- sapply(seq.int(length(x$geometry)), function(y) {
+#'     x$geometry[[y]][2]
+#'   })
+#'   o_win <- spatstat::owin(range(ecks), range(why))
+#'   spatstat::ppp(ecks, why, window = o_win)
+#' }
+#'
+#' cycle_ppp <- st_as_ppp(cycle_hire)
+#' cycle_nncross <- spatstat::nncross(cycle_ppp, cycle_ppp, k = 2)
+#' # above says point #1's nearest neighbour is point #167
+#' cycle_hire$nn_geom[[1]] == cycle_hire$geometry[[167]]
+#' # and that they're ~200m apart
+#' sf::st_distance(cycle_hire[1,], cycle_hire[167, ])
+#' cycle_nncross$dist.2[1]
+#' }
+#'
+#' @import V8
+#' @importFrom purrr flatten map map_int
+#' @importFrom sf st_crs st_distance st_geometry st_sfc
+#' @export
+#'
+near_neighbours <- function(locations = NULL, res = NULL) {
+
+  # 1. Assign an H3 address to each point at the nominated resolution.
+  locations$h3 <-
+    suppressMessages(point_to_h3(locations, res = res, simple = TRUE))
+
+  # 2. set up a step holder
+  locations$step <- NA_integer_
+
+  # 3. Handle points where nearest is (probably) within the same hex
+  dupe_addys <- locations$h3[which(duplicated(locations$h3))]
+  locations$step[which(locations$h3 %in% dupe_addys)] <- 0L
+
+  # 4. Determine the minimum steps to a nearby point
+  iter <- 1L
+  while(sum(is.na(locations$step)) > 0) {
+    test_these <- locations[which(is.na(locations$step)), ]
+    test_these$check <- h3jsr::get_ring(test_these$h3, ring_size = iter)
+    test_these$step <- purrr::map_int(test_these$check, function(y) {
+      ads <- locations$h3[which(locations$h3 %in% y) ]
+      if(any(!is.na(ads))) { iter } else { NA_integer_ }
+    })
+    locations$step[which(is.na(locations$step))] <- test_these$step
+    iter <- iter + 1L
+  }
+
+  # 5. Use get_ring() addresses within a given distance that contain a
+  # potentially nearest point. Note that the true nearest point can be up to
+  # $step + 2 hexes away. This is a quirk of interaction between the local hex
+  # grid in use and the relative point locations.
+  check_0 <- h3jsr::get_ring(locations$h3, ring_size = locations$step)
+  check_1 <- h3jsr::get_ring(locations$h3, ring_size = locations$step + 1)
+  check_2 <- h3jsr::get_ring(locations$h3, ring_size = locations$step + 2)
+  locations$check <- purrr::map(seq.int(nrow(locations)), function(x) {
+    c(check_0[[x]], check_1[[x]], check_2[[x]])
+    })
+  locations$near <- purrr::map(locations$check, function(y) {
+    locations$h3[which(locations$h3 %in% unlist(y)) ]
+    })
+  loc_list <- split(locations, seq.int(nrow(locations)))
+  nbr_geoms <- lapply(loc_list, function(pt) {
+    get_pts <- locations[which(locations$h3 %in% unlist(pt$near)), ]
+    if(nrow(get_pts) == 0) {
+        NA
+      } else {
+        get_pts$dists <- sf::st_distance(pt, get_pts, by_element = TRUE)
+        get_pts <- get_pts[which(as.numeric(get_pts$dists) > 0), ]
+        if(nrow(get_pts) > 0) {
+          sf::st_geometry(get_pts[which(get_pts$dists == min(get_pts$dists)), ])
+        } else {
+          NA
+          }
+        }})
+  # 6. Convert nbr_geoms to a proper geometry column
+  locations$nn_geom <- sf::st_sfc(purrr::flatten(nbr_geoms),
+                                  crs = sf::st_crs(locations))
+
+  # 7. Clean up
+  locations$h3        <- NULL
+  locations$step      <- NULL
+  locations$check     <- NULL
+  locations$near      <- NULL
+  locations
+}

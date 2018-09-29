@@ -38,3 +38,31 @@ test_that(
   )
 )
 
+test_that(
+  'near_neigbours returns correctly',
+  c(library(sf),
+    Brisbane  <- sf::st_point(c(153.033333, -27.466667)),
+    Toowoomba <- sf::st_point(c(151.95, -27.566667)),
+    Gympie    <- sf::st_point(c(152.6655, -26.19)),
+    Dalby     <- sf::st_point(c(151.266667, -27.183333)),
+    Warwick   <- sf::st_point(c(152.016667, -28.216667)),
+    Esk       <- sf::st_point(c(152.416667, -27.233333)),
+    places    <- sf::st_sfc(Brisbane, Toowoomba, Gympie, Dalby, Warwick, Esk),
+    places    <- sf::st_sf('ID' = seq.int(length(places)),
+                           'name' = c('Brisbane', 'Toowoomba', 'Gympie',
+                                      'Dalby', 'Warwick', 'Esk'),
+                           'geom' = places, crs = 4326,
+                           stringsAsFactors = FALSE),
+    places    <- sf::st_transform(places, crs = 28356),
+    places    <- near_neighbours(places, res = 5),
+    places2   <- near_neighbours(places, res = 6),
+    places3   <- near_neighbours(places, res = 7),
+    expect_is(places, 'sf'),
+    expect_is(places$nn_geom, 'sfc'),
+    expect_equal(ncol(places), 4),
+    expect_equal(sf::st_crs(places$geom), sf::st_crs(places$nn_geom)),
+    expect_equal(places$nn_geom, places2$nn_geom),
+    expect_equal(places$nn_geom, places3$nn_geom),
+    expect_equal(places$nn_geom[1][[1]], places$geom[6][[1]])
+  )
+)

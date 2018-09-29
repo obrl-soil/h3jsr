@@ -25,14 +25,15 @@ resolution.
 }
 \note{
 \itemize{
-  \item{The number of addresses supplied to origin and
-destination must be equal.}
+  \item{At present, this function accepts a single origin and destination
+  address.}
   \item{Multiple minimum-step pathways exist between any two hexagons; this
   function will pick one at random.}
  }
 }
 \examples{
 # Draw a path between Brisbane and Sydney at resolution 6
-min_path(origin = '86be8d127ffffff', destination = '86be0e35fffffff', simple = FALSE)
+BNE_SYD <- min_path(origin = '86be8d127ffffff',
+                    destination = '86be0e35fffffff', simple = FALSE)
 
 }
