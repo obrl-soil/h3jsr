@@ -54,15 +54,16 @@ test_that(
                            'geom' = places, crs = 4326,
                            stringsAsFactors = FALSE),
     places    <- sf::st_transform(places, crs = 28356),
-    places    <- near_neighbours(places, res = 5),
-    places2   <- near_neighbours(places, res = 6),
-    places3   <- near_neighbours(places, res = 7),
-    expect_is(places, 'sf'),
-    expect_is(places$nn_geom, 'sfc'),
-    expect_equal(ncol(places), 4),
-    expect_equal(sf::st_crs(places$geom), sf::st_crs(places$nn_geom)),
-    expect_equal(places$nn_geom, places2$nn_geom),
-    expect_equal(places$nn_geom, places3$nn_geom),
-    expect_equal(places$nn_geom[1][[1]], places$geom[6][[1]])
+    places1   <- nearest_neighbour(places, res = 5),
+    places2   <- nearest_neighbour(places, res = 6),
+    places3   <- nearest_neighbour(places, res = 7),
+    expect_is(places1, 'sf'),
+    expect_is(places1$geom_nn, 'sfc'),
+    expect_is(places1$distance_nn, 'units'),
+    expect_equal(ncol(places1), 7),
+    expect_equal(sf::st_crs(places1$geom), sf::st_crs(places1$geom_nn)),
+    expect_equal(places1$geom_nn, places2$geom_nn),
+    expect_equal(places1$geom_nn, places3$geom_nn),
+    expect_equal(places1$geom_nn[1][[1]], places1$geom[6][[1]])
   )
 )

@@ -11,19 +11,19 @@ Depends:
     R (>= 2.10)
 Imports:
     geojsonsf,
-	lwgeom,
-	methods,
-	purrr,
-	sf,
-	tidyr,
-	utils,
+    lwgeom,
+    methods,
+    purrr,
+    sf,
+    tidyr,
+    utils,
     V8
 Suggests:
-    testthat,
     covr,
-	ggplot2,
-	dplyr,
+    dplyr,
+    ggplot2,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 RoxygenNote: 6.1.0
 VignetteBuilder: knitr
