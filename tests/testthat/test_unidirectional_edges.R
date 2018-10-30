@@ -14,7 +14,7 @@ test_that(
     expect_equal(val1, TRUE),
     expect_is(val2, 'data.frame'),
     expect_equal(names(val2), c('origin', 'destination', 'h3_neighbours')),
-    expect_equal(nrow(val2), 3),
+    expect_equal(dim(val2)[1], 3),
     expect_equal(val2$h3_neighbours, c(TRUE, TRUE, FALSE))
   )
 )
@@ -33,7 +33,7 @@ test_that(
     expect_equal(val1, '166be8d12fffffff'),
     expect_is(val2, 'data.frame'),
     expect_equal(names(val2), c('origin', 'destination', 'h3_edge')),
-    expect_equal(nrow(val2), 2),
+    expect_equal(dim(val2)[1], 2),
     expect_equal(val2$h3_edge, c('166be8d12fffffff', '116be8d107ffffff'))
   )
 )

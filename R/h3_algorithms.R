@@ -270,7 +270,7 @@ polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
   }
 
   # handle sf objects with only a geometry column (e.g. from geojson_sf)
-  if(ncol(geometry) == 1) {
+  if(dim(geometry)[2] == 1) {
     geometry$ID_H3 <- seq(st_geometry(geometry))
   }
 
@@ -289,7 +289,7 @@ polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
   eval_geom <- geojsonsf::sf_geojson(geometry)
   sesh$assign('evalThis', V8::JS(eval_geom))
 
-  #sesh$eval('console.log(JSON.stringify(evalThis.features[3].geometry.coordinates.length));')
+  #sesh$eval('console.log(JSON.stringify(evalThis.features[0].geometry.coordinates.length));')
   # are nested loops as bad in JS as they are in R? Guess we'll find out!
   sesh$eval('var h3_addresses = {};
             for (var i = 0; i < evalThis.features.length; i++) {

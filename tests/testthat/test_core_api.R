@@ -83,7 +83,7 @@ test_that('point_to_h3 returns an appropriately structured data frame with singl
             expect_equal(val1, '8fbe8d12acad2f3'),
             expect_is(val2, 'sf'),
             expect_equal(ncol(val2), 2),
-            expect_equal(nrow(val2), 1),
+            expect_equal(dim(val2)[1], 1),
             expect_equal(names(val2), c('h3_resolution_15', 'geometry')),
             expect_equal(val2$h3_resolution_15, '8fbe8d12acad2f3')
           ))

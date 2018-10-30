@@ -72,7 +72,7 @@ min_path <- function(origin = NULL, destination = NULL, simple = TRUE) {
   while(x <= length(path)) {
     nbs <- data.frame('nbs' = unlist(get_ring(path[[x - 1]], ring_size = 1)),
                       stringsAsFactors = FALSE)
-    nbs$dists <- grid_distance(nbs$nbs, rep(destination, nrow(nbs)))
+    nbs$dists <- grid_distance(nbs$nbs, rep(destination, dim(nbs)[1]))
     nbs <- nbs[which(nbs$dists == min(nbs$dists)), ]
     path[[x]] <- base::sample(nbs$nbs, size = 1) # randomise
     x <- x + 1
@@ -183,13 +183,13 @@ nearest_neighbour <- function(locations = NULL, res = NULL) {
   check_0 <- h3jsr::get_ring(locations$h3, ring_size = locations$step)
   check_1 <- h3jsr::get_ring(locations$h3, ring_size = locations$step + 1)
   check_2 <- h3jsr::get_ring(locations$h3, ring_size = locations$step + 2)
-  check <- purrr::map(seq.int(nrow(locations)), function(x) {
+  check <- purrr::map(seq.int(dim(locations)[1]), function(x) {
     c(check_0[[x]], check_1[[x]], check_2[[x]])
     })
   locations$near <- purrr::map(check, function(y) {
     locations$h3[which(locations$h3 %in% unlist(y)) ]
     })
-  loc_list <- split(locations, seq.int(nrow(locations)))
+  loc_list <- split(locations, seq.int(dim(locations)[1]))
 
   nbr_geoms <- purrr::map(loc_list, function(pt) {
     get_pts <- locations[which(locations$h3 %in% unlist(pt$near)), ]
@@ -197,7 +197,7 @@ nearest_neighbour <- function(locations = NULL, res = NULL) {
     if(pt$step == 0L) { # filter self
       get_pts <- get_pts[which(as.numeric(get_pts$distance) > 0), ]
     }
-    if(nrow(get_pts) > 1) {
+    if(dim(get_pts)[1] > 1) {
       get_pts <- get_pts[which(get_pts$distance == min(get_pts$distance)), ]
     } else {
       get_pts

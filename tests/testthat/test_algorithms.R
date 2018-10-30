@@ -184,7 +184,7 @@ test_that(
     expect_equal(val1, 1L),
     expect_is(val2, 'data.frame'),
     expect_equal(names(val2), c('origin', 'destination', 'grid_distance')),
-    expect_equal(nrow(val2), 3),
+    expect_equal(dim(val2)[1], 3),
     expect_equal(val2$grid_distance, c(1L, 1L, 2L))
   )
 )
