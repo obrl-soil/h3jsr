@@ -1,3 +1,8 @@
+# v. 0.6
+
+  * Update core library to v 3.2.0
+  * Add `get_local_ij()` and `get_local_h3()`, wrapping the experimental local coordinate system functions `h3.experimentalH3ToLocalIj` and `h3.experimentalLocalIjToH3` respectively.
+
 # v. 0.5.1
   
   * Added custom function `min_path()` to find a minimum-steps path between two H3 addresses of the same resolution.
