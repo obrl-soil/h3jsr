@@ -1,6 +1,7 @@
 # v. 0.7
 
-  * Remove `nearest_neighbour()`, its fundamentally flawed. 
+  * Removed `nearest_neighbour()`, its fundamentally flawed. 
+  * Simplified output of `get_local_ij()` to a matrix when simple = TRUE
 
 # v. 0.6
 

@@ -11,6 +11,8 @@
 #' @return A list of H3 addresses if simple = TRUE, an sf LINESTRING if not.
 #' @note
 #' \itemize{
+#'   \item{This function will be replaced soon as a superior implementation is
+#'   being developed for H3 core.}
 #'   \item{At present, this function accepts a single origin and destination
 #'   address.}
 #'   \item{Multiple minimum-step pathways exist between any two hexagons; this
