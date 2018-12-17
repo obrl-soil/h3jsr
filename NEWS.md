@@ -1,3 +1,7 @@
+# v. 0.7
+
+  * Remove `nearest_neighbour()`, its fundamentally flawed. 
+
 # v. 0.6
 
   * Update core library to v 3.2.0
@@ -6,7 +10,7 @@
 # v. 0.5.1
   
   * Added custom function `min_path()` to find a minimum-steps path between two H3 addresses of the same resolution.
-  * Added custom function `near_neighbours()` to find the nearest neighbour for a given set of points. Use with caution, read the notes.
+  * Added custom function `nearest_neighbour()` to find the nearest neighbour for a given set of points. Use with caution, read the notes.
 
 # v. 0.5.0
  

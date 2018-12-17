@@ -37,33 +37,3 @@ test_that(
       expect_equal(as.character(sf::st_geometry_type(SYD_LAX)), 'LINESTRING')
   )
 )
-
-test_that(
-  'near_neigbours returns correctly',
-  c(library(sf),
-    Brisbane  <- sf::st_point(c(153.033333, -27.466667)),
-    Toowoomba <- sf::st_point(c(151.95, -27.566667)),
-    Gympie    <- sf::st_point(c(152.6655, -26.19)),
-    Dalby     <- sf::st_point(c(151.266667, -27.183333)),
-    Warwick   <- sf::st_point(c(152.016667, -28.216667)),
-    Esk       <- sf::st_point(c(152.416667, -27.233333)),
-    places    <- sf::st_sfc(Brisbane, Toowoomba, Gympie, Dalby, Warwick, Esk),
-    places    <- sf::st_sf('ID' = seq.int(length(places)),
-                           'name' = c('Brisbane', 'Toowoomba', 'Gympie',
-                                      'Dalby', 'Warwick', 'Esk'),
-                           'geom' = places, crs = 4326,
-                           stringsAsFactors = FALSE),
-    places    <- sf::st_transform(places, crs = 28356),
-    places1   <- nearest_neighbour(places, res = 5),
-    places2   <- nearest_neighbour(places, res = 6),
-    places3   <- nearest_neighbour(places, res = 7),
-    expect_is(places1, 'sf'),
-    expect_is(places1$geom_nn, 'sfc'),
-    expect_is(places1$distance_nn, 'units'),
-    expect_equal(ncol(places1), 7),
-    expect_equal(sf::st_crs(places1$geom), sf::st_crs(places1$geom_nn)),
-    expect_equal(places1$geom_nn, places2$geom_nn),
-    expect_equal(places1$geom_nn, places3$geom_nn),
-    expect_equal(places1$geom_nn[1][[1]], places1$geom[6][[1]])
-  )
-)
