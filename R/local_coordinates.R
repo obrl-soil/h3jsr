@@ -8,10 +8,10 @@
 #'   of addresses can also be supplied.
 #' @param simple Logical; whether to include an unprojected sfc_POINT geometry
 #'   column in the output object.
-#' @return If `simple = TRUE`, data frame containing columns origin,
-#'   destination, local_i, local_j. If not, an `sf` object with origin and
-#'   destination attributes, point geometry and an undefined coordinate
-#'   reference system.
+#' @return If `simple = TRUE`, a matrix where each row contains the local i, j
+#'   coordinates for the supplied destination addresses. If not, an `sf` object
+#'   with origin and destination attributes, point geometry of the destinations,
+#'   and an undefined coordinate reference system.
 #' @note
 #' \itemize{
 #'   \item{The number of addresses supplied to origin and
@@ -66,16 +66,13 @@ get_local_ij <- function(origin = NULL, destination = NULL, simple = TRUE) {
 
   if(simple == TRUE) {
     out <- sesh$get('evalThis')
-    out$local_i <- out$local_ij$i
-    out$local_j <- out$local_ij$j
-    out$local_ij <- NULL
-    out
+    as.matrix(out$local_ij)
   } else {
     out <- sesh$get('evalThis')
-    out$local_i <- out$local_ij$i
-    out$local_j <- out$local_ij$j
-    out$local_ij <- NULL
-    out <- sf::st_as_sf(out, coords = c('local_i', 'local_j'))
+    out <- cbind('origin' = out$origin,
+                 'destination' = out$destination,
+                 out$local_ij)
+    out <- sf::st_as_sf(out, coords = c('i', 'j'))
     out
   }
 

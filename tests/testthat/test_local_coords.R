@@ -9,11 +9,9 @@ test_that(
                                 c('86be8d127ffffff', '86be8d107ffffff'))),
     val1 <- get_local_ij('86be8d12fffffff', '86be8d127ffffff'),
     val2 <- get_local_ij('86be8d12fffffff', '86be8d127ffffff', simple = FALSE),
-    expect_is(val1, 'data.frame'),
-    expect_equal(names(val1), c('origin', 'destination', 'local_i', 'local_j')),
+    expect_is(val1, 'matrix'),
+    expect_equal(dim(val1), c(1, 2)),
     expect_equal(names(val2), c('origin', 'destination', 'geometry')),
-    expect_equal(dim(val1)[1], 1),
-    expect_equal(dim(val1)[2], 4),
     expect_equal(val1$local_i, -87L), # note: probs unstable
     expect_equal(val1$local_j, 36L),  # note: probs unstable
     expect_is(val2$geometry, 'sfc_POINT'),
