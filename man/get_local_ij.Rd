@@ -17,10 +17,10 @@ of addresses can also be supplied.}
 column in the output object.}
 }
 \value{
-If `simple = TRUE`, data frame containing columns origin,
-  destination, local_i, local_j. If not, an `sf` object with origin and
-  destination attributes, point geometry and an undefined coordinate
-  reference system.
+If `simple = TRUE`, a matrix where each row contains the local i, j
+  coordinates for the supplied destination addresses. If not, an `sf` object
+  with origin and destination attributes, point geometry of the destinations,
+  and an undefined coordinate reference system.
 }
 \description{
 This function defines local i, j coordinates for a H3 destination address
