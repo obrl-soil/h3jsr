@@ -25,6 +25,8 @@ resolution.
 }
 \note{
 \itemize{
+  \item{This function will be replaced soon as a superior implementation is
+  being developed for H3 core.}
   \item{At present, this function accepts a single origin and destination
   address.}
   \item{Multiple minimum-step pathways exist between any two hexagons; this

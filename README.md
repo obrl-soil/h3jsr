@@ -4,7 +4,7 @@
 h3jsr
 =====
 
-h3jsr provides access to [Uber's H3 library](https://github.com/uber/h3) via its [javascript bindings](https://github.com/uber/h3-js), using the magical power of [`V8`](https://github.com/jeroen/v8). This is a stopgap package that should keep us \#rspatial nerds happy until someone writes proper R bindings.
+h3jsr provides access to [Uber's H3 library](https://github.com/uber/h3) via its [javascript transpile](https://github.com/uber/h3-js), using the magical power of [`V8`](https://github.com/jeroen/v8).
 
 H3 is a hexagonal hierarchical geospatial indexing system. Details about its structure and use cases [can be found here](https://uber.github.io/h3/#/documentation/overview/use-cases).
 
@@ -23,7 +23,7 @@ Example
 ``` r
 library(h3jsr)
 library(sf)
-#> Linking to GEOS 3.6.1, GDAL 2.2.3, proj.4 4.9.3
+#> Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3
 
 # where is the Brisbane Town Hall at resolution 15?
 bth <- st_sfc(st_point(c(153.023503, -27.468920)), crs = 4326)

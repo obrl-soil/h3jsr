@@ -2,6 +2,8 @@
 
   * Removed `nearest_neighbour()`, its fundamentally flawed. 
   * Simplified output of `get_local_ij()` to a matrix when simple = TRUE
+  * Improved outputs from `point_to_h3()`
+  * Efficiency improvements to `point_to_h3()` and `polyfill()`
 
 # v. 0.6
 
