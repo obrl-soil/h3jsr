@@ -69,47 +69,85 @@ test_that(
   )
 )
 
-test_that('point_to_h3 returns an appropriately structured data frame with single input',
-          c(library(sf), # :/
-            bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326),
-            bth2 <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4283),
-            expect_error(point_to_h3(bth, res = 20)),
-            expect_error(point_to_h3(st_point(c(153.023503, -27.468920)), 15)),
-            expect_message(point_to_h3(bth2, res = 1)),
-            val1 <- point_to_h3(bth, res = 15),
-            val2 <- point_to_h3(bth, res = 15, simple = FALSE),
-            val3 <- point_to_h3(sf::st_sf('geometry' = bth), 15, simple = FALSE),
-            expect_identical(val2, val3),
-            expect_equal(val1, '8fbe8d12acad2f3'),
-            expect_is(val2, 'sf'),
-            expect_equal(ncol(val2), 2),
-            expect_equal(dim(val2)[1], 1),
-            expect_equal(names(val2), c('h3_resolution_15', 'geometry')),
-            expect_equal(val2$h3_resolution_15, '8fbe8d12acad2f3')
+test_that('prep_for_pt2h3 works consistently across methods',
+          c(# matrix method
+            bth_mat <- matrix(c(153.023503, -27.468920), ncol = 2),
+            bth_mat_m <- matrix(c(bth_mat, bth_mat, bth_mat),
+                                ncol = 2, byrow = TRUE),
+            val1 <- h3jsr:::prep_for_pt2h3(bth_mat),
+            val2 <- h3jsr:::prep_for_pt2h3(bth_mat_m),
+            expect_is(val1, 'sfc'),
+            expect_is(val2, 'sfc'),
+            expect_message(h3jsr:::prep_for_pt2h3(bth_mat)),
+            # df method
+            bth_df <- as.data.frame(bth_mat),
+            bth_df_m <-  as.data.frame(bth_mat_m),
+            val3 <- h3jsr:::prep_for_pt2h3(bth_df),
+            val4 <- h3jsr:::prep_for_pt2h3(bth_df_m),
+            expect_equal(val1, val3),
+            expect_equal(val2, val4),
+            expect_message(h3jsr:::prep_for_pt2h3(bth_df)),
+            # sfg method
+            bth_sfg <- sf::st_point(bth_mat),
+            val5 <- h3jsr:::prep_for_pt2h3(bth_sfg),
+            expect_equivalent(val1, val5), # attrib order differs, meh
+            expect_message(h3jsr:::prep_for_pt2h3(bth_sfg)),
+            # sfc method
+            bth_sfc   <- sf::st_sfc(bth_sfg, crs = 4326),
+            bth_sfc_m <-
+              sf::st_as_sfc(list(bth_sfg, bth_sfg, bth_sfg), crs = 4326),
+            val6 <- h3jsr:::prep_for_pt2h3(bth_sfc),
+            val7 <- h3jsr:::prep_for_pt2h3(bth_sfc_m),
+            expect_equal(val5, val6),
+            expect_equivalent(val2, val7), # attrib order
+            bth_sfc2 <- sf::st_sfc(bth_sfg, crs = 4283),
+            expect_message(h3jsr:::prep_for_pt2h3(bth_sfc2)),
+            # sf method
+            bth_sf <- sf::st_sf('geometry' = bth_sfc),
+            bth_sf_m <- sf::st_sf('geometry' = bth_sfc_m),
+            val8 <- h3jsr:::prep_for_pt2h3(bth_sf),
+            val9 <- h3jsr:::prep_for_pt2h3(bth_sf_m),
+            expect_equal(val6, val8),
+            expect_equal(val7, val9),
+            bth_sf2 <- sf::st_sf('geometry' = bth_sfc2),
+            expect_message(h3jsr:::prep_for_pt2h3(bth_sf2))
           ))
 
-test_that('point_to_h3 returns an appropriately structured data frame with multiple inputs',
+test_that('point_to_h3 with various options',
           c(library(sf),
             bpts <- list(c(153.02350, -27.46892),
                          c(153.02456, -27.47071),
                          c(153.02245, -27.47078)),
             bpts <- lapply(bpts, sf::st_point),
-            bpts <- sf::st_sfc(bpts, crs = 4326),
-            bpts_sf <- sf::st_sf('geometry' = bpts),
+            bpts_sfc <- sf::st_sfc(bpts, crs = 4326),
+            bpts_sf <- sf::st_sf('geometry' = bpts_sfc),
             # several points 1 res
-            val1 <- point_to_h3(bpts, res = 11),
-            val2 <- point_to_h3(bpts, res = 11, simple = FALSE),
-            # several points several res
-            val3 <- point_to_h3(bpts, res = c(11,12)),
-            val4 <- point_to_h3(bpts, res = c(11,12), simple = FALSE),
+            val1 <- point_to_h3(bpts_sfc, res = 11),
+            val2 <- point_to_h3(bpts_sfc, res = 11, simple = FALSE),
             expect_equal(val1[1], '8bbe8d12acadfff'),
-            expect_is(val2, 'sf'),
-            expect_is(val3, 'data.frame'),
-            expect_is(val4, 'sf'),
+            expect_is(val2, 'data.frame'),
+            # several points several res
+            val3 <- point_to_h3(bpts_sfc, res = c(11,12)),
+            val4 <- point_to_h3(bpts_sfc, res = c(11,12), simple = FALSE),
+            expect_identical(val3, val4),
             expect_identical(val2$h3_resolution_11, val3$h3_resolution_11,
                              val4$h3_resolution_11),
-            expect_identical(val3, sf::st_set_geometry(val4, NULL))
-          ))
+            # sf object with other attribs
+            bpts_sf2 <- sf::st_sf('ID' = seq(length(bpts_sfc)),
+                                  'geometry' = bpts_sfc),
+            val5 <-  point_to_h3(bpts_sf2, res = c(11,12), simple = FALSE),
+            expect_is(val5, 'data.frame'),
+            expect_equal(names(val5), c('ID', 'h3_resolution_11', 'h3_resolution_12')),
+            expect_equal(val5[[1]], c(1,2,3)),
+            # df with other attribs
+            bpts_df2 <-
+              as.data.frame(cbind(matrix(unlist(bpts_sfc),
+                                         ncol = 2, byrow = T), 'ID' = seq(3))),
+            val6 <- point_to_h3(bpts_df2, res = c(11, 12), simple = FALSE),
+            expect_equal(val5, val6)
+           )
+          )
+
 
 test_that('h3_to_point returns an appropriate dataset',
           c(

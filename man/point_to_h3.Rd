@@ -4,24 +4,31 @@
 \alias{point_to_h3}
 \title{Convert point location to H3 address}
 \usage{
-point_to_h3(points = NULL, res = NULL, simple = TRUE)
+point_to_h3(input = NULL, res = NULL, simple = TRUE)
 }
 \arguments{
-\item{points}{object of class sfc_POINT. If crs is not WGS84, it will be
-converted.}
+\item{input}{`sf` object with point geometry, `sfc_POINT` object, `sfg`
+point, data frame or matrix.}
 
 \item{res}{Integer; Desired H3 resolution. See
 https://uber.github.io/h3/#/documentation/core-library/resolution-table for
 allowable values and related dimensions.}
 
-\item{simple}{Logical; whether to return only outputs, or an `sf` object
-containing both inputs and outputs.}
+\item{simple}{Logical; whether to return outputs as character vector where
+possible.}
 }
 \value{
-By default, a character vector of H3 addresses. if `simple = FALSE`,
-  the input sf object is returned with new columns, one for each requested
-  resolution. If `simple = TRUE` and multiple resolutions are requested, a
-  data.frame is returned.
+\itemize{
+\item {if `simple = TRUE` and one resolution is requested, a character vector
+of H3 addresses.}
+\item {if `simple = TRUE` and multiple resolutions are requested, a data
+frame of H3 addresses.}
+\item {if `simple = FALSE` and a matrix, sfc or sfg object is supplied, a
+data frame of H3 addresses.}
+\item {if `simple = FALSE` and a data frame or sf object with other
+attributes is supplied, a data frame of non-spatial attributes with new
+columns containing addresses for one or more h3 resolutions.}
+}
 }
 \description{
 This function takes point location data and returns a H3 address for each

@@ -20,7 +20,7 @@ containing both inputs and outputs.}
 By default, a list of length(h3_address). Each list element contains
   a character vector of H3 addresses belonging to that geometry. A result of
   NA indicates that no H3 addresses of the chosen resolution are centered
-  over the geometry
+  over the geometry.
 }
 \description{
 This function returns all the H3 addresses within the supplied polygon

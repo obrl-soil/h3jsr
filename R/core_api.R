@@ -176,17 +176,24 @@ get_res <- function(h3_address = NULL, simple = TRUE) {
 #'
 #' This function takes point location data and returns a H3 address for each
 #' point at the chosen resolution(s).
-#' @param points object of class sfc_POINT. If crs is not WGS84, it will be
-#'   converted.
+#' @param input `sf` object with point geometry, `sfc_POINT` object, `sfg`
+#'   point, data frame or matrix.
 #' @param res Integer; Desired H3 resolution. See
 #'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
 #'   allowable values and related dimensions.
-#' @param simple Logical; whether to return only outputs, or an `sf` object
-#'   containing both inputs and outputs.
-#' @return By default, a character vector of H3 addresses. if `simple = FALSE`,
-#'   the input sf object is returned with new columns, one for each requested
-#'   resolution. If `simple = TRUE` and multiple resolutions are requested, a
-#'   data.frame is returned.
+#' @param simple Logical; whether to return outputs as character vector where
+#'   possible.
+#' @return \itemize{
+#' \item {if `simple = TRUE` and one resolution is requested, a character vector
+#' of H3 addresses.}
+#' \item {if `simple = TRUE` and multiple resolutions are requested, a data
+#' frame of H3 addresses.}
+#' \item {if `simple = FALSE` and a matrix, sfc or sfg object is supplied, a
+#' data frame of H3 addresses.}
+#' \item {if `simple = FALSE` and a data frame or sf object with other
+#' attributes is supplied, a data frame of non-spatial attributes with new
+#' columns containing addresses for one or more h3 resolutions.}
+#' }
 #' @note While multiple resolutions can be requested for multiple points, be
 #'   aware of the memory demand on large datasets.
 #' @import V8
@@ -202,29 +209,21 @@ get_res <- function(h3_address = NULL, simple = TRUE) {
 #' bth_many <- point_to_h3(bth, res = seq(10, 15), simple = FALSE)
 #' @export
 #'
-point_to_h3 <- function(points = NULL, res = NULL, simple = TRUE) {
-
-  if(!methods::is(sf::st_geometry(points), 'sfc_POINT')) {
-    stop('Please supply an sfc_POINT object')
-  }
+point_to_h3 <- function(input = NULL, res = NULL, simple = TRUE) {
 
   if(!any(res %in% seq(0, 15))) {
     stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
   }
 
-  if(sf::st_crs(points)$epsg != 4326) {
-    message('Data has been transformed to EPSG:4326.')
-    points <- sf::st_transform(points, 4326)
-  }
+  pts <- prep_for_pt2h3(input)
 
   # There are some serious shenanigans from here on to deal with multiple points
   # and multiple resolutions, just roll with it
-  eval_this <- data.frame('X' = rep(sapply(sf::st_geometry(points), function(pt) pt[1]),
-                                    length(res)),
-                          'Y' = rep(sapply(sf::st_geometry(points), function(pt) pt[2]),
-                                    length(res)),
-                          'h3_res' = rep(res, each = length(sf::st_geometry(points))),
-                          stringsAsFactors = FALSE)
+  eval_this <-
+    data.frame('X' = rep(sapply(pts, function(pt) pt[1]), length(res)),
+               'Y' = rep(sapply(pts, function(pt) pt[2]), length(res)),
+               'h3_res' = rep(res, each = length(pts)),
+               stringsAsFactors = FALSE)
 
   sesh$assign('evalThis', eval_this, digits = NA)
   # sesh$eval('console.log(evalThis[0].X);')
@@ -235,8 +234,8 @@ point_to_h3 <- function(points = NULL, res = NULL, simple = TRUE) {
             };')
 
   # get data back. If length(res != 1), divide up outputs properly
-  addys <- data.frame('n' = seq(length(sf::st_geometry(points))),
-                      'res' = rep(res, each = length(sf::st_geometry(points))),
+  addys <- data.frame('n' = seq(length(pts)),
+                      'res' = rep(res, each = length(pts)),
                       'h3_address' = sesh$get('h3_address'),
                       stringsAsFactors = FALSE)
   addys <- tidyr::spread(addys, 'res', 'h3_address')
@@ -249,8 +248,20 @@ point_to_h3 <- function(points = NULL, res = NULL, simple = TRUE) {
     } else {
       addys
     }
+
   } else {
-    sf::st_sf(data.frame(addys, points), stringsAsFactors = FALSE)
+    # for sf or df inputs, tack extra attribs back on if present. Probably dumb
+    # to do that with matrices since it'll coerce all to char?? I'm assuming
+    # that anyone feeding in a matrix with loc info will have a) a matrix that
+    # is only long, lat or b) a matrix that is long, lat, and a bunch of other
+    # numbers. Coercing a bunch of numbers to char seems suboptimal.
+    if(inherits(input, 'sf')) {
+      cbind(sf::st_set_geometry(input, NULL), addys)
+    } else if(inherits(input, 'data.frame')) {
+      cbind(input[, c(3:dim(input)[2]), drop = FALSE], addys)
+    } else {
+      addys
+    }
   }
 }
 

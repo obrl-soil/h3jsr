@@ -230,7 +230,7 @@ get_ring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #' @return By default, a list of length(h3_address). Each list element contains
 #'   a character vector of H3 addresses belonging to that geometry. A result of
 #'   NA indicates that no H3 addresses of the chosen resolution are centered
-#'   over the geometry
+#'   over the geometry.
 #' @note This function will be slow with a large number of polygons, and/or
 #'   polygons that are large relative to the hexagon area at the chosen
 #'   resolution. A message is printed to console where the total input area is
@@ -241,9 +241,7 @@ get_ring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #' nc1 <- nc[1, ]
 #' fillers <- polyfill(geometry = nc1, res = 5)
 #' @import V8
-#' @importFrom geojsonsf sf_geojson
-#' @importFrom sf st_area st_bbox st_as_sfc st_crs st_geometry st_geometry_type
-#'   st_sf st_transform
+#' @importFrom sf st_area st_bbox st_as_sfc st_sf
 #' @importFrom utils data
 #' @export
 #'
@@ -251,27 +249,6 @@ polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
 
   if(!any(res %in% seq(0, 15))) {
     stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
-  }
-
-  # welcome to the future, sp'ers *cackles*
-  #
-  # (I failed at UseMethod ;_;)
-  if(class(geometry)[[1]] != 'sf') {
-    stop('Please provide an sf polygon object')
-  }
-
-  if(!any(sf::st_geometry_type(geometry) %in% c('POLYGON', 'MULTIPOLYGON'))) {
-    stop('At least one of the supplied features is not a POLYGON or MULTIPOLYGON, please amend and try again.')
-  }
-
-  if(sf::st_crs(geometry)$epsg != 4326) {
-    message('Data has been transformed to EPSG:4326.')
-    geometry <- sf::st_transform(geometry, 4326)
-  }
-
-  # handle sf objects with only a geometry column (e.g. from geojson_sf)
-  if(dim(geometry)[2] == 1) {
-    geometry$ID_H3 <- seq(st_geometry(geometry))
   }
 
   # warn for poor life choices
@@ -284,10 +261,7 @@ polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
   }
 
   sesh$assign('res', res)
-
-  # make geoJSON
-  eval_geom <- geojsonsf::sf_geojson(geometry)
-  sesh$assign('evalThis', V8::JS(eval_geom))
+  sesh$assign('evalThis', V8::JS(prep_for_polyfill(geometry)))
 
   #sesh$eval('console.log(JSON.stringify(evalThis.features[0].geometry.coordinates.length));')
   # are nested loops as bad in JS as they are in R? Guess we'll find out!
