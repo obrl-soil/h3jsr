@@ -164,7 +164,7 @@ test_that('h3_to_point returns an appropriate dataset',
           ))
 
 # h3_to_geo_boundary
-test_that('h3 to geo boundary returns an appropriate dataset',
+test_that('h3 to polygon returns an appropriate dataset',
           c(
             expect_error(h3_to_polygon(h3_address = 'whereami')),
             val1 <- h3_to_polygon('8abe8d12acaffff'),
@@ -174,7 +174,21 @@ test_that('h3 to geo boundary returns an appropriate dataset',
             expect_equal(val1[[1]][[1]][1,2], -27.46896347),
             expect_is(val1, 'sfc_POLYGON'),
             expect_is(val2, 'sf'),
+            expect_equal(as.character(sf::st_geometry_type(val2)), 'POLYGON'),
             expect_identical(val1, val2$geometry),
             expect_equal(names(val2), c('h3_address', 'h3_resolution', 'geometry')),
-            expect_equal(sf::st_crs(val1)$epsg, 4326)
-          ))
+            expect_equal(sf::st_crs(val1)$epsg, 4326),
+            # data frame inputs
+            df <- data.frame('h3_resolution_7' = c('8abe8d12acaffff',
+                                                   '8abe8d12acaffff',
+                                                   '8abe8d12acaffff'),
+                             'ID' = seq(3)),
+            val3 <- h3_to_polygon(df),
+            expect_is(val3, 'sfc_POLYGON'),
+            expect_equal(as.character(sf::st_geometry_type(val3[[1]])), 'POLYGON'),
+            val4 <- h3_to_polygon(df, simple = FALSE),
+            expect_is(val4, 'sf'),
+            expect_equal(val3, val4$geometry),
+            expect_error(h3_to_polygon(df[ , c(2,1)], simple = FALSE))
+            )
+)

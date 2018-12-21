@@ -65,7 +65,7 @@ nc_all_res <- point_to_h3(nc_pts, res = seq(0, 15), simple = FALSE)
 head(nc_all_res[, c(1:5)])
 ```
 
-H3 addresses can be translated back to a point at a given resolution with `point_to_h3()`. A polygon (almost always a hexagon), can be retrieved with `h3_to_polygon()`.
+H3 addresses can be translated back to a point at a given resolution with `h3_to_point()`. A polygon (almost always a hexagon), can be retrieved with `h3_to_polygon()`.
 
 ```{r 'c4'}
 # plot a few
@@ -141,7 +141,7 @@ A 'donut' of addresses at exactly *n* steps is obtained with `get_ring()`.
 get_ring(h3_address = '86be8d12fffffff', ring_size = 2)
 ```
 
-These address lists can all be spatialised with `set_to_multipolygon()`.
+These address lists can all be spatialised with `set_to_multipolygon()`, which returns the polygonised outline of a collection of H3 addresses.
 
 ```{r 'stmp'}
 patch <- get_kring(h3_address = '86be8d12fffffff', ring_size = 2)
@@ -193,7 +193,7 @@ ggplot() +
   coord_sf()
 ```
 
-A representation like this can be 'compacted' with `compact()`
+A representation like this can be 'compacted' with `compact()`.
 
 ```{r 'compact'}
 ashe_comp <- compact(ashe_7$h3_address)
