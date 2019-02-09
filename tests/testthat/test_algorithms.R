@@ -188,3 +188,22 @@ test_that(
     expect_equal(val2$grid_distance, c(1L, 1L, 2L))
   )
 )
+
+test_that(
+  'grid_path returns correctly',
+  c(
+    expect_error(grid_path('whereami', 'whoami')),
+    expect_error(grid_path('whereami')),
+    expect_error(grid_path('86be8d12fffffff',
+                               c('86be8d127ffffff', '86be8d107ffffff'))),
+    val1 <- grid_path('86be8d12fffffff', '86be8d127ffffff'),
+    val2 <- grid_path(c('86be8d12fffffff', '86be8d107ffffff', '86be8d127ffffff'),
+                      c('86be8d127ffffff', '86be8d10fffffff', '86be8d10fffffff'),
+                        simple = FALSE),
+    expect_equal(val1[[1]], c('86be8d12fffffff', '86be8d127ffffff')),
+    expect_is(val2, 'data.frame'),
+    expect_equal(names(val2), c('origin', 'destination', 'grid_path')),
+    expect_equal(dim(val2)[1], 3),
+    expect_is(val2$grid_path, 'list')
+  )
+)
