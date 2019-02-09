@@ -4,6 +4,7 @@
   * Added version requirement for V8.  
   * Replaced custom function `min_path()` with official version `grid_path()`, which wraps `h3Line` to find a path between 
     two addresses.
+  * Added custom function `h3_to_line()`, which converts a vector of H3 addresses to `sfc_LINESTRING`.
 
 # v. 0.8
 
