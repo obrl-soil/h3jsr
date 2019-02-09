@@ -1,3 +1,11 @@
+# v. 0.9
+
+  * Update to h3-js 3.4.2 and V8 2.0 - don't need babel-polyfill any more so the package is a lot smaller now \\o/  
+
+# v. 0.8
+
+  * update to h3-js 3.3.0 and babel-polyfill 6.26.0
+
 # v. 0.7
 
   * Removed `nearest_neighbour()`, its fundamentally flawed. 
