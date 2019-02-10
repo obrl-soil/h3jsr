@@ -17,7 +17,7 @@ Imports:
     sf,
     tidyr,
     utils,
-    V8 (>= 2.0)
+    V8
 Suggests:
     covr,
     dplyr,

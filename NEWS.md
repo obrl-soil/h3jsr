@@ -1,7 +1,6 @@
 # v. 0.9
 
-  * Updated to h3-js 3.4.2 and V8 2.0 - don't need babel-polyfill any more so the package is a lot smaller now \\o/.
-  * Added version requirement for V8.  
+  * Updated to h3-js 3.4.2  
   * Replaced custom function `min_path()` with official version `grid_path()`, which wraps `h3Line` to find a path between 
     two addresses.
   * Added custom function `h3_to_line()`, which converts a vector of H3 addresses to `sfc_LINESTRING`.
