@@ -4,7 +4,7 @@ test_that(
   'are_neighbours returns correctly',
   c(
     expect_error(are_neighbours('whereami', 'whoami')),
-    expect_error(are_neighbours('whereami')),
+    expect_error(are_neighbours('86be8d12fffffff')),
     expect_error(are_neighbours('86be8d12fffffff',
                                 c('86be8d127ffffff', '86be8d107ffffff'))),
     val1 <- are_neighbours('86be8d12fffffff', '86be8d127ffffff'),
@@ -23,7 +23,7 @@ test_that(
   'get_udedge returns correctly',
   c(
     expect_error(get_udedge('whereami', 'whoami')),
-    expect_error(get_udedge('whereami')),
+    expect_error(get_udedge('86be8d12fffffff')),
     expect_error(get_udedge('86be8d12fffffff',
                             c('86be8d127ffffff', '86be8d107ffffff'))),
     val1 <- get_udedge('86be8d12fffffff', '86be8d127ffffff'),
@@ -56,7 +56,7 @@ test_that(
 test_that(
   'get_udorigin returns correctly',
   c(
-    expect_error(h3_get_udorigin('edgy')),
+    expect_error(get_udorigin('edgy')),
     val1 <- get_udorigin('166be8d12fffffff'),
     val2 <- get_udorigin('166be8d12fffffff', simple = FALSE),
     expect_equal(val1, '86be8d12fffffff'),

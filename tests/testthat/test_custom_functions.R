@@ -47,7 +47,7 @@ test_that(
     expect_is(val2, 'sf'),
     expect_equal(ncol(val2), 3),
     expect_equal(nrow(val2), 6),
-    ins <- sf::st_set_geometry(val2, NULL),
+    ins <- sf::st_set_geometry(val2, NULL), # wierd behav when lib() missing
     expect_identical(ins, paths_df),
     expect_is(val2$geometry, 'sfc_LINESTRING')
     )

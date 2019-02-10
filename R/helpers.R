@@ -26,18 +26,18 @@ prep_for_pt2h3.sf <-  function(input = NULL) {
   # just pull geom, check and transform
   pts <- sf::st_geometry(input)
 
-  if(!methods::is(pts, 'sfc_POINT')) {
+  if(!inherits(pts, 'sfc_POINT')) {
     stop('Please supply point geometry.')
-  }
-
-  if(sf::st_crs(pts)$epsg != 4326) {
-    message('Data has been transformed to EPSG:4326.')
-    pts <- sf::st_transform(pts, 4326)
   }
 
   if(is.na(sf::st_crs(pts))) {
     message('Input CRS missing, assuming EPSG:4326.')
     pts <- sf::st_set_crs(pts, 4326)
+  }
+
+  if(sf::st_crs(pts)$epsg != 4326) {
+    message('Data has been transformed to EPSG:4326.')
+    pts <- sf::st_transform(pts, 4326)
   }
   pts
 }
@@ -49,8 +49,13 @@ prep_for_pt2h3.sf <-  function(input = NULL) {
 #'
 prep_for_pt2h3.sfc <-  function(input = NULL) {
   # just check and transform
-  if(!methods::is(input, 'sfc_POINT')) {
+  if(!inherits(input, 'sfc_POINT')) {
     stop('Please supply point geometry.')
+  }
+
+  if(is.na(sf::st_crs(input))) {
+    message('Input CRS missing, assuming EPSG:4326.')
+    input <- sf::st_set_crs(input, 4326)
   }
 
   if(sf::st_crs(input)$epsg != 4326) {
@@ -58,10 +63,6 @@ prep_for_pt2h3.sfc <-  function(input = NULL) {
     input <- sf::st_transform(input, 4326)
   }
 
-  if(is.na(sf::st_crs(input))) {
-    message('Input CRS missing, assuming EPSG:4326.')
-    input <- sf::st_set_crs(input, 4326)
-  }
   input
 }
 
@@ -74,7 +75,7 @@ prep_for_pt2h3.sfg <-  function(input = NULL) {
   # just sfc-ise, check geom type and transform
   pts <- sf::st_sfc(input)
 
-  if(!methods::is(pts, 'sfc_POINT')) {
+  if(!inherits(pts, 'sfc_POINT')) {
     stop('Please supply point geometry.')
   }
 
@@ -91,11 +92,8 @@ prep_for_pt2h3.matrix <-  function(input = NULL) {
   # assumes input matrix has x, y coords in col 1, 2
   # assumes coords are in 4326
   # cast to sfc_POINT and return
-  if(dim(input)[2] < 2 ) {
-    stop('Please supply a matrix with x, y coordinates in the first two columns.')
-  }
+  message('Assuming columns 1 and 2 contain x, y coordinates in EPSG:4326')
   pts <- data.frame('x' = input[, 1], 'y' = input[, 2])
-  message('CRS unknown, assuming EPSG:4326.')
   pts <- sf::st_as_sf(pts, coords = c(1, 2), crs = 4326)
   sf::st_geometry(pts)
 }
@@ -106,13 +104,10 @@ prep_for_pt2h3.matrix <-  function(input = NULL) {
 #' @export
 #'
 prep_for_pt2h3.data.frame <-  function(input = NULL) {
-  # assumes input matrix has x, y coords in col 1, 2
+  # assumes input df has x, y coords in col 1, 2
   # assumes coords are in 4326
   # cast to sfc_POINT and return
-  if(dim(input)[2] < 2 ) {
-    stop('Please supply a data frame with x, y coordinates in the first two columns.')
-  }
-  message('CRS unknown, assuming EPSG:4326.')
+  message('Assuming columns 1 and 2 contain x, y coordinates in EPSG:4326')
   pts <- sf::st_as_sf(input, coords = c(1, 2), crs = 4326)
   sf::st_geometry(pts)
 }

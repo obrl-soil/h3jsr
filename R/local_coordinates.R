@@ -72,7 +72,7 @@ get_local_ij <- function(origin = NULL, destination = NULL, simple = TRUE) {
     out <- cbind('origin' = out$origin,
                  'destination' = out$destination,
                  out$local_ij)
-    out <- sf::st_as_sf(out, coords = c('i', 'j'))
+    out <- sf::st_as_sf(out, coords = c('i', 'j')) # note no crs applicable
     out
   }
 
@@ -117,10 +117,6 @@ get_local_h3 <- function(origin = NULL, i = NULL, j = NULL, simple = TRUE) {
 
   if(any(is_valid(origin)) == FALSE) {
     stop('Invalid H3 address detected.')
-  }
-
-  if(any(is.null(origin))) {
-    stop('Missing required input.')
   }
 
   sesh$assign('evalThis', data.frame(origin, i, j, stringsAsFactors = FALSE))

@@ -325,7 +325,8 @@ polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
 set_to_multipolygon <- function(h3_addresses = NULL, simple = TRUE) {
 
   # in case a list output from another function is supplied
-  h3_addresses <- unlist(h3_addresses, use.names = FALSE)
+  # unique prevents Wierd Geometry from being created
+  h3_addresses <- unique(unlist(h3_addresses, use.names = FALSE))
 
   if(any(is_valid(h3_addresses)) == FALSE) {
     stop('Invalid H3 address detected.')
@@ -340,14 +341,12 @@ set_to_multipolygon <- function(h3_addresses = NULL, simple = TRUE) {
   # sesh$eval('console.log(evalThis.length);')
   sesh$eval('var geometry = h3.h3SetToMultiPolygon(evalThis, formatAsGeoJson = true);')
   # sesh$eval('console.log(JSON.stringify(geometry));')
-  # Output still isn't proper geoJSON, just the .coordinates. Where input
-  # addresses overlap at the same resolution, invalid polygons are output.
-  # However, overlaps at different resolutions are fine.
+  # Output still isn't proper geoJSON, just the .coordinates.
   sesh$eval('var geom_out = JSON.stringify({type: "MultiPolygon", coordinates: geometry});')
   geometry <- geojsonsf::geojson_sfc(sesh$get('geom_out'))
 
   # graceful fail if geom is bad
-  if(any(is.na(sf::st_is_valid(geometry)))) {
+  if(any(sf::st_is_valid(geometry) == FALSE)) {
     stop('An invalid geometry was returned from this set of addresses.')
   }
 

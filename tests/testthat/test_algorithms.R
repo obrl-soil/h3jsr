@@ -121,10 +121,13 @@ test_that(
     val <- get_kring(h3_address = val, ring_size = 2),
     val1 <- set_to_multipolygon(unlist(val)),
     val2 <- set_to_multipolygon(unlist(val), simple = FALSE),
+    val3 <- set_to_multipolygon(val[[1]][1]),
     expect_equal(val1, set_to_multipolygon(val)),
     expect_is(val1, 'sfc'),
     expect_is(val2, 'sf'),
+    expect_is(val3, 'sfc'),
     expect_is(val2$h3_addresses[[1]], 'character')
+    # bad geom bit needs handling another way, another time
     )
 )
 
@@ -135,9 +138,10 @@ test_that(
     nc1 <- nc[1, ],
     nc1 <- sf::st_cast(nc1, 'POLYGON'),
     fillers <- polyfill(geometry = nc1, res = 6),
-    expect_error(compact(c('whereami', 'whoami'), res = 13)),
+    expect_error(compact(c('whereami', 'whoami'))),
     val1 <- compact(fillers),
     val2 <- compact(fillers, simple = FALSE),
+    val3 <- compact(fillers[[1]][1]),
     expect_is(val1, 'character'),
     expect_equal(length(val1), 15L),
     expect_is(val2, 'list'),
@@ -145,7 +149,8 @@ test_that(
     expect_equal(length(val2[[1]]), 33L),
     expect_is(val2[[1]], 'character'),
     expect_equal(length(val2[[2]]), 15L),
-    expect_is(val2[[2]], 'character')
+    expect_is(val2[[2]], 'character'),
+    expect_equal(val3, fillers[[1]][1])
   )
 )
 
@@ -161,12 +166,15 @@ test_that(
     expect_error(uncompact(fillers, res = 25)),
     val1 <- uncompact(fillers, res = 7),
     val2 <- uncompact(fillers, res = 7, simple = FALSE),
+    val3 <- uncompact(fillers[[1]][1], res = 7, simple = FALSE),
     expect_is(val1, 'character'),
     expect_equal(length(val1), 231L),
     expect_equal(length(val2[[1]]), 33L),
     expect_is(val2[[1]], 'character'),
     expect_equal(length(val2[[2]]), 231L),
-    expect_is(val2[[2]], 'character')
+    expect_is(val2[[2]], 'character'),
+    expect_equal(length(val3[[2]]), 7L),
+    expect_is(val3[[2]], 'character')
   )
 )
 

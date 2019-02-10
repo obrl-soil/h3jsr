@@ -4,7 +4,7 @@ test_that(
   'get_local_ij returns correctly',
   c(
     expect_error(get_local_ij('whereami', 'whoami')),
-    expect_error(get_local_ij('whereami')),
+    expect_error(get_local_ij('86be8d12fffffff')),
     expect_error(get_local_ij('86be8d12fffffff',
                                 c('86be8d127ffffff', '86be8d107ffffff'))),
     val1 <- get_local_ij('86be8d12fffffff', '86be8d127ffffff'),
@@ -23,7 +23,7 @@ test_that(
   'get_local_h3 returns correctly',
   c(
     expect_error(get_local_h3('whereami', -87L, 36L)),
-    expect_error(get_local_h3('whereami')),
+    expect_error(get_local_h3('86be8d12fffffff')),
     val1 <- get_local_h3('86be8d12fffffff', -87L, 36L),
     val2 <- get_local_h3('86be8d12fffffff', -87L, 36L, simple = FALSE),
     expect_is(val1, 'character'),

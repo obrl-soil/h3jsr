@@ -114,14 +114,14 @@ test_that('prep_for_pt2h3 works consistently across methods',
           ))
 
 test_that('point_to_h3 with various options',
-          c(library(sf),
-            bpts <- list(c(153.02350, -27.46892),
+          c(bpts <- list(c(153.02350, -27.46892),
                          c(153.02456, -27.47071),
                          c(153.02245, -27.47078)),
             bpts <- lapply(bpts, sf::st_point),
             bpts_sfc <- sf::st_sfc(bpts, crs = 4326),
             bpts_sf <- sf::st_sf('geometry' = bpts_sfc),
             # several points 1 res
+            expect_error(point_to_h3(bpts_sfc, res = 25)),
             val1 <- point_to_h3(bpts_sfc, res = 11),
             val2 <- point_to_h3(bpts_sfc, res = 11, simple = FALSE),
             expect_equal(val1[1], '8bbe8d12acadfff'),
