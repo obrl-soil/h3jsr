@@ -1,6 +1,7 @@
 # v. 1.0
 
   * Updated to h3-js 3.5.0, now using official browser bundle
+  * Added `get_faces()`, which returns the icosahedron face(s) for a given H3 address.
 
 # v. 0.9
 
@@ -11,7 +12,7 @@
 
 # v. 0.8
 
-  * update to h3-js 3.3.0 and babel-polyfill 6.26.0
+  * Updated to h3-js 3.3.0 and babel-polyfill 6.26.0
 
 # v. 0.7
 

@@ -139,6 +139,41 @@ get_base_cell <- function(h3_address = NULL, simple = TRUE) {
 
 }
 
+#' get the icosahedron faces of an H3 address
+#'
+#' This function returns the indices of all icosahedron faces intersected by a
+#' given H3 index.
+#' @inheritParams is_valid
+#' @return By default, an integer vector of length(h3_address), ranging from 1
+#'   to 20. If `simple = FALSE`, a data.frame with a column of H3 addresses and
+#'   a list-column of faces.
+#' @examples
+#' # Which faces do this h3 address intersect?
+#' get_faces(h3_address = '8abe8d12acaffff')
+#' @import V8
+#' @export
+#'
+get_faces <- function(h3_address = NULL, simple = TRUE) {
+
+  if(any(is_valid(h3_address)) == FALSE) {
+    stop('Invalid H3 address detected.')
+  }
+
+  sesh$assign('evalThis', data.frame(h3_address, stringsAsFactors = FALSE))
+
+  # for debug:
+  # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
+  # sesh$eval('console.log(JSON.stringify(h3.h3GetFaces(evalThis[0].h3_address)));')
+  sesh$eval('for (var i = 0; i < evalThis.length; i++) {
+          evalThis[i].h3_faces = h3.h3GetFaces(evalThis[i].h3_address);
+            };')
+  if(simple == TRUE) {
+    unlist(sesh$get('evalThis')$h3_faces)
+  } else {
+    sesh$get('evalThis')
+  }
+}
+
 #' get the resolution of an H3 address
 #'
 #' This function returns an H3 address' resolution level.
@@ -227,7 +262,7 @@ point_to_h3 <- function(input = NULL, res = NULL, simple = TRUE) {
 
   sesh$assign('evalThis', eval_this, digits = NA)
   # sesh$eval('console.log(evalThis[0].X);')
-  # sesh$eval('console.log(JSON.stringify(h3.geoToH3(evalThis[0].Y, evalThis[0].X, evalThis[0].res));')
+  # sesh$eval('console.log(JSON.stringify(h3.geoToH3(evalThis[0].Y, evalThis[0].X, evalThis[0].res)));')
   sesh$eval('var h3_address = [];
             for (var i = 0; i < evalThis.length; i++) {
               h3_address[i] = h3.geoToH3(evalThis[i].Y, evalThis[i].X, evalThis[i].h3_res);

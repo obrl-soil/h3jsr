@@ -57,6 +57,19 @@ test_that(
 )
 
 test_that(
+  'get_face returns correctly',
+  c(
+    expect_error(get_faces(h3_address = 'whereami')),
+    val1 <- get_faces(h3_address = '8abe8d12acaffff'),
+    val2 <- get_faces(h3_address = '8abe8d12acaffff', simple = FALSE),
+    expect_equal(val1, 15L),
+    expect_is(val2, 'data.frame'),
+    expect_is(val2$h3_faces, 'list'),
+    expect_equal(val2$h3_faces[[1]], 15L)
+  )
+)
+
+test_that(
   'get_res returns correctly',
   c(
     expect_error(get_res(h3_address = 'whereami')),
