@@ -1,3 +1,7 @@
+# v. 1.0
+
+  * Updated to h3-js 3.5.0, now using official browser bundle
+
 # v. 0.9
 
   * Updated to h3-js 3.4.2  
