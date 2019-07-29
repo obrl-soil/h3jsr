@@ -4,7 +4,7 @@ author: "Lauren O'Brien"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Introduction to h3jsr}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -107,6 +107,12 @@ The number of the base (resolution-0) cell for any H3 address can be retrieved w
 
 ```{r 'getb'}
 get_base_cell(h3_address = '8abe8d12acaffff')
+```
+
+The triangular icosahedron face (or faces) that a cell belongs to can also be retrieved with `get_faces()`. These run 1-20, North to South.
+
+```{r 'getf'}
+get_faces(h3_address = '8abe8d12acaffff')
 ```
 
 Lastly, the resolution of an H3 address can be retrieved with `get_res()`. 
