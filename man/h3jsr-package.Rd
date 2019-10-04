@@ -10,6 +10,6 @@ This package uses [`V8`](https://github.com/jeroen/v8) to access the
 [javascript bindings for Uber's H3 library](https://github.com/uber/h3-js).
 }
 \author{
-\strong{Maintainer}: Lauren O'Brien \email{obrlsoilau@gmail.com}
+\strong{Maintainer}: Lauren O'Brien \email{obrlsoilau@gmail.com} (0000-0002-7336-2171)
 
 }
