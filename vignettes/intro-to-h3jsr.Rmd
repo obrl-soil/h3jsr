@@ -261,7 +261,59 @@ ggplot() +
 
 ## Unidirectional edges
 
-TBD
+To check whether two H3 addresses share an edge, use `are_neighbours()`:
+
+```{r 'neigbs', fig.height=3, fig.width=3}
+# Are the following addresses neighbours?
+are_neighbours(origin = '86be8d12fffffff', destination = '86be8d127ffffff')
+
+are_neighbours(origin = '86be8d12fffffff', destination = '86be8d147ffffff')
+
+ggplot() +
+  geom_sf(data = h3_to_polygon(c('86be8d12fffffff')),
+          fill = c('red'), alpha =  0.5) +
+  geom_sf(data = h3_to_polygon(c('86be8d127ffffff')),
+          fill = c('blue'), alpha =  0.5) +  
+    geom_sf(data = h3_to_polygon(c('86be8d147ffffff')),
+          fill = c('green'), alpha =  0.5) +  
+  theme_void()
+```
+
+The H3 system can also generate addresses for hex edges. To get the address representing the edge between to adjacent H3 addresses, use `get_udedge()`. Note that the resultant address looks a little different, and has its own validity checking function, `is_valid_edge()`:
+
+```{r 'udg'}
+# Get me the edge between these two addresses
+get_udedge(origin = '86be8d12fffffff', destination = '86be8d127ffffff')
+
+is_valid_edge('166be8d12fffffff')
+
+# not neighbours:
+get_udedge(origin = '86be8d12fffffff', destination = '86be8d147ffffff')
+```
+
+The edge address can also be used to retrieve its origin and destination hex addresses, separately or together:
+
+```{r 'udg2'}
+get_udorigin(h3_edge = '166be8d12fffffff')
+
+get_uddest(h3_edge = '166be8d12fffffff')
+
+get_udends(h3_edge = '166be8d12fffffff')
+```
+
+To get all the edges of a given H3 address, use `get_udedges()`. Edges can be converted to `sfc_LINESTRING` geometries with `udedge_to_line()`:
+
+```{r 'edges', fig.height=3, fig.width=3}
+get_udedges(h3_address = '86be8d12fffffff')
+
+ggplot() +
+  geom_sf(data = h3_to_polygon('86be8d12fffffff'), col = NA) +
+  geom_sf(data = udedge_to_line(get_udedges(h3_address = '86be8d12fffffff')[[1]]),
+          aes(col = seq(6)), size = 2, show.legend = FALSE) +
+  scale_color_viridis_c() +
+  theme_void()
+
+```
 
 ## Local coordinates
 
