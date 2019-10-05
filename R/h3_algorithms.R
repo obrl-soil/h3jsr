@@ -89,6 +89,45 @@ get_children <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 
 }
 
+#' get central child H3 address
+#'
+#' This function returns the central child of a particular H3 address at the
+#' requested resolution.
+#' @inheritParams get_parent
+#' @return By default, a list of length(h3_address). Each list element contains
+#'   a vector of H3 addresses.
+#' @examples
+#' # What is the central child of this resolution 6 address at resolution 8?
+#' get_centerchild(h3_address = '86be8d12fffffff', res = 8)
+#' @import V8
+#' @export
+#'
+get_centerchild <- function(h3_address = NULL, res = NULL, simple = TRUE) {
+
+  if(any(is_valid(h3_address)) == FALSE) {
+    stop('Invalid H3 address detected.')
+  }
+  if(!any(res %in% seq(0, 15))) {
+    stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
+  }
+
+  eval_this <- data.frame(h3_address, 'h3_res' = res, stringsAsFactors = FALSE)
+  sesh$assign('evalThis', eval_this)
+
+  # for debug:
+  # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
+  # sesh$eval('console.log(JSON.stringify(h3.h3ToCenterChild(evalThis[0].h3_address, evalThis[0].res)));')
+  sesh$eval('for (var i = 0; i < evalThis.length; i++) {
+            evalThis[i].h3_centerchild = h3.h3ToCenterChild(evalThis[i].h3_address, evalThis[i].h3_res);
+            };')
+  if(simple == TRUE) {
+    sesh$get('evalThis')$h3_centerchild
+  } else {
+    sesh$get('evalThis')
+  }
+
+}
+
 #' Get nearby H3 addresses
 #'
 #' This function returns all the H3 addresses within a specified number of

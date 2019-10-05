@@ -1,6 +1,8 @@
 # v. 1.1
 
   * Updated to h3-js 3.6.1
+  * Added `get_centerchild()`, which will return the central child of a hexagon at a given resolution.
+  * Added `get_pentagons()`, which will return the twelve pentagon indexes at a given resolution.  
 
 # v. 1.0
 

@@ -63,15 +63,14 @@ is_rc3(h3_address = '8abe8d12acaffff')
 get_base_cell(h3_address = '8abe8d12acaffff')
 
 # What is the hexagon over the Brisbane Town Hall at resolution 10?
-brisbane_hex_10 <- h3_to_polygon(h3_address = '8abe8d12acaffff', simple = FALSE)
+brisbane_hex_10 <- h3_to_polygon(input = '8abe8d12acaffff', simple = FALSE)
 
 # if you're feeling fancy,
 # point_to_h3(bth, res = seq(10,15)) %>%
 #   unlist() %>%
 #   h3_to_polygon(., simple = FALSE) %>%
 #   mapview::mapview()
-#  
-
+  
 ```
 
 Props to Joel Gombin, who's package [`concaveman`](https://github.com/joelgombin/concaveman) provided me with the implementation inspo.

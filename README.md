@@ -1,12 +1,20 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-[![Travis-CI Build Status](https://travis-ci.com/obrl-soil/h3jsr.svg?branch=master)](https://travis-ci.com/obrl-soil/h3jsr) [![Coverage Status](https://img.shields.io/codecov/c/github/obrl-soil/h3jsr/master.svg)](https://codecov.io/github/obrl-soil/h3jsr?branch=master)
+
+[![Travis-CI Build
+Status](https://travis-ci.com/obrl-soil/h3jsr.svg?branch=master)](https://travis-ci.com/obrl-soil/h3jsr)
+[![Coverage
+Status](https://img.shields.io/codecov/c/github/obrl-soil/h3jsr/master.svg)](https://codecov.io/github/obrl-soil/h3jsr?branch=master)
 
 h3jsr
 =====
 
-h3jsr provides access to [Uber's H3 library](https://github.com/uber/h3) via its [javascript transpile](https://github.com/uber/h3-js), using the magical power of [`V8`](https://github.com/jeroen/v8).
+h3jsr provides access to [Uber’s H3 library](https://github.com/uber/h3)
+via its [javascript transpile](https://github.com/uber/h3-js), using the
+magical power of [`V8`](https://github.com/jeroen/v8).
 
-H3 is a hexagonal hierarchical geospatial indexing system. Details about its structure and use cases [can be found here](https://uber.github.io/h3/#/documentation/overview/use-cases).
+H3 is a hexagonal hierarchical geospatial indexing system. Details about
+its structure and use cases [can be found
+here](https://uber.github.io/h3/#/documentation/overview/use-cases).
 
 Installation
 ------------
@@ -32,16 +40,10 @@ point_to_h3(bth, res = 15)
 
 # where is it at several resolutions?
 point_to_h3(bth, res = seq(10, 15), simple = FALSE)
-#> Simple feature collection with 1 feature and 6 fields
-#> geometry type:  POINT
-#> dimension:      XY
-#> bbox:           xmin: 153.0235 ymin: -27.46892 xmax: 153.0235 ymax: -27.46892
-#> epsg (SRID):    4326
-#> proj4string:    +proj=longlat +datum=WGS84 +no_defs
 #>   h3_resolution_10 h3_resolution_11 h3_resolution_12 h3_resolution_13
 #> 1  8abe8d12acaffff  8bbe8d12acadfff  8cbe8d12acad3ff  8dbe8d12acad2ff
-#>   h3_resolution_14 h3_resolution_15                   geometry
-#> 1  8ebe8d12acad2f7  8fbe8d12acad2f3 POINT (153.0235 -27.46892)
+#>   h3_resolution_14 h3_resolution_15
+#> 1  8ebe8d12acad2f7  8fbe8d12acad2f3
 
 # Where is the center of the hexagon over the Brisbane Town 
 # Hall at resolution 10?
@@ -72,16 +74,18 @@ get_base_cell(h3_address = '8abe8d12acaffff')
 #> [1] 95
 
 # What is the hexagon over the Brisbane Town Hall at resolution 10?
-brisbane_hex_10 <- h3_to_polygon(h3_address = '8abe8d12acaffff', simple = FALSE)
+brisbane_hex_10 <- h3_to_polygon(input = '8abe8d12acaffff', simple = FALSE)
 
 # if you're feeling fancy,
 # point_to_h3(bth, res = seq(10,15)) %>%
 #   unlist() %>%
 #   h3_to_polygon(., simple = FALSE) %>%
 #   mapview::mapview()
-#  
+  
 ```
 
-Props to Joel Gombin, who's package [`concaveman`](https://github.com/joelgombin/concaveman) provided me with the implementation inspo.
+Props to Joel Gombin, who’s package
+[`concaveman`](https://github.com/joelgombin/concaveman) provided me
+with the implementation inspo.
 
 ------------------------------------------------------------------------

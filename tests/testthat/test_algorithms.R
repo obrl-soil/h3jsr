@@ -36,6 +36,25 @@ test_that(
 )
 
 test_that(
+  'get_centerchild returns correctly',
+  c(
+    expect_error(get_centerchild(h3_address = 'whereami', res = 12)),
+    expect_error(get_centerchild(h3_address = '8abe8d12acaffff', res = 20)),
+    val1 <- get_centerchild(h3_address = '86be8d12fffffff', res = 8),
+    val2 <- get_centerchild(h3_address = '86be8d12fffffff', res = 8,
+                            simple = FALSE),
+    expect_equal(length(val1[[1]]), 1L),
+    expect_equal(val1[[1]][1], '88be8d1281fffff'),
+    expect_is(val2, 'data.frame'),
+    expect_is(val2$h3_address, 'character'),
+    expect_is(val2$h3_res, 'integer'),
+    expect_equal(length(val2$h3_centerchild[[1]]), 1L),
+    expect_equal(val2$h3_centerchild[[1]][1], '88be8d1281fffff')
+
+  )
+)
+
+test_that(
   'get_kring returns correctly',
   c(
     expect_error(get_kring(h3_address = 'whereami', ring_size = 2)),

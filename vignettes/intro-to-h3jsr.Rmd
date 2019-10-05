@@ -41,7 +41,7 @@ h3jsr connects Uber's H3 geospatial library to R, via its transpiled JavaScript 
 
 ## Core Functions
 
-Eight core functions exist - three for translating spatial data into and out of the H3 system, and five information utilities, including an address validity checker.
+Nine core functions exist - three for translating spatial data into and out of the H3 system, and six information utilities, including an address validity checker.
 
 `point_to_h3()` takes in `sf`-style point data and will return the address each point falls into. You can extract addresses for one resolution or many. This function will also accept a matrix or data frame as input, but this will only work if columns 1 and 2 contain WGS84 longitude and latitude values, respectively.
 
@@ -130,9 +130,31 @@ As the H3 grid system is hierarchical, addresses have parents and children. A pa
 get_parent(h3_address = '8abe8d12acaffff', res = 6)
 # input is res 6:
 get_children(h3_address = '86be8d12fffffff', res = 7)
+
+ggplot() +
+  geom_sf(data = h3_to_polygon('86be8d12fffffff'), fill = NA) +
+  geom_sf(data = h3_to_polygon(get_children(h3_address = '86be8d12fffffff',
+                                            res = 7)[[1]]),
+          fill = 'red', alpha = 0.5 ) +
+  theme_void()
 ```
 
 The number of addresses returned for each request is `7 ^ (parent_res - child_res)`, so jumping three levels will return 343 addresses for a single input, and that's about 41 kb.
+
+To return only the central child for a given address, use `get_centerchild()`:
+
+```{r 'cc'}
+# input is res 6:
+get_centerchild(h3_address = '86be8d12fffffff', res = 7)
+
+ggplot() +
+  geom_sf(data = h3_to_polygon('86be8d12fffffff'), fill = NA) +
+  geom_sf(data = h3_to_polygon(get_centerchild('86be8d12fffffff', 7)),
+          fill = 'red') +
+  geom_sf(data = h3_to_polygon(get_centerchild('86be8d12fffffff', 8)),
+          fill = 'blue') +  
+  theme_void()
+```
 
 Within the same resolution, addresses within *n* 'steps' from a central address (a 'patch' of hexagons) can be retrieved with `get_kring()` or `get_kring_list()`. The latter function returns an output where addresses are listed separately for each step away from the input. The input address is included in the output.
 
@@ -161,9 +183,8 @@ donut_sf <- set_to_multipolygon(donut, simple = FALSE)
 ggplot() +
   geom_sf(data = patch_sf, alpha = 0.5) +
   theme_minimal() +
-  geom_sf(data = donut_sf, alpha = 0.5, fill = 'palegreen') +
-  coord_sf()
-
+  geom_sf(data = donut_sf, alpha = 0.5, fill = 'red') +
+  theme_void()
 ```
 
 But it may be more interesting to use `h3_to_polygon()`
@@ -176,13 +197,13 @@ ggplot(patch_singles) +
   geom_sf(aes(fill = 1:nrow(patch_singles)), show.legend = FALSE) +
   scale_fill_viridis_c() +
   theme_minimal() +
-  coord_sf()
+  theme_void()
+
 ggplot(donut_singles) +
   geom_sf(aes(fill = 1:nrow(donut_singles)), show.legend = FALSE) +
   scale_fill_viridis_c() +
   theme_minimal() +
-  coord_sf()
-
+  theme_void()
 ```
 
 `polyfill()` will return all the h3 addresses whose centers intersect a given polygon. Multipolygons are supported as well.
