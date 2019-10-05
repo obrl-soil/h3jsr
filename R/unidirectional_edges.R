@@ -24,7 +24,7 @@
 #'
 are_neighbours <- function(origin = NULL, destination = NULL, simple = TRUE) {
 
-  if(any(is_valid(c(origin, destination))) == FALSE) {
+  if(any(is_valid(c(origin, destination)) == FALSE)) {
     stop('Invalid H3 address detected.')
   }
 
@@ -71,7 +71,7 @@ are_neighbours <- function(origin = NULL, destination = NULL, simple = TRUE) {
 #'
 get_udedge <- function(origin = NULL, destination = NULL, simple = TRUE) {
 
-  if(any(is_valid(c(origin, destination))) == FALSE) {
+  if(any(is_valid(c(origin, destination)) == FALSE)) {
     stop('Invalid H3 address detected.')
   }
 
