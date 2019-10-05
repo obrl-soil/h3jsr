@@ -230,14 +230,10 @@ get_udends <- function(h3_edge = NULL, simple = TRUE) {
             evalThis[i].h3_ends = h3.getH3IndexesFromUnidirectionalEdge(evalThis[i].h3_edge);
             };')
 
-  pairs <- sesh$get('evalThis')
-  pmat <- matrix(unlist(pairs$h3_ends), ncol = 2,
-                 dimnames = list(NULL, c('origin', 'destination')))
-
   if(simple == TRUE) {
-    pmat
+    sesh$get('evalThis')$h3_ends
   } else {
-    data.frame(cbind('h3_edge' = pairs$h3_edge, pmat), stringsAsFactors = FALSE)
+    sesh$get('evalThis')
   }
 }
 

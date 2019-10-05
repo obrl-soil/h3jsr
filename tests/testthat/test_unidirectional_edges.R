@@ -85,13 +85,12 @@ test_that(
     expect_error(get_udends('edgy')),
     val1 <- get_udends('166be8d12fffffff'),
     val2 <- get_udends('166be8d12fffffff', simple = FALSE),
-    expect_is(val1, 'matrix'),
-    expect_equal(val1[1], '86be8d12fffffff'),
-    expect_equal(val1[2], '86be8d127ffffff'),
+    expect_is(val1, 'list'),
+    expect_equal(val1[[1]][1], '86be8d12fffffff'),
     expect_is(val2, 'data.frame'),
-    expect_equal(names(val2), c('h3_edge', 'origin', 'destination')),
-    expect_equal(val2$origin, '86be8d12fffffff'),
-    expect_equal(val2$destination, '86be8d127ffffff')
+    expect_equal(names(val2), c('h3_edge', 'h3_ends')),
+    expect_is(val2$h3_ends, 'list' ),
+    expect_equal(val2$h3_ends[[1]][1], '86be8d12fffffff')
   )
 )
 
