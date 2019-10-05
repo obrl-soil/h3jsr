@@ -70,6 +70,23 @@ test_that(
 )
 
 test_that(
+  'get_pentagons returns correctly',
+  c(
+    expect_error(get_pentagons(res = Inf)),
+    val1 <- get_pentagons(res = 8),
+    val2 <- get_pentagons(res = c(8, 9), simple = FALSE),
+    expect_is(val1, 'list'),
+    expect_is(val2, 'data.frame'),
+    expect_length(val1, 1L),
+    expect_length(val1[[1]], 12L),
+    expect_true("8808000001fffff" %in% val1[[1]]),
+    expect_is(val2$h3_pentagons, 'list'),
+    expect_length(val2$h3_pentagons, 2L),
+    expect_length(val2$h3_pentagons[[1]], 12L)
+  )
+)
+
+test_that(
   'get_res returns correctly',
   c(
     expect_error(get_res(h3_address = 'whereami')),

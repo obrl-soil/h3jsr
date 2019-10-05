@@ -174,6 +174,45 @@ get_faces <- function(h3_address = NULL, simple = TRUE) {
   }
 }
 
+#' get the pentagon indices for an H3 resolution
+#'
+#' This function returns the indices of all pentagons occurring at a
+#' given H3 resolution.
+#' @param res Integer; Desired H3 resolution. See
+#'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
+#'   allowable values and related dimensions.
+#' @param simple Logical; whether to return outputs as list of outputs (TRUE) or
+#'   data frame with both inputs and outputs.
+#' @return By default, a list of length(h3_address). Each list element contains
+#'   a vector of twelve H3 addresses. If simple = FALSE, a data frame with a
+#'   column of input resolutions and a list-column of pentagon indexes for each.
+#' @examples
+#' # Which indexes are pentagons at resolution 7?
+#' get_pentagons(res = 7)
+#' @import V8
+#' @export
+#'
+get_pentagons <- function(res = NULL, simple = TRUE) {
+
+  if(!any(res %in% seq(0, 15))) {
+    stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
+  }
+
+  sesh$assign('evalThis', data.frame(res, stringsAsFactors = FALSE))
+
+  # for debug:
+  # sesh$eval('console.log(JSON.stringify(evalThis))')
+  # sesh$eval('console.log(JSON.stringify(h3.getPentagonIndexes(evalThis[0].res)));')
+  sesh$eval('for (var i = 0; i < evalThis.length; i++) {
+          evalThis[i].h3_pentagons = h3.getPentagonIndexes(evalThis[i].res);
+            };')
+  if(simple == TRUE) {
+    sesh$get('evalThis')$h3_pentagons
+  } else {
+    sesh$get('evalThis')
+  }
+}
+
 #' get the resolution of an H3 address
 #'
 #' This function returns an H3 address' resolution level.

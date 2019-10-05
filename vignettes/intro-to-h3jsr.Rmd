@@ -90,11 +90,17 @@ is_valid(h3_address = '8abe8d12acaffff')
 is_valid(h3_address = '8abe8d12aca')
 ```
 
-You can check whether an address refers to one of the pentagons that occur on icosahedron corners at each resolution with `is_pentagon()`. This is relevant where subsequent area or distance calculations will be carried out.
+You can check whether an address refers to one of the pentagons that occur on icosahedron corners at each resolution with `is_pentagon()`. This is relevant where subsequent area or distance calculations will be carried out. All of the pentagon indices for a given resolution can be identified using `get_pentagons()`.
 
-```{r 'ispent'}
+```{r 'ispent', fig.height=3, fig.width=3}
 # is the following address a pentagon?
 is_pentagon(h3_address = '8abe8d12acaffff')
+
+get_pentagons(res = 8)
+
+ggplot() +
+  geom_sf(data = h3_to_polygon(get_pentagons(8)[[1]][1]), fill = NA) +
+  theme_void()
 ```
 
 `is_rc3()` checks whether an H3 address has a resolution with Class III orientation. This refers to the [orientation of the hex grid](https://uber.github.io/h3/#/documentation/core-library/coordinate-systems) relative to the next coarser resolution. 
@@ -125,7 +131,7 @@ get_res(h3_address = '8abe8d12acaffff')
 
 As the H3 grid system is hierarchical, addresses have parents and children. A parent address is the one that contains the given address at a coarser resolution. A child address is contained by the given address. Parents and children can be requested at any resolution above and below the input, respectively.
 
-```{r 'fam'}
+```{r 'fam', fig.height=3, fig.width=3}
 # input is res 10:
 get_parent(h3_address = '8abe8d12acaffff', res = 6)
 # input is res 6:
@@ -143,7 +149,7 @@ The number of addresses returned for each request is `7 ^ (parent_res - child_re
 
 To return only the central child for a given address, use `get_centerchild()`:
 
-```{r 'cc'}
+```{r 'cc', fig.height=3, fig.width=3}
 # input is res 6:
 get_centerchild(h3_address = '86be8d12fffffff', res = 7)
 
@@ -172,7 +178,7 @@ get_ring(h3_address = '86be8d12fffffff', ring_size = 2)
 
 These address lists can all be spatialised with `set_to_multipolygon()`, which returns the polygonised outline of a collection of H3 addresses.
 
-```{r 'stmp'}
+```{r 'stmp', fig.height=3, fig.width=3}
 patch <- get_kring(h3_address = '86be8d12fffffff', ring_size = 2)
 
 donut <- get_ring(h3_address = '86be8d12fffffff', ring_size = 5)
@@ -189,7 +195,7 @@ ggplot() +
 
 But it may be more interesting to use `h3_to_polygon()`
 
-```{r 'coolplot'}
+```{r 'coolplot', fig.height=3, fig.width=3}
 patch_singles <- h3_to_polygon(unlist(patch, use.names = FALSE), simple = FALSE)
 donut_singles <- h3_to_polygon(unlist(donut, use.names = FALSE), simple = FALSE)
 
