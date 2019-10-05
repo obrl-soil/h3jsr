@@ -5,7 +5,6 @@ r_packages:
   - devtools
   - covr
   - lwgeom
-before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
 before_install:
   - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
   - sudo apt-get --yes --force-yes update -qq
@@ -13,7 +12,3 @@ before_install:
 cache: packages
 after_success:
   - Rscript -e 'covr::codecov()'
-deploy:
-  provider: script
-  script: Rscript -e 'pkgdown::deploy_site_github()'
-  skip_cleanup: true
