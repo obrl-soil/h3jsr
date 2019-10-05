@@ -1,6 +1,6 @@
 destination: docs
 title: h3jsr
-url: http://obrl-soil.github.io/h3jsr
+url: http://obrl-soil.github.io/h3jsr/
 template:
   params:
     ganalytics: UA-108472319-4
