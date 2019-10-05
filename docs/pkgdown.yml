@@ -1,0 +1,9 @@
+pandoc: '2.6'
+pkgdown: 1.4.1
+pkgdown_sha: ~
+articles:
+  intro-to-h3jsr: intro-to-h3jsr.html
+urls:
+  reference: http://obrl-soil.github.io/h3jsr/reference
+  article: http://obrl-soil.github.io/h3jsr/articles
+
