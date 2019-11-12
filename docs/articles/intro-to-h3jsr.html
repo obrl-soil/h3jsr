@@ -10,7 +10,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to h3jsr">
+<script src="../pkgdown.js"></script><link href="../extra.css" rel="stylesheet">
+<meta property="og:title" content="Introduction to h3jsr">
 <meta property="og:description" content="">
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -37,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">h3jsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
       </span>
     </div>
 
@@ -84,7 +85,7 @@
       <h1>Introduction to h3jsr</h1>
                         <h4 class="author">Lauren O’Brien</h4>
             
-            <h4 class="date">2019-10-05</h4>
+            <h4 class="date">2019-11-12</h4>
       
       
       <div class="hidden name"><code>intro-to-h3jsr.Rmd</code></div>
@@ -105,8 +106,8 @@
 <p>h3jsr connects Uber’s H3 geospatial library to R, via its transpiled JavaScript implementation,<code>h3-js</code>. The library has extensive potential applications in network analysis, trip routing, and geospatial data aggregation. The wrapper functions provided are intended to interface well with the existing R-spatial ecosystem, particularly <code>sf</code>.</p>
 <ul>
 <li>Documentation for the core H3 library is at <a href="https://uber.github.io/h3/#/documentation/overview/introduction">H3’s github page</a>.</li>
-<li>The core library only understands WGS84 coordinates, so multiple projection support is limited. All spatial objects are returned in WGS84, and ideally should be supplied as such. Its always safer to do your own spatial transformations and verify the results. If spatial data in a coordinate system other than WGS84 is supplied, it is transformed using <code><a href="https://rdrr.io/pkg/sf/man/st_transform.html">sf::st_transform()</a></code> and a message is issued.</li>
-<li>For each function in <code>h3jsr</code>, default behaviour is to return data in as simple a structure as is practical, but there is always an option to return a more complex-object containing both input and output data, as appropriate for the function in question.</li>
+<li>The core library only understands WGS84 coordinates, so multiple projection support is limited. All spatial objects are returned in WGS84, and ideally should be supplied as such. It’s always safer to do your own spatial transformations and verify the results. If spatial data in a coordinate system other than WGS84 is supplied, it is transformed using <code><a href="https://rdrr.io/pkg/sf/man/st_transform.html">sf::st_transform()</a></code> and a message is issued.</li>
+<li>For each function in <code>h3jsr</code>, the default behaviour is to return data in as simple a structure as is practical, but there is always an option to return a more complex-object containing both input and output data, as appropriate for the function in question.</li>
 <li>This package uses <code>V8</code> to interface with <code>h3-js</code>. As such, a lot of the overhead for each function call is related to sending data to and from V8 via JSON conversion. Feeding large datasets in often gives faster results than one might expect from the toy examples below. Avoid using these functions in conjunction with e.g. <code><a href="https://rdrr.io/r/base/lapply.html">base::lapply</a></code> or <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map</a></code> on individual geometries!</li>
 </ul>
 </div>
