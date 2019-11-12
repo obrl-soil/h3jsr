@@ -1,3 +1,7 @@
+# v 1.1.1
+
+  * Updated to h3-js 3.6.2 - expect improvements to `polyfill()` behaviour
+
 # v. 1.1
 
   * Updated to h3-js 3.6.1

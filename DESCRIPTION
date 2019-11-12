@@ -1,8 +1,8 @@
 Package: h3jsr
 Type: Package
 Title: Access Uber's H3 library
-Version: 1.1
-Date: 2019-10-05
+Version: 1.1.1
+Date: 2019-11-12
 Authors@R: person("Lauren", "O'Brien", email = "obrlsoilau@gmail.com", role = c('aut', 'cre'), comment = c(ORCID = "0000-0002-7336-2171"))
 Description: This package uses 'V8' (https://github.com/jeroen/v8) to access the javascript transpile of Uber's H3 library (https://github.com/uber/h3-js).
 License: file LICENSE
