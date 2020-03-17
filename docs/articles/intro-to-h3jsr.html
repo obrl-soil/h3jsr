@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">h3jsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
       </span>
     </div>
 
@@ -85,7 +85,7 @@
       <h1>Introduction to h3jsr</h1>
                         <h4 class="author">Lauren O’Brien</h4>
             
-            <h4 class="date">2019-11-12</h4>
+            <h4 class="date">2020-03-17</h4>
       
       
       <div class="hidden name"><code>intro-to-h3jsr.Rmd</code></div>
@@ -163,14 +163,13 @@
 <a class="sourceLine" id="cb6-4" title="4"></a>
 <a class="sourceLine" id="cb6-5" title="5"><span class="kw"><a href="../reference/get_pentagons.html">get_pentagons</a></span>(<span class="dt">res =</span> <span class="dv">8</span>)</a>
 <a class="sourceLine" id="cb6-6" title="6"><span class="co">#&gt; [[1]]</span></a>
-<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt;  [1] "8808000001fffff" "881c000001fffff" "8830000001fffff"</span></a>
-<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt;  [4] "884c000001fffff" "8862000001fffff" "8874000001fffff"</span></a>
-<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt;  [7] "887e000001fffff" "8890000001fffff" "88a6000001fffff"</span></a>
-<a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt; [10] "88c2000001fffff" "88d6000001fffff" "88ea000001fffff"</span></a>
-<a class="sourceLine" id="cb6-11" title="11"></a>
-<a class="sourceLine" id="cb6-12" title="12"><span class="kw">ggplot</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-13" title="13"><span class="st">  </span><span class="kw">geom_sf</span>(<span class="dt">data =</span> <span class="kw"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span>(<span class="kw"><a href="../reference/get_pentagons.html">get_pentagons</a></span>(<span class="dv">8</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>]), <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb6-14" title="14"><span class="st">  </span><span class="kw">theme_void</span>()</a></code></pre></div>
+<a class="sourceLine" id="cb6-7" title="7"><span class="co">#&gt;  [1] "8808000001fffff" "881c000001fffff" "8830000001fffff" "884c000001fffff"</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="co">#&gt;  [5] "8862000001fffff" "8874000001fffff" "887e000001fffff" "8890000001fffff"</span></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="co">#&gt;  [9] "88a6000001fffff" "88c2000001fffff" "88d6000001fffff" "88ea000001fffff"</span></a>
+<a class="sourceLine" id="cb6-10" title="10"></a>
+<a class="sourceLine" id="cb6-11" title="11"><span class="kw">ggplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-12" title="12"><span class="st">  </span><span class="kw">geom_sf</span>(<span class="dt">data =</span> <span class="kw"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span>(<span class="kw"><a href="../reference/get_pentagons.html">get_pentagons</a></span>(<span class="dv">8</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>]), <span class="dt">fill =</span> <span class="ot">NA</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-13" title="13"><span class="st">  </span><span class="kw">theme_void</span>()</a></code></pre></div>
 <p><img src="intro-to-h3jsr_files/figure-html/ispent-1.png" width="288" style="display: block; margin: auto;"></p>
 <p><code><a href="../reference/is_rc3.html">is_rc3()</a></code> checks whether an H3 address has a resolution with Class III orientation. This refers to the <a href="https://uber.github.io/h3/#/documentation/core-library/coordinate-systems">orientation of the hex grid</a> relative to the next coarser resolution.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw"><a href="../reference/is_rc3.html">is_rc3</a></span>(<span class="dt">h3_address =</span> <span class="st">'8abe8d12acaffff'</span>)</a>
@@ -222,35 +221,31 @@
 <p>Within the same resolution, addresses within <em>n</em> ‘steps’ from a central address (a ‘patch’ of hexagons) can be retrieved with <code><a href="../reference/get_kring.html">get_kring()</a></code> or <code><a href="../reference/get_kring_list.html">get_kring_list()</a></code>. The latter function returns an output where addresses are listed separately for each step away from the input. The input address is included in the output.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="kw"><a href="../reference/get_kring.html">get_kring</a></span>(<span class="dt">h3_address =</span> <span class="st">'86be8d12fffffff'</span>, <span class="dt">ring_size =</span> <span class="dv">2</span>)</a>
 <a class="sourceLine" id="cb13-2" title="2"><span class="co">#&gt; [[1]]</span></a>
-<a class="sourceLine" id="cb13-3" title="3"><span class="co">#&gt;  [1] "86be8d12fffffff" "86be8d127ffffff" "86be8d107ffffff"</span></a>
-<a class="sourceLine" id="cb13-4" title="4"><span class="co">#&gt;  [4] "86be8d10fffffff" "86be8d177ffffff" "86be8d8dfffffff"</span></a>
-<a class="sourceLine" id="cb13-5" title="5"><span class="co">#&gt;  [7] "86be8d8d7ffffff" "86be8d88fffffff" "86be8d89fffffff"</span></a>
-<a class="sourceLine" id="cb13-6" title="6"><span class="co">#&gt; [10] "86be8d137ffffff" "86be8d117ffffff" "86be8d11fffffff"</span></a>
-<a class="sourceLine" id="cb13-7" title="7"><span class="co">#&gt; [13] "86be8d027ffffff" "86be8d157ffffff" "86be8d147ffffff"</span></a>
-<a class="sourceLine" id="cb13-8" title="8"><span class="co">#&gt; [16] "86be8d167ffffff" "86be8d8cfffffff" "86be8d8c7ffffff"</span></a>
-<a class="sourceLine" id="cb13-9" title="9"><span class="co">#&gt; [19] "86be8d8f7ffffff"</span></a>
-<a class="sourceLine" id="cb13-10" title="10"></a>
-<a class="sourceLine" id="cb13-11" title="11"><span class="kw"><a href="../reference/get_kring_list.html">get_kring_list</a></span>(<span class="dt">h3_address =</span> <span class="st">'86be8d12fffffff'</span>, <span class="dt">ring_size =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb13-12" title="12"><span class="co">#&gt; [[1]]</span></a>
-<a class="sourceLine" id="cb13-13" title="13"><span class="co">#&gt; [[1]][[1]]</span></a>
-<a class="sourceLine" id="cb13-14" title="14"><span class="co">#&gt; [1] "86be8d12fffffff"</span></a>
-<a class="sourceLine" id="cb13-15" title="15"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb13-16" title="16"><span class="co">#&gt; [[1]][[2]]</span></a>
-<a class="sourceLine" id="cb13-17" title="17"><span class="co">#&gt; [1] "86be8d127ffffff" "86be8d107ffffff" "86be8d10fffffff" "86be8d177ffffff"</span></a>
-<a class="sourceLine" id="cb13-18" title="18"><span class="co">#&gt; [5] "86be8d8dfffffff" "86be8d8d7ffffff"</span></a>
-<a class="sourceLine" id="cb13-19" title="19"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb13-20" title="20"><span class="co">#&gt; [[1]][[3]]</span></a>
-<a class="sourceLine" id="cb13-21" title="21"><span class="co">#&gt;  [1] "86be8d88fffffff" "86be8d89fffffff" "86be8d137ffffff"</span></a>
-<a class="sourceLine" id="cb13-22" title="22"><span class="co">#&gt;  [4] "86be8d117ffffff" "86be8d11fffffff" "86be8d027ffffff"</span></a>
-<a class="sourceLine" id="cb13-23" title="23"><span class="co">#&gt;  [7] "86be8d157ffffff" "86be8d147ffffff" "86be8d167ffffff"</span></a>
-<a class="sourceLine" id="cb13-24" title="24"><span class="co">#&gt; [10] "86be8d8cfffffff" "86be8d8c7ffffff" "86be8d8f7ffffff"</span></a></code></pre></div>
+<a class="sourceLine" id="cb13-3" title="3"><span class="co">#&gt;  [1] "86be8d12fffffff" "86be8d127ffffff" "86be8d107ffffff" "86be8d10fffffff"</span></a>
+<a class="sourceLine" id="cb13-4" title="4"><span class="co">#&gt;  [5] "86be8d177ffffff" "86be8d8dfffffff" "86be8d8d7ffffff" "86be8d88fffffff"</span></a>
+<a class="sourceLine" id="cb13-5" title="5"><span class="co">#&gt;  [9] "86be8d89fffffff" "86be8d137ffffff" "86be8d117ffffff" "86be8d11fffffff"</span></a>
+<a class="sourceLine" id="cb13-6" title="6"><span class="co">#&gt; [13] "86be8d027ffffff" "86be8d157ffffff" "86be8d147ffffff" "86be8d167ffffff"</span></a>
+<a class="sourceLine" id="cb13-7" title="7"><span class="co">#&gt; [17] "86be8d8cfffffff" "86be8d8c7ffffff" "86be8d8f7ffffff"</span></a>
+<a class="sourceLine" id="cb13-8" title="8"></a>
+<a class="sourceLine" id="cb13-9" title="9"><span class="kw"><a href="../reference/get_kring_list.html">get_kring_list</a></span>(<span class="dt">h3_address =</span> <span class="st">'86be8d12fffffff'</span>, <span class="dt">ring_size =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb13-10" title="10"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb13-11" title="11"><span class="co">#&gt; [[1]][[1]]</span></a>
+<a class="sourceLine" id="cb13-12" title="12"><span class="co">#&gt; [1] "86be8d12fffffff"</span></a>
+<a class="sourceLine" id="cb13-13" title="13"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-14" title="14"><span class="co">#&gt; [[1]][[2]]</span></a>
+<a class="sourceLine" id="cb13-15" title="15"><span class="co">#&gt; [1] "86be8d127ffffff" "86be8d107ffffff" "86be8d10fffffff" "86be8d177ffffff"</span></a>
+<a class="sourceLine" id="cb13-16" title="16"><span class="co">#&gt; [5] "86be8d8dfffffff" "86be8d8d7ffffff"</span></a>
+<a class="sourceLine" id="cb13-17" title="17"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb13-18" title="18"><span class="co">#&gt; [[1]][[3]]</span></a>
+<a class="sourceLine" id="cb13-19" title="19"><span class="co">#&gt;  [1] "86be8d88fffffff" "86be8d89fffffff" "86be8d137ffffff" "86be8d117ffffff"</span></a>
+<a class="sourceLine" id="cb13-20" title="20"><span class="co">#&gt;  [5] "86be8d11fffffff" "86be8d027ffffff" "86be8d157ffffff" "86be8d147ffffff"</span></a>
+<a class="sourceLine" id="cb13-21" title="21"><span class="co">#&gt;  [9] "86be8d167ffffff" "86be8d8cfffffff" "86be8d8c7ffffff" "86be8d8f7ffffff"</span></a></code></pre></div>
 <p>A ‘donut’ of addresses at exactly <em>n</em> steps is obtained with <code><a href="../reference/get_ring.html">get_ring()</a></code>.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="kw"><a href="../reference/get_ring.html">get_ring</a></span>(<span class="dt">h3_address =</span> <span class="st">'86be8d12fffffff'</span>, <span class="dt">ring_size =</span> <span class="dv">2</span>)</a>
 <a class="sourceLine" id="cb14-2" title="2"><span class="co">#&gt; [[1]]</span></a>
-<a class="sourceLine" id="cb14-3" title="3"><span class="co">#&gt;  [1] "86be8d8f7ffffff" "86be8d88fffffff" "86be8d89fffffff"</span></a>
-<a class="sourceLine" id="cb14-4" title="4"><span class="co">#&gt;  [4] "86be8d137ffffff" "86be8d117ffffff" "86be8d11fffffff"</span></a>
-<a class="sourceLine" id="cb14-5" title="5"><span class="co">#&gt;  [7] "86be8d027ffffff" "86be8d157ffffff" "86be8d147ffffff"</span></a>
-<a class="sourceLine" id="cb14-6" title="6"><span class="co">#&gt; [10] "86be8d167ffffff" "86be8d8cfffffff" "86be8d8c7ffffff"</span></a></code></pre></div>
+<a class="sourceLine" id="cb14-3" title="3"><span class="co">#&gt;  [1] "86be8d8f7ffffff" "86be8d88fffffff" "86be8d89fffffff" "86be8d137ffffff"</span></a>
+<a class="sourceLine" id="cb14-4" title="4"><span class="co">#&gt;  [5] "86be8d117ffffff" "86be8d11fffffff" "86be8d027ffffff" "86be8d157ffffff"</span></a>
+<a class="sourceLine" id="cb14-5" title="5"><span class="co">#&gt;  [9] "86be8d147ffffff" "86be8d167ffffff" "86be8d8cfffffff" "86be8d8c7ffffff"</span></a></code></pre></div>
 <p>These address lists can all be spatialised with <code><a href="../reference/set_to_multipolygon.html">set_to_multipolygon()</a></code>, which returns the polygonised outline of a collection of H3 addresses.</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">patch &lt;-<span class="st"> </span><span class="kw"><a href="../reference/get_kring.html">get_kring</a></span>(<span class="dt">h3_address =</span> <span class="st">'86be8d12fffffff'</span>, <span class="dt">ring_size =</span> <span class="dv">2</span>)</a>
 <a class="sourceLine" id="cb15-2" title="2"></a>
@@ -363,8 +358,8 @@
 <p>To get all the edges of a given H3 address, use <code><a href="../reference/get_udedges.html">get_udedges()</a></code>. Edges can be converted to <code>sfc_LINESTRING</code> geometries with <code><a href="../reference/udedge_to_line.html">udedge_to_line()</a></code>:</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb24-1" title="1"><span class="kw"><a href="../reference/get_udedges.html">get_udedges</a></span>(<span class="dt">h3_address =</span> <span class="st">'86be8d12fffffff'</span>)</a>
 <a class="sourceLine" id="cb24-2" title="2"><span class="co">#&gt; [[1]]</span></a>
-<a class="sourceLine" id="cb24-3" title="3"><span class="co">#&gt; [1] "116be8d12fffffff" "126be8d12fffffff" "136be8d12fffffff"</span></a>
-<a class="sourceLine" id="cb24-4" title="4"><span class="co">#&gt; [4] "146be8d12fffffff" "156be8d12fffffff" "166be8d12fffffff"</span></a>
+<a class="sourceLine" id="cb24-3" title="3"><span class="co">#&gt; [1] "116be8d12fffffff" "126be8d12fffffff" "136be8d12fffffff" "146be8d12fffffff"</span></a>
+<a class="sourceLine" id="cb24-4" title="4"><span class="co">#&gt; [5] "156be8d12fffffff" "166be8d12fffffff"</span></a>
 <a class="sourceLine" id="cb24-5" title="5"></a>
 <a class="sourceLine" id="cb24-6" title="6"><span class="kw">ggplot</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb24-7" title="7"><span class="st">  </span><span class="kw">geom_sf</span>(<span class="dt">data =</span> <span class="kw"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span>(<span class="st">'86be8d12fffffff'</span>), <span class="dt">col =</span> <span class="ot">NA</span>) <span class="op">+</span></a>
