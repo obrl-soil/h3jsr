@@ -1,3 +1,8 @@
+# v 1.1.2
+
+  * Updated to h3-js 3.6.3 - polyfill algo was rolled back due to known issues
+  * prep for first CRAN submission
+
 # v 1.1.1
 
   * Updated to h3-js 3.6.2 - expect improvements to `polyfill()` behaviour

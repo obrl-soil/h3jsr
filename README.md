@@ -5,8 +5,7 @@ Status](https://travis-ci.com/obrl-soil/h3jsr.svg?branch=master)](https://travis
 [![Coverage
 Status](https://img.shields.io/codecov/c/github/obrl-soil/h3jsr/master.svg)](https://codecov.io/github/obrl-soil/h3jsr?branch=master)
 
-h3jsr
-=====
+# h3jsr
 
 h3jsr provides access to [Uber’s H3 library](https://github.com/uber/h3)
 via its [javascript transpile](https://github.com/uber/h3-js), using the
@@ -16,17 +15,15 @@ H3 is a hexagonal hierarchical geospatial indexing system. Details about
 its structure and use cases [can be found
 here](https://uber.github.io/h3/#/documentation/overview/use-cases).
 
-Installation
-------------
+## Installation
 
 Install from github with
 
 ``` r
-devtools::install_github("obrl-soil/h3jsr")
+remotes::install_github("obrl-soil/h3jsr")
 ```
 
-Example
--------
+## Example
 
 ``` r
 library(h3jsr)
@@ -88,4 +85,4 @@ Props to Joel Gombin, who’s package
 [`concaveman`](https://github.com/joelgombin/concaveman) provided me
 with the implementation inspo.
 
-------------------------------------------------------------------------
+-----

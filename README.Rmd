@@ -1,7 +1,7 @@
 ---
 output:
   md_document:
-    variant: markdown_github
+    variant: gfm
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -29,7 +29,7 @@ H3 is a hexagonal hierarchical geospatial indexing system. Details about its str
 Install from github with
 
 ```{r 'installation', eval = FALSE}
-devtools::install_github("obrl-soil/h3jsr")
+remotes::install_github("obrl-soil/h3jsr")
 ```
 
 ## Example
