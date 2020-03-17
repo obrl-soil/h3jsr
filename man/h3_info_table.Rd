@@ -4,7 +4,8 @@
 \name{h3_info_table}
 \alias{h3_info_table}
 \title{H3 index utility information table}
-\format{A data frame with 16 rows and 6 variables: \describe{
+\format{
+A data frame with 16 rows and 6 variables: \describe{
   \item{h3_resolution}{H3 resolution index number}
   \item{avg_area_sqm}{Average area of an H3 address at the given
     resolution, in square meters.}
@@ -19,7 +20,8 @@
   \item{avg_cendist_km}{Average distance between hexagon centers at the given
     resolution, in kilometers.}
   \item{total_unique_indexes}{Total number of H3 addresses at the given
-  resolution.}}}
+  resolution.}}
+}
 \source{
 See also
   \url{https://uber.github.io/h3/#/documentation/core-library/resolution-table}
