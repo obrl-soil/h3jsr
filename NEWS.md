@@ -2,6 +2,7 @@
 
   * Updated to h3-js 3.6.3 - polyfill algo was rolled back due to known issues
   * Move to Github Actions for CI workflow
+  * Remove unneeded lwgeom dependency
 
 # v 1.1.1
 

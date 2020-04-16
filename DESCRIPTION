@@ -12,7 +12,6 @@ Depends:
     R (>= 2.10)
 Imports:
     geojsonsf,
-    lwgeom,
     methods,
     purrr,
     sf,
