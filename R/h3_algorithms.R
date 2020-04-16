@@ -293,8 +293,9 @@ polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
   # warn for poor life choices
   utils::data("h3_info_table", envir = environment())
   h3_info_table <- h3_info_table[h3_info_table$h3_resolution %in% res, 'avg_area_sqm']
-  # doesn't need to be super accurate so shhhhh
-  footprint <- suppressWarnings(as.numeric(sf::st_area(sf::st_as_sfc(sf::st_bbox(geometry)))))
+  # doesn't need to be super accurate so shhhhh. Using 3857 avoids lwgeom dep
+  footprint <- suppressWarnings(as.numeric(sf::st_area(st_transform(
+    sf::st_as_sfc(sf::st_bbox(geometry)), 3857))))
   if(footprint > 100000 * h3_info_table) {
     message('Resolution is very small relative to input dataset. This might take a while...')
   }
