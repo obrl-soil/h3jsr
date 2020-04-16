@@ -93,13 +93,9 @@ jobs:
           # install spatial dependencies
           sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
           sudo apt update
-          sudo apt install \
-            libudunits2-dev \
-            libgdal-dev \
-            libgeos-dev \
-            libproj-dev \
-            libnode-dev \
-            liblwgeom-dev
+          sudo apt upgrade
+          sudo apt autoremove
+          sudo apt install libudunits2-dev libgdal-dev libgeos-dev libproj-dev libnode-dev liblwgeom-dev
 
       - name: Install dependencies
         run: |
