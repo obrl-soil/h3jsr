@@ -88,7 +88,8 @@ jobs:
             libudunits2-dev \
             libgdal-dev \
             libgeos-dev \
-            libproj-dev
+            libproj-dev \
+            libnode-dev
 
       - name: Install dependencies
         run: |
