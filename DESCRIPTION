@@ -1,6 +1,6 @@
 Package: h3jsr
 Type: Package
-Title: Access Uber's H3 library
+Title: Access Uber's H3 Library
 Version: 1.1.2
 Date: 2020-04-16
 Authors@R: person("Lauren", "O'Brien", email = "obrlsoilau@gmail.com", role = c('aut', 'cre'), comment = c(ORCID = "0000-0002-7336-2171"))
