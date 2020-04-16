@@ -2,7 +2,7 @@
 % Please edit documentation in R/info_utilities.R
 \name{res_count}
 \alias{res_count}
-\title{Get total H3 addresses}
+\title{Get total H3 cells}
 \usage{
 res_count(res = NULL, fast = TRUE)
 }
@@ -15,13 +15,13 @@ allowable values and related dimensions.}
 reclaculate from source.}
 }
 \value{
-Numeric; h3 address count.
+Numeric; H3 cell count.
 }
 \description{
-This function returns total number of h3 addresses at a given resolution.
+This function returns total number of H3 cells at a given resolution.
 }
 \examples{
-# Return h3 address count for resolution 8
+# Return H3 cell count for resolution 8
 res_count(res = 8)
 
 }

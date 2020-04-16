@@ -1,6 +1,6 @@
-#' Get h3 address area
+#' Get H3 cell area
 #'
-#' This function returns the average area of an H3 address at a given
+#' This function returns the average area of an H3 cell at a given
 #' resolution.
 #' @param res Integer; Desired H3 resolution. See
 #'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
@@ -9,9 +9,9 @@
 #'   kilometers.
 #' @param fast Logical; whether to retieve values from a locally stored table or
 #'   reclaculate from source.
-#' @return Numeric; average h3 address area.
+#' @return Numeric; average H3 cell area.
 #' @examples
-#' # Return average h3 address area at each resolution in square meters
+#' # Return average H3 cell area at each resolution in square meters
 #' res_area(res = seq(0, 15), units = 'm2')
 #'
 #' @import V8
@@ -44,9 +44,9 @@ res_area <- function(res = NULL, units = c('m2', 'km2'), fast = TRUE) {
   }
 }
 
-#' Get h3 address edge length
+#' Get H3 cell edge length
 #'
-#' This function returns the average edge length of an H3 address at a given
+#' This function returns the average edge length of an H3 cell edge at a given
 #' resolution.
 #' @param res Integer; Desired H3 resolution. See
 #'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
@@ -54,10 +54,10 @@ res_area <- function(res = NULL, units = c('m2', 'km2'), fast = TRUE) {
 #' @param units Length unit to report in, either meters or kilometers.
 #' @param fast Logical; whether to retieve values from a locally stored table or
 #'   reclaculate from source.
-#' @return Numeric; h3 address edge length
+#' @return Numeric; H3 cell edge length
 #' @note This value is also the hexagon circumradius.
 #' @examples
-#' # Return average h3 address edge length at each resolution in kilometers
+#' # Return average H3 cell edge length at each resolution in kilometers
 #' res_length(res = seq(0, 15), units = 'km')
 #'
 #' @import V8
@@ -91,20 +91,20 @@ res_length <- function(res = NULL, units = c('m', 'km'), fast = TRUE) {
 
 }
 
-#' Get average distance between H3 points
+#' Get average distance between H3 cell centers
 #'
-#' This function returns the average distance between the center of H3 address
-#' hexagons at a given resolution.
+#' This function returns the average distance between the center of H3 cells
+#'  at a given resolution.
 #' @param res Integer; Desired H3 resolution. See
 #'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
 #'   allowable values and related dimensions.
 #' @param units Length unit to report in, either meters or kilometers.
 #' @param fast Logical; whether to retieve values from a locally stored table or
 #'   reclaculate from source.
-#' @return Numeric; h3 address center separation distance.
+#' @return Numeric; H3 cell center separation distance.
 #' @note This isn't in the core library but may be useful.
 #' @examples
-#' # Return average h3 address separation distance at each resolution in kilometers
+#' # Return average H3 cell separation distance at each resolution in kilometers
 #' res_cendist(res = seq(0, 15), units = 'km')
 #'
 #' @import V8
@@ -133,17 +133,17 @@ res_cendist <- function(res = NULL, units = c('m', 'km'), fast = TRUE) {
 
 }
 
-#' Get total H3 addresses
+#' Get total H3 cells
 #'
-#' This function returns total number of h3 addresses at a given resolution.
+#' This function returns total number of H3 cells at a given resolution.
 #' @param res Integer; Desired H3 resolution. See
 #'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
 #'   allowable values and related dimensions.
 #' @param fast Logical; whether to retieve values from a locally stored table or
 #'   reclaculate from source.
-#' @return Numeric; h3 address count.
+#' @return Numeric; H3 cell count.
 #' @examples
-#' # Return h3 address count for resolution 8
+#' # Return H3 cell count for resolution 8
 #' res_count(res = 8)
 #'
 #' @import V8

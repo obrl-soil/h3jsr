@@ -2,25 +2,25 @@
 % Please edit documentation in R/unidirectional_edges.R
 \name{get_udends}
 \alias{get_udends}
-\title{Get origin and destination of unidirectional edge}
+\title{Get origin and destination indexes of directed edge}
 \usage{
 get_udends(h3_edge = NULL, simple = TRUE)
 }
 \arguments{
-\item{h3_edge}{Address of unidirectional edge.}
+\item{h3_edge}{Address of directed edge.}
 
 \item{simple}{Logical; whether to return a vector of outputs or a data frame
 containing both inputs and outputs.}
 }
 \value{
-By default, character matrix of h3 addresses.
+By default, character matrix of h3 cell indexes.
 }
 \description{
-Get an H3 addresses representing the origin and destination of a
-unidirectional edge.
+Get H3 cell indexes representing the origin and destination of a directed
+edge index.
 }
 \examples{
-# Get the origin and destination of this edge
+# Get the origin and destination of this directed edge
 get_udends(h3_edge = '166be8d12fffffff')
 
 }

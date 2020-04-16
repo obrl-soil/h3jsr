@@ -2,7 +2,7 @@
 % Please edit documentation in R/info_utilities.R
 \name{res_area}
 \alias{res_area}
-\title{Get h3 address area}
+\title{Get H3 cell area}
 \usage{
 res_area(res = NULL, units = c("m2", "km2"), fast = TRUE)
 }
@@ -18,14 +18,14 @@ kilometers.}
 reclaculate from source.}
 }
 \value{
-Numeric; average h3 address area.
+Numeric; average H3 cell area.
 }
 \description{
-This function returns the average area of an H3 address at a given
+This function returns the average area of an H3 cell at a given
 resolution.
 }
 \examples{
-# Return average h3 address area at each resolution in square meters
+# Return average H3 cell area at each resolution in square meters
 res_area(res = seq(0, 15), units = 'm2')
 
 }

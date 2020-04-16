@@ -2,7 +2,7 @@
 % Please edit documentation in R/info_utilities.R
 \name{res_cendist}
 \alias{res_cendist}
-\title{Get average distance between H3 points}
+\title{Get average distance between H3 cell centers}
 \usage{
 res_cendist(res = NULL, units = c("m", "km"), fast = TRUE)
 }
@@ -17,17 +17,17 @@ allowable values and related dimensions.}
 reclaculate from source.}
 }
 \value{
-Numeric; h3 address center separation distance.
+Numeric; H3 cell center separation distance.
 }
 \description{
-This function returns the average distance between the center of H3 address
-hexagons at a given resolution.
+This function returns the average distance between the center of H3 cells
+ at a given resolution.
 }
 \note{
 This isn't in the core library but may be useful.
 }
 \examples{
-# Return average h3 address separation distance at each resolution in kilometers
+# Return average H3 cell separation distance at each resolution in kilometers
 res_cendist(res = seq(0, 15), units = 'km')
 
 }

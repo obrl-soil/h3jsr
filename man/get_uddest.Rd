@@ -2,24 +2,24 @@
 % Please edit documentation in R/unidirectional_edges.R
 \name{get_uddest}
 \alias{get_uddest}
-\title{Get destination from unidirectional edge}
+\title{Get destination cell from directed edge}
 \usage{
 get_uddest(h3_edge = NULL, simple = TRUE)
 }
 \arguments{
-\item{h3_edge}{Address of unidirectional edge.}
+\item{h3_edge}{Address of directed edge.}
 
 \item{simple}{Logical; whether to return a vector of outputs or a data frame
 containing both inputs and outputs.}
 }
 \value{
-By default, character vector of h3 addresses.
+By default, character vector of h3 cell indexes.
 }
 \description{
-Get an H3 address representing the destination of a unidirectional edge.
+Get an H3 index representing the destination of a directed edge.
 }
 \examples{
-# Get the destination of this edge
+# Get the destination cell index of this directed edge index
 get_uddest(h3_edge = '166be8d12fffffff')
 
 }

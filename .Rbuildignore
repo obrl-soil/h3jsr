@@ -3,9 +3,7 @@
 ^\.Rproj\.user$
 ^README\.Rmd$
 ^README-.*\.png$
-^\.travis\.yml$
-^codecov\.yml$
 ^update_process.txt$
 ^_pkgdown\.yml$
-^docs$
 ^pkgdown$
+^\.github$

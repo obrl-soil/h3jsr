@@ -2,7 +2,7 @@
 % Please edit documentation in R/h3_algorithms.R
 \name{polyfill}
 \alias{polyfill}
-\title{Get H3 addresses within a polygon}
+\title{Get H3 cell index within a polygon}
 \usage{
 polyfill(geometry = NULL, res = NULL, simple = TRUE)
 }
@@ -18,12 +18,12 @@ containing both inputs and outputs.}
 }
 \value{
 By default, a list of length(h3_address). Each list element contains
-  a character vector of H3 addresses belonging to that geometry. A result of
-  NA indicates that no H3 addresses of the chosen resolution are centered
+  a character vector of H3 cell indices belonging to that geometry. A result of
+  NA indicates that no H3 cell indices of the chosen resolution are centered
   over the geometry.
 }
 \description{
-This function returns all the H3 addresses within the supplied polygon
+This function returns all the H3 cell index within the supplied polygon
 geometry.
 }
 \note{
@@ -33,7 +33,7 @@ This function will be slow with a large number of polygons, and/or
   (roughly) > 100000x the area of the chosen H3 resolution.
 }
 \examples{
-# Which level 5 H3 addresses have centers inside County Ashe, NC?
+# Which level 5 H3 cell indices have centers inside County Ashe, NC?
 nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 nc1 <- nc[1, ]
 fillers <- polyfill(geometry = nc1, res = 5)

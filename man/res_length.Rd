@@ -2,7 +2,7 @@
 % Please edit documentation in R/info_utilities.R
 \name{res_length}
 \alias{res_length}
-\title{Get h3 address edge length}
+\title{Get H3 cell edge length}
 \usage{
 res_length(res = NULL, units = c("m", "km"), fast = TRUE)
 }
@@ -17,17 +17,17 @@ allowable values and related dimensions.}
 reclaculate from source.}
 }
 \value{
-Numeric; h3 address edge length
+Numeric; H3 cell edge length
 }
 \description{
-This function returns the average edge length of an H3 address at a given
+This function returns the average edge length of an H3 cell edge at a given
 resolution.
 }
 \note{
 This value is also the hexagon circumradius.
 }
 \examples{
-# Return average h3 address edge length at each resolution in kilometers
+# Return average H3 cell edge length at each resolution in kilometers
 res_length(res = seq(0, 15), units = 'km')
 
 }

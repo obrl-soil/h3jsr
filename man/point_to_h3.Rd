@@ -2,7 +2,7 @@
 % Please edit documentation in R/core_api.R
 \name{point_to_h3}
 \alias{point_to_h3}
-\title{Convert point location to H3 address}
+\title{Convert point location to H3 cell index}
 \usage{
 point_to_h3(input = NULL, res = NULL, simple = TRUE)
 }
@@ -27,11 +27,11 @@ frame of H3 addresses.}
 data frame of H3 addresses.}
 \item {if `simple = FALSE` and a data frame or sf object with other
 attributes is supplied, a data frame of non-spatial attributes with new
-columns containing addresses for one or more h3 resolutions.}
+columns containing addresses for one or more H3 resolutions.}
 }
 }
 \description{
-This function takes point location data and returns a H3 address for each
+This function takes point location data and returns a H3 cell index for each
 point at the chosen resolution(s).
 }
 \note{

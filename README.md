@@ -1,9 +1,11 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![Travis-CI Build
-Status](https://travis-ci.com/obrl-soil/h3jsr.svg?branch=master)](https://travis-ci.com/obrl-soil/h3jsr)
-[![Coverage
-Status](https://img.shields.io/codecov/c/github/obrl-soil/h3jsr/master.svg)](https://codecov.io/github/obrl-soil/h3jsr?branch=master)
+[![R build
+status](https://github.com/obrl-soil/h3jsr/workflows/check-standard/badge.svg)](https://github.com/obrl-soil/h3jsr/actions)
+[![R build
+status](https://github.com/obrl-soil/h3jsr/workflows/test-coverage/badge.svg)](https://github.com/obrl-soil/h3jsr/actions)
+[![R build
+status](https://github.com/obrl-soil/h3jsr/workflows/pkgdown/badge.svg)](https://github.com/obrl-soil/h3jsr/actions)
 
 # h3jsr
 
@@ -50,8 +52,7 @@ brisbane_10
 #> geometry type:  POINT
 #> dimension:      XY
 #> bbox:           xmin: 153.0239 ymin: -27.46853 xmax: 153.0239 ymax: -27.46853
-#> epsg (SRID):    4326
-#> proj4string:    +proj=longlat +datum=WGS84 +no_defs
+#> CRS:            EPSG:4326
 #> POINT (153.0239 -27.46853)
 
 # Is that a valid H3 address?
