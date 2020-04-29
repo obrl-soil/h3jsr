@@ -8,8 +8,7 @@ get_pentagons(res = NULL, simple = TRUE)
 }
 \arguments{
 \item{res}{Integer; Desired H3 resolution. See
-https://uber.github.io/h3/#/documentation/core-library/resolution-table for
-allowable values and related dimensions.}
+https://h3geo.org/docs/core-library/restable for allowable values and related dimensions.}
 
 \item{simple}{Logical; whether to return outputs as list of outputs (TRUE) or
 data frame with both inputs and outputs.}

@@ -10,8 +10,7 @@ polyfill(geometry = NULL, res = NULL, simple = TRUE)
 \item{geometry}{`sf` object of type 'POLYGON' or 'MULTIPOLYGON'.}
 
 \item{res}{Integer; Desired H3 resolution. See
-https://uber.github.io/h3/#/documentation/core-library/resolution-table for
-allowable values and related dimensions.}
+https://h3geo.org/docs/core-library/restable for allowable values and related dimensions.}
 
 \item{simple}{Logical; whether to return a vector of outputs or an sf object
 containing both inputs and outputs.}
