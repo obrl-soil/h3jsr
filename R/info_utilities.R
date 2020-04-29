@@ -2,9 +2,7 @@
 #'
 #' This function returns the average area of an H3 cell at a given
 #' resolution.
-#' @param res Integer; Desired H3 resolution. See
-#'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
-#'   allowable values and related dimensions.
+#' @inheritParams get_parent
 #' @param units Areal unit to report in, either square meters or square
 #'   kilometers.
 #' @param fast Logical; whether to retieve values from a locally stored table or
@@ -48,9 +46,7 @@ res_area <- function(res = NULL, units = c('m2', 'km2'), fast = TRUE) {
 #'
 #' This function returns the average edge length of an H3 cell edge at a given
 #' resolution.
-#' @param res Integer; Desired H3 resolution. See
-#'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
-#'   allowable values and related dimensions.
+#' @inheritParams get_parent
 #' @param units Length unit to report in, either meters or kilometers.
 #' @param fast Logical; whether to retieve values from a locally stored table or
 #'   reclaculate from source.
@@ -95,9 +91,7 @@ res_length <- function(res = NULL, units = c('m', 'km'), fast = TRUE) {
 #'
 #' This function returns the average distance between the center of H3 cells
 #'  at a given resolution.
-#' @param res Integer; Desired H3 resolution. See
-#'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
-#'   allowable values and related dimensions.
+#' @inheritParams get_parent
 #' @param units Length unit to report in, either meters or kilometers.
 #' @param fast Logical; whether to retieve values from a locally stored table or
 #'   reclaculate from source.
@@ -136,9 +130,7 @@ res_cendist <- function(res = NULL, units = c('m', 'km'), fast = TRUE) {
 #' Get total H3 cells
 #'
 #' This function returns total number of H3 cells at a given resolution.
-#' @param res Integer; Desired H3 resolution. See
-#'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
-#'   allowable values and related dimensions.
+#' @inheritParams get_parent
 #' @param fast Logical; whether to retieve values from a locally stored table or
 #'   reclaculate from source.
 #' @return Numeric; H3 cell count.

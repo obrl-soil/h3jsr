@@ -178,9 +178,7 @@ get_faces <- function(h3_address = NULL, simple = TRUE) {
 #'
 #' This function returns the indices of all pentagons occurring at a
 #' given H3 resolution.
-#' @param res Integer; Desired H3 resolution. See
-#'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
-#'   allowable values and related dimensions.
+#' @inheritParams get_parent
 #' @param simple Logical; whether to return outputs as list of outputs (TRUE) or
 #'   data frame with both inputs and outputs.
 #' @return By default, a list of length(h3_address). Each list element contains
@@ -250,11 +248,9 @@ get_res <- function(h3_address = NULL, simple = TRUE) {
 #'
 #' This function takes point location data and returns a H3 cell index for each
 #' point at the chosen resolution(s).
+#' @inheritParams get_parent
 #' @param input `sf` object with point geometry, `sfc_POINT` object, `sfg`
 #'   point, data frame or matrix.
-#' @param res Integer; Desired H3 resolution. See
-#'   https://uber.github.io/h3/#/documentation/core-library/resolution-table for
-#'   allowable values and related dimensions.
 #' @param simple Logical; whether to return outputs as character vector where
 #'   possible.
 #' @return \itemize{

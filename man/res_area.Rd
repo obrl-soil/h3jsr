@@ -8,8 +8,7 @@ res_area(res = NULL, units = c("m2", "km2"), fast = TRUE)
 }
 \arguments{
 \item{res}{Integer; Desired H3 resolution. See
-https://uber.github.io/h3/#/documentation/core-library/resolution-table for
-allowable values and related dimensions.}
+https://h3geo.org/docs/core-library/restable for allowable values and related dimensions.}
 
 \item{units}{Areal unit to report in, either square meters or square
 kilometers.}
