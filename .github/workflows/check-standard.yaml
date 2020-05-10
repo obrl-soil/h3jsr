@@ -21,8 +21,9 @@ jobs:
           - {os: windows-latest, r: '3.6'}
           - {os: macOS-latest, r: '3.6', args: '--install-args=\"--configure-args=--with-proj-lib=/usr/local/lib/\"", "--ignore-vignettes', build_args: "--no-build-vignettes"}
           - {os: macOS-latest, r: 'devel', args: '--install-args=\"--configure-args=--with-proj-lib=/usr/local/lib/\"", "--ignore-vignettes', build_args: "--no-build-vignettes"}
-          - {os: ubuntu-16.04, r: '3.6', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest", v8: "libnode-dev"}
-          - {os: ubuntu-latest, r: 'release', v8: "libnode-dev"}
+          - {os: ubuntu-16.04, r: '3.6', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
+          - {os: ubuntu-latest, r: 'release'}
+          - {os: ubuntu-latest, r: 'devel'}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -82,7 +83,7 @@ jobs:
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
-          # install spatial dependencies
+          # install spatial dependencies and v8 modern
           sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
           sudo add-apt-repository ppa:cran/v8
           sudo apt update
@@ -94,6 +95,10 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
+        
+       - name: Report stack versions
+         run: |
+           apt list proj-bin gdal-bin r-base libv8-dev libnode-dev --installed
 
       - name: Check
         env:

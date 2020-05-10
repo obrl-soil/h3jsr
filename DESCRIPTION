@@ -4,7 +4,7 @@ Title: Access Uber's H3 Library
 Version: 1.1.2
 Date: 2020-04-16
 Authors@R: person("Lauren", "O'Brien", email = "obrlsoilau@gmail.com", role = c('aut', 'cre'), comment = c(ORCID = "0000-0002-7336-2171"))
-Description: This package uses 'V8' (https://github.com/jeroen/v8) to access the javascript transpile of Uber's H3 library (https://github.com/uber/h3-js).
+Description: Provides access to Uber's H3 library for geospatial indexing via its JavaScript transpile 'h3-js' <https://github.com/uber/h3-js> and 'V8' <https://github.com/jeroen/v8>.
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
