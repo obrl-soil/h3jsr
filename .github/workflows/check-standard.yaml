@@ -96,9 +96,10 @@ jobs:
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
         
-       - name: Report stack versions
-         run: |
-           apt list proj-bin gdal-bin r-base libv8-dev libnode-dev --installed
+      - name: Report stack versions
+        run: |
+          apt list proj-bin gdal-bin r-base libv8-dev libnode-dev --installed
+          Rscript -e 'installed.packages()[which(grepl("V8", installed.packages()[,1])), "Version"]'
 
       - name: Check
         env:
