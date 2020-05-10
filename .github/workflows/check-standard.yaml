@@ -89,6 +89,8 @@ jobs:
           sudo apt update
           sudo apt install libudunits2-dev libgdal-dev libgeos-dev libproj-dev libnode-dev
           sudo apt upgrade
+          # reinstall:
+          Rscript -e "install.packages('V8')"
 
       - name: Install dependencies
         run: |
@@ -96,11 +98,6 @@ jobs:
           remotes::install_cran("rcmdcheck")
         shell: Rscript {0}
         
-      - name: Report stack versions
-        run: |
-          apt list proj-bin gdal-bin r-base libv8-dev libnode-dev --installed
-          Rscript -e 'installed.packages()[which(grepl("V8", installed.packages()[,1])), "Version"]'
-
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
