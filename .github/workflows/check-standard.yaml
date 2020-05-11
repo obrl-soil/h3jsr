@@ -80,6 +80,8 @@ jobs:
         env:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
         run: |
+          # bugfix - mysql-server upgrade problems on 16.04
+          sudo apt-mark hold mysql-server
           # install spatial dependencies and v8 modern
           sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
           sudo add-apt-repository ppa:cran/v8
@@ -88,8 +90,6 @@ jobs:
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
           sudo apt-get install libnode-dev
-          # bugfix - mysql-server upgrade problems on 16.04
-          sudo apt-mark hold mysql-server
           sudo apt upgrade
           sudo apt autoremove
 
