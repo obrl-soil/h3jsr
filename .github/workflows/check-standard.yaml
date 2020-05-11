@@ -23,7 +23,7 @@ jobs:
           - {os: macOS-latest, r: '3.6', args: '--install-args=\"--configure-args=--with-proj-lib=/usr/local/lib/\"", "--ignore-vignettes', build_args: "--no-build-vignettes"}
           - {os: macOS-latest, r: 'release', args: '--install-args=\"--configure-args=--with-proj-lib=/usr/local/lib/\"", "--ignore-vignettes', build_args: "--no-build-vignettes"}
           - {os: ubuntu-16.04, r: '3.6', rspm: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
-          - {os: ubuntu-latest, r: 'release'}
+          - {os: ubuntu-latest, r: 'release', rspm: "https://demo.rstudiopm.com/all/__linux__/bionic/latest"}
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -84,7 +84,6 @@ jobs:
           sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
           sudo add-apt-repository ppa:cran/v8
           sudo apt update
-          sudo apt-get install libnode-dev
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"  
@@ -95,6 +94,7 @@ jobs:
           remotes::install_cran(c('ps', 'pillar', 'pkgbuild'))
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
+          library(V8) # report version
         shell: Rscript {0}
         
       - name: Check
