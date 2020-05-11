@@ -28,8 +28,9 @@ jobs:
           restore-keys: macOS-r-4.0-2-
 
       - name: Install dependencies
-        run: |
+        run: |          
           install.packages("remotes")
+          remotes::install_cran(c('ps', 'pillar', 'pkgbuild'))
           remotes::install_deps(dependencies = TRUE)
           remotes::install_dev("pkgdown")
         shell: Rscript {0}
