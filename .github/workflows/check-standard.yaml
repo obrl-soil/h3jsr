@@ -88,12 +88,14 @@ jobs:
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
           sudo apt-get install libnode-dev
+          # bugfix - mysql-server upgrade problems on 16.04
+          sudo apt-mark hold mysql-server
           sudo apt upgrade
           sudo apt autoremove
 
       - name: Install dependencies
         run: |
-          # bugfix for tidyr (pkg install order issues?)
+          # bugfix for tidyr on Win (pkg install order issues?)
           remotes::install_cran(c('ps', 'pillar', 'pkgbuild'))
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
