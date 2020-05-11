@@ -87,9 +87,9 @@ jobs:
           Rscript -e "remotes::install_github('r-hub/sysreqs')"
           sysreqs=$(Rscript -e "cat(sysreqs::sysreq_commands('DESCRIPTION'))")
           sudo -s eval "$sysreqs"
-          # sudo apt install libudunits2-dev libgdal-dev libgeos-dev libproj-dev libnode-dev
-          # sudo apt upgrade
-          # sudo apt autoremove
+          sudo apt-get install libnode-dev
+          sudo apt upgrade
+          sudo apt autoremove
 
       - name: Install dependencies
         run: |
