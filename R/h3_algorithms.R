@@ -288,7 +288,7 @@ polyfill <- function(geometry = NULL, res = NULL, simple = TRUE) {
   }
 
   # warn for poor life choices
-  utils::data("h3_info_table", envir = environment())
+  utils::data("h3_info_table", envir = environment(), package = 'h3jsr')
   h3_info_table <- h3_info_table[h3_info_table$h3_resolution %in% res, 'avg_area_sqm']
   # doesn't need to be super accurate so shhhhh. Using 3857 avoids lwgeom dep
   footprint <- suppressWarnings(as.numeric(sf::st_area(st_transform(
