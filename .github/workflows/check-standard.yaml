@@ -87,7 +87,8 @@ jobs:
           sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable
           sudo add-apt-repository ppa:cran/v8
           sudo apt update
-          sudo apt upgrade         
+          sudo apt upgrade  
+          sudo apt-get install libnode-dev
 
       - name: Install dependencies
         run: |
