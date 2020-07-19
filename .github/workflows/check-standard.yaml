@@ -94,6 +94,7 @@ jobs:
           remotes::install_cran(c('ps', 'pillar', 'pkgbuild'))
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
+          install.packages('V8') # force reinstall for linux
           library(V8) # report version
         shell: Rscript {0}
         
