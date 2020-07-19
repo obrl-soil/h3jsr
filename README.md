@@ -30,7 +30,7 @@ remotes::install_github("obrl-soil/h3jsr")
 ``` r
 library(h3jsr)
 library(sf)
-#> Linking to GEOS 3.6.1, GDAL 2.2.3, PROJ 4.9.3
+#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1
 
 # where is the Brisbane Town Hall at resolution 15?
 bth <- st_sfc(st_point(c(153.023503, -27.468920)), crs = 4326)
@@ -52,7 +52,7 @@ brisbane_10
 #> geometry type:  POINT
 #> dimension:      XY
 #> bbox:           xmin: 153.0239 ymin: -27.46853 xmax: 153.0239 ymax: -27.46853
-#> CRS:            EPSG:4326
+#> geographic CRS: WGS 84
 #> POINT (153.0239 -27.46853)
 
 # Is that a valid H3 address?

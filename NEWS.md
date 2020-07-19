@@ -1,3 +1,7 @@
+# v 1.1.3
+
+  * Updated to h3-js 3.6.4
+
 # v 1.1.2
 
   * Updated to h3-js 3.6.3 - polyfill algo was rolled back due to known issues
