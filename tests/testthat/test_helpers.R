@@ -9,7 +9,7 @@ test_that('prep_for_pt2h3.sf works',
             no_crs_point <- sf::st_sf('geometry' = sf::st_sfc(sf::st_point(c(153,-27)))),
             expect_message(h3jsr:::prep_for_pt2h3(no_crs_point)),
             v1 <- h3jsr:::prep_for_pt2h3(no_crs_point),
-            expect_equal(sf::st_crs(v1)$epsg, 4326)
+            expect_is(v1, 'matrix')
           ))
 
 
@@ -21,7 +21,7 @@ test_that('prep_for_pt2h3.sfc works',
             no_crs_point <- sf::st_sfc(sf::st_point(c(153,-27))),
             expect_message(h3jsr:::prep_for_pt2h3(no_crs_point)),
             v1 <- h3jsr:::prep_for_pt2h3(no_crs_point),
-            expect_equal(sf::st_crs(v1)$epsg, 4326)
+            expect_is(v1, 'matrix')
           ))
 
 test_that('prep_for_pt2h3.sfg works',

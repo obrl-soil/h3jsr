@@ -7,6 +7,7 @@
 \alias{prep_for_pt2h3.sfg}
 \alias{prep_for_pt2h3.matrix}
 \alias{prep_for_pt2h3.data.frame}
+\alias{prep_for_pt2h3.numeric}
 \title{Prepare inputs for point_to_h3}
 \usage{
 prep_for_pt2h3(input = NULL)
@@ -20,15 +21,16 @@ prep_for_pt2h3(input = NULL)
 \method{prep_for_pt2h3}{matrix}(input = NULL)
 
 \method{prep_for_pt2h3}{data.frame}(input = NULL)
+
+\method{prep_for_pt2h3}{numeric}(input = NULL)
 }
 \arguments{
-\item{input}{`sf`, `sfc` or `sfg` POLYGON/MULTIPOLYGON object, data frame or
+\item{input}{`sf`, `sfc` or `sfg` POINT/MULTIPOINT object, data frame or
 matrix. Data frames or matrices must have x, y coordinates in their first
-two columns.}
+two columns. WGS84 input is assumed in all cases.}
 }
 \value{
-`sfc` representation of supplied coordinates. WGS84 input is assumed
-  where input is non-spatial.
+`matrix` representation of supplied coordinates.
 }
 \description{
 Sets up a variety of possible input objects for

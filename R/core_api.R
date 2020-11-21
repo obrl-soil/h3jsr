@@ -287,12 +287,11 @@ point_to_h3 <- function(input = NULL, res = NULL, simple = TRUE) {
 
   pts <- prep_for_pt2h3(input)
 
-  # There are some serious shenanigans from here on to deal with multiple points
-  # and multiple resolutions, just roll with it
+  # dealing with multiple points, multiple resolutions:
   eval_this <-
-    data.frame('X' = rep(sapply(pts, function(pt) pt[1]), length(res)),
-               'Y' = rep(sapply(pts, function(pt) pt[2]), length(res)),
-               'h3_res' = rep(res, each = length(pts)),
+    data.frame('X' = rep(pts[ , 1], length(res)),
+               'Y' = rep(pts[ , 2], length(res)),
+               'h3_res' = rep(res, each = nrow(pts)),
                stringsAsFactors = FALSE)
 
   sesh$assign('evalThis', eval_this, digits = NA)
@@ -304,8 +303,8 @@ point_to_h3 <- function(input = NULL, res = NULL, simple = TRUE) {
             };')
 
   # get data back. If length(res != 1), divide up outputs properly
-  addys <- data.frame('n' = seq(length(pts)),
-                      'res' = rep(res, each = length(pts)),
+  addys <- data.frame('n' = seq(nrow(pts)),
+                      'res' = rep(res, each = nrow(pts)),
                       'h3_address' = sesh$get('h3_address'),
                       stringsAsFactors = FALSE)
   addys <- tidyr::spread(addys, 'res', 'h3_address')

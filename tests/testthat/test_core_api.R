@@ -106,8 +106,8 @@ test_that('prep_for_pt2h3 works consistently across methods',
                                 ncol = 2, byrow = TRUE),
             val1 <- h3jsr:::prep_for_pt2h3(bth_mat),
             val2 <- h3jsr:::prep_for_pt2h3(bth_mat_m),
-            expect_is(val1, 'sfc'),
-            expect_is(val2, 'sfc'),
+            expect_is(val1, 'matrix'),
+            expect_is(val2, 'matrix'),
             expect_message(h3jsr:::prep_for_pt2h3(bth_mat)),
             # df method
             bth_df <- as.data.frame(bth_mat),
@@ -120,7 +120,7 @@ test_that('prep_for_pt2h3 works consistently across methods',
             # sfg method
             bth_sfg <- sf::st_point(bth_mat),
             val5 <- h3jsr:::prep_for_pt2h3(bth_sfg),
-            expect_equivalent(val1, val5), # attrib order differs, meh
+            expect_equivalent(val1, val5), # dimanmes, meh
             expect_message(h3jsr:::prep_for_pt2h3(bth_sfg)),
             # sfc method
             bth_sfc   <- sf::st_sfc(bth_sfg, crs = 4326),
@@ -129,7 +129,7 @@ test_that('prep_for_pt2h3 works consistently across methods',
             val6 <- h3jsr:::prep_for_pt2h3(bth_sfc),
             val7 <- h3jsr:::prep_for_pt2h3(bth_sfc_m),
             expect_equal(val5, val6),
-            expect_equivalent(val2, val7), # attrib order
+            expect_equivalent(val2, val7), # dimnames
             bth_sfc2 <- sf::st_sfc(bth_sfg, crs = 4283),
             expect_message(h3jsr:::prep_for_pt2h3(bth_sfc2)),
             # sf method
@@ -140,7 +140,11 @@ test_that('prep_for_pt2h3 works consistently across methods',
             expect_equal(val6, val8),
             expect_equal(val7, val9),
             bth_sf2 <- sf::st_sf('geometry' = bth_sfc2),
-            expect_message(h3jsr:::prep_for_pt2h3(bth_sf2))
+            expect_message(h3jsr:::prep_for_pt2h3(bth_sf2)),
+            # simple vector
+            bth_vec <- c(153.023503, -27.468920),
+            val10 <- h3jsr:::prep_for_pt2h3(bth_vec),
+            expect_equal(val1, val10)
           ))
 
 test_that('point_to_h3 with various options',
@@ -155,7 +159,9 @@ test_that('point_to_h3 with various options',
             val1 <- point_to_h3(bpts_sfc, res = 11),
             val2 <- point_to_h3(bpts_sfc, res = 11, simple = FALSE),
             expect_equal(val1[1], '8bbe8d12acadfff'),
+            expect_length(val1, 3),
             expect_is(val2, 'data.frame'),
+            expect_equal(nrow(val2), 3),
             # several points several res
             val3 <- point_to_h3(bpts_sfc, res = c(11,12)),
             val4 <- point_to_h3(bpts_sfc, res = c(11,12), simple = FALSE),
@@ -167,6 +173,7 @@ test_that('point_to_h3 with various options',
                                   'geometry' = bpts_sfc),
             val5 <-  point_to_h3(bpts_sf2, res = c(11,12), simple = FALSE),
             expect_is(val5, 'data.frame'),
+            expect_equal(nrow(val5), 3),
             expect_equal(names(val5), c('ID', 'h3_resolution_11', 'h3_resolution_12')),
             expect_equal(val5[[1]], c(1,2,3)),
             # df with other attribs

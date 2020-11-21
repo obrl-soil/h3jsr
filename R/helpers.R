@@ -3,11 +3,10 @@
 #' Sets up a variety of possible input objects for
 #' \code{\link[h3jsr:point_to_h3]{h3jsr::point_to_h3()}}.
 #'
-#' @param input `sf`, `sfc` or `sfg` POLYGON/MULTIPOLYGON object, data frame or
+#' @param input `sf`, `sfc` or `sfg` POINT/MULTIPOINT object, data frame or
 #'   matrix. Data frames or matrices must have x, y coordinates in their first
-#'   two columns.
-#' @return `sfc` representation of supplied coordinates. WGS84 input is assumed
-#'   where input is non-spatial.
+#'   two columns. WGS84 input is assumed in all cases.
+#' @return `matrix` representation of supplied coordinates.
 #' @keywords internal
 #' @rdname prep_for_pt2h3
 #' @importFrom sf st_crs st_geometry st_set_crs st_sf st_sfc st_transform
@@ -39,7 +38,7 @@ prep_for_pt2h3.sf <-  function(input = NULL) {
     message('Data has been transformed to EPSG:4326.')
     pts <- sf::st_transform(pts, 4326)
   }
-  pts
+  sf::st_coordinates(pts)
 }
 
 #' @rdname prep_for_pt2h3
@@ -63,7 +62,7 @@ prep_for_pt2h3.sfc <-  function(input = NULL) {
     input <- sf::st_transform(input, 4326)
   }
 
-  input
+  sf::st_coordinates(input)
 }
 
 #' @rdname prep_for_pt2h3
@@ -72,15 +71,13 @@ prep_for_pt2h3.sfc <-  function(input = NULL) {
 #' @export
 #'
 prep_for_pt2h3.sfg <-  function(input = NULL) {
-  # just sfc-ise, check geom type and transform
-  pts <- sf::st_sfc(input)
 
-  if(!inherits(pts, 'sfc_POINT')) {
+  if(!inherits(input, 'POINT')) {
     stop('Please supply point geometry.')
   }
 
   message('Input CRS missing, assuming EPSG:4326.')
-  sf::st_set_crs(pts, 4326)
+  sf::st_coordinates(input)
 }
 
 #' @rdname prep_for_pt2h3
@@ -91,11 +88,10 @@ prep_for_pt2h3.sfg <-  function(input = NULL) {
 prep_for_pt2h3.matrix <-  function(input = NULL) {
   # assumes input matrix has x, y coords in col 1, 2
   # assumes coords are in 4326
-  # cast to sfc_POINT and return
   message('Assuming columns 1 and 2 contain x, y coordinates in EPSG:4326')
-  pts <- data.frame('x' = input[, 1], 'y' = input[, 2])
-  pts <- sf::st_as_sf(pts, coords = c(1, 2), crs = 4326)
-  sf::st_geometry(pts)
+  pts <- input[ , 1:2, drop = FALSE]
+  colnames(pts) <- c('X', 'Y')
+  pts
 }
 
 #' @rdname prep_for_pt2h3
@@ -106,10 +102,24 @@ prep_for_pt2h3.matrix <-  function(input = NULL) {
 prep_for_pt2h3.data.frame <-  function(input = NULL) {
   # assumes input df has x, y coords in col 1, 2
   # assumes coords are in 4326
-  # cast to sfc_POINT and return
   message('Assuming columns 1 and 2 contain x, y coordinates in EPSG:4326')
-  pts <- sf::st_as_sf(input, coords = c(1, 2), crs = 4326)
-  sf::st_geometry(pts)
+  pts <- as.matrix(input[ , c(1,2)])
+  colnames(pts) <- c('X', 'Y')
+  pts
+}
+
+#' @rdname prep_for_pt2h3
+#' @inherit prep_for_pt2h3 return
+#' @method prep_for_pt2h3 numeric
+#' @export
+#'
+prep_for_pt2h3.numeric <-  function(input = NULL) {
+  # assumes input has x, y coords in posns 1, 2
+  # assumes coords are in 4326
+  message('Assuming positions 1 and 2 contain x, y coordinates in EPSG:4326')
+  pts <- matrix(input[c(1,2)], ncol = 2, byrow = TRUE)
+  colnames(pts) <- c('X', 'Y')
+  pts
 }
 
 #' Prepare geometry for polyfill
