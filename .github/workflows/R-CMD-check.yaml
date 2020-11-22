@@ -59,12 +59,18 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
       - name: Install system dependencies
-        if: runner.os == 'Linux'
+        if: matrix.os == 'ubuntu-16.04'
         run: |
           while read -r cmd
           do
             eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu"))')
+          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "16-04"))')
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          while read -r cmd
+          do
+            eval sudo $cmd
+          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20-04"))')
           
           
       - name: Install dependencies
