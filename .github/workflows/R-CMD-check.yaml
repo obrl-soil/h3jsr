@@ -61,6 +61,7 @@ jobs:
         if: runner.os == 'Linux'
         env:
           RHUB_PLATFORM: linux-x86_64-ubuntu-gcc
+          DOWNLOAD_STATIC_LIBV8: 1
         run: |
           # install spatial dependencies
           sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
