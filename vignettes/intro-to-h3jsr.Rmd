@@ -340,7 +340,10 @@ grid_distance(nc_6[1], nc_6[2])
 path <- grid_path(nc_6[1], nc_6[2], simple = TRUE)
 path
 ```
+
 Note that these functions only work between grid cells at the same resolution.
+
+The great-circle distance between two points (e.g. cell centers) can also be calculated with `get_dist()`, using the Haversine formula.
 
 `h3_to_line()` is a custom function that has been provided largely to make it easy to spatialise the results of `grid_path()`. It will take a list of h3 addresses, convert them to points, and then turn the set of points into an `sfc_LINESTRING` object. The function is flexible enough to work across an arbitrary set of addresses (including addresses at multiple resolutions), but this is untested and results may be strange.
 
@@ -361,7 +364,7 @@ ggplot() +
 
 ## Info utilities
 
-A set of general information utilities give information about the characteristics of the hexagons at each resolution. This includes area, edge length, the distance between hexagon centers, and the total number of addresses. This data is stored locally but can also be calculated from source.
+A set of general information utilities give information about the characteristics of the hexagons at each resolution. This includes average area, average edge length, average distance between hexagon centers, and the total number of addresses. This data is stored locally but can also be calculated from source.
 
 ```{r 'info'}
 res_area(6, 'km2')
@@ -374,6 +377,15 @@ res_count(6)
 
 data("h3_info_table")
 str(h3_info_table)
+```
+
+The exact area of particular cells and the length of edges can also be calculated:
+
+```{r 'info2'}
+cell_area(h3_address = '8abe8d12acaffff', 'km2')
+
+edge_length(h3_address = '166be8d12fffffff', 'km')
+
 ```
 
 ***
