@@ -69,3 +69,22 @@ test_that(
   )
 
 )
+
+test_that(
+  'cell_area performs as expected',
+  c(
+    val1 <- cell_area(h3_address = '8abe8d12acaffff'),
+    val2 <- cell_area(h3_address = '8abe8d12acaffff', simple = FALSE),
+    val3 <- cell_area(h3_address = '8abe8d12acaffff', units = 'km2'),
+    val4 <- cell_area(h3_address = '8abe8d12acaffff', simple = FALSE, units = 'km2'),
+    expect_equal(val1, 17753.904855348257),
+    expect_equal(val3 * 1000000, val1),
+    expect_equal(val2[1, 2], 17753.904855348257),
+    expect_equal(val4[1, 2] * 1000000, val2[1, 2]),
+    expect_is(val2, 'data.frame'),
+    expect_is(val2$h3_address, 'character'),
+    expect_equal(val2$area, 17753.904855348257),
+    expect_equal(names(val2), c('h3_address', 'area_m2')),
+    expect_equal(names(val4), c('h3_address', 'area_km2'))
+  )
+)
