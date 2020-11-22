@@ -1,3 +1,9 @@
+# v 1.2.0
+
+  * Updated to h3-js 3.7.0
+  * Added functions `cell_area`, `edge_length`, `get_dist`, and `get_res0`.
+  * Revised internal function `prep_for_pt2h3`
+
 # v 1.1.3
 
   * Updated to h3-js 3.6.4

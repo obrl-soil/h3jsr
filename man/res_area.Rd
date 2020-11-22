@@ -13,7 +13,7 @@ https://h3geo.org/docs/core-library/restable for allowable values and related di
 \item{units}{Areal unit to report in, either square meters or square
 kilometers.}
 
-\item{fast}{Logical; whether to retieve values from a locally stored table or
+\item{fast}{Logical; whether to retrieve values from a locally stored table or
 reclaculate from source.}
 }
 \value{

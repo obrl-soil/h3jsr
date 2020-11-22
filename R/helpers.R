@@ -9,7 +9,8 @@
 #' @return `matrix` representation of supplied coordinates.
 #' @keywords internal
 #' @rdname prep_for_pt2h3
-#' @importFrom sf st_crs st_geometry st_set_crs st_sf st_sfc st_transform
+#' @importFrom sf st_coordinates st_crs st_geometry st_set_crs st_sf st_sfc
+#'   st_transform
 #'
 prep_for_pt2h3 <- function(input = NULL) {
   UseMethod('prep_for_pt2h3')

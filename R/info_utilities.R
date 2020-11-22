@@ -266,7 +266,8 @@ res_count <- function(res = NULL, fast = TRUE) {
 #'   kilometers.
 #' @param simple whether to return a numeric vector of distances or a
 #'   `data.frame` containing start and end coordinates as well as distance.
-#' @return
+#' @return Numeric vector of point to point distances, or data frame of origin
+#'   and destination coordinates accompanied by their distances.
 #' @note This functionality also exists in R packages \code{sp},
 #' \code{geosphere} and \code{fields}. H3's version appears to return slightly
 #' shorter distances than most other implementations, but is included here
