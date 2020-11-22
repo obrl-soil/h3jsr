@@ -65,7 +65,9 @@ jobs:
           do
             eval sudo $cmd
           done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "16-04"))')
-        else if: matrix.os == 'ubuntu-latest'
+        
+      - name: Install system dependencies        
+        if: matrix.os == 'ubuntu-latest'
         run: |
           while read -r cmd
           do
