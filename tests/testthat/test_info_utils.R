@@ -48,3 +48,24 @@ test_that(
   )
 )
 
+test_that(
+  'get_gcdist performs as expected',
+  c(
+    nc <- st_read(system.file("shape/nc.shp", package="sf")),
+    pt1 <- sf::st_centroid(nc[1:10, ]),
+    pt2 <- sf::st_centroid(nc[91:100, ]),
+    val1 <- get_gcdist(pt1[1,], pt2[1,]),
+    val2 <- get_gcdist(pt1, pt2),
+    val_2a <- get_gcdist(pt1, pt2, 'km'),
+    expect_equal(val_2a * 1000, val2),
+    val3 <- get_gcdist(pt1[1,], pt2[1,], simple = FALSE),
+    val4 <- get_gcdist(pt1, pt2, simple = FALSE),
+    expect_equal(val3, val4[1,]),
+    expect_is(val3, 'data.frame'),
+    expect_error(get_gcdist(pt1, pt2, 'furlongs')),
+    expect_error(get_gcdist(pt1[1,], pt2)),
+    val5 <- get_gcdist(pt1[1, ], pt1[1, ]),
+    expect_equal(val5, 0)
+  )
+
+)

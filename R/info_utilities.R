@@ -164,6 +164,62 @@ res_count <- function(res = NULL, fast = TRUE) {
   }
 }
 
+#' Great circle distance
+#'
+#' Get the great circle distance between WGS84 lat/long points
+#' @param pt1 `sf` object with point geometry, `sfc_POINT` object, `sfg`
+#'   point, data frame or matrix.
+#' @param pt2 `sf` object with point geometry, `sfc_POINT` object, `sfg`
+#'   point, data frame or matrix.
+#' @param units whether to return the great circle distance in meters or
+#'   kilometers.
+#' @param simple whether to return a numeric vector of distances or a
+#'   `data.frame` containing start and end coordinates as well as distance.
+#' @return
+#' @note This functionality also exists in R packages \code{sp},
+#' \code{geosphere} and \code{fields}. H3's version appears to return slightly
+#' shorter distances than most other implementations, but is included here
+#' for completeness.
+#' @examples
+#' # distance between Brisbane and Melbourne
+#' bne <- c(153.028, -27.468)
+#' mlb <- c(144.963, -37.814)
+#' get_gcdist(bne, mlb, 'km')
+#' @export
+#'
+get_gcdist <- function(pt1 = NULL, pt2 = NULL,
+                       units = c('m', 'km'),
+                       simple = TRUE) {
+
+  units <- match.arg(units, c('m', 'km'))
+
+  pt1 <- prep_for_pt2h3(pt1)
+  pt2 <- prep_for_pt2h3(pt2)
+
+  stopifnot(nrow(pt1) == nrow(pt2)) # TODO
+
+  sesh$assign('pt1', pt1, digits = NA)
+  sesh$assign('pt2', pt2, digits = NA)
+  sesh$assign('units', units, digits = NA)
+
+  # sesh$eval('console.log(pts1[0]);')
+  # sesh$eval('console.log(JSON.stringify(h3.pointDist(pts1[0], pts2[0], units)));')
+  sesh$eval('var gcd = [];
+            for (var i = 0; i < pt1.length; i++) {
+              gcd[i] = h3.pointDist(pt1[i], pt2[i], units);
+            };')
+
+  if(simple == TRUE) {
+    sesh$get('gcd')
+  } else {
+    out <- as.data.frame(cbind(pt1, pt2, sesh$get('gcd')))
+    names(out) <- c('start_X', 'start_Y', 'end_X', 'end_Y', 'gc_dist')
+    out
+  }
+}
+
+
+
 ## get all info in a table for fast access
 #h3_res_areas <- dplyr::left_join(res_area(seq(0, 15), 'm2'),
 #                                 res_area(seq(0, 15), 'km2'), by = 'res')
