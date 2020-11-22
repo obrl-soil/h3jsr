@@ -229,3 +229,13 @@ test_that('h3 to polygon returns an appropriate dataset',
             expect_error(h3_to_polygon(df[ , c(2,1)], simple = FALSE))
             )
 )
+
+test_that(
+  'get_res0 returns correctly',
+  c(
+    res0 <- get_res0(),
+    expect_is(res0, 'character'),
+    expect_equal(length(res0), 122),
+    expect_equal(res0[1], '8001fffffffffff')
+  )
+)

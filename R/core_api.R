@@ -446,3 +446,21 @@ h3_to_polygon <- function(input = NULL, simple = TRUE) {
   }
 }
 }
+
+#' Get resolution 0 indexes
+#'
+#' Get all H3 cell indexes at resolution 0.
+#' @return length 122 character vector of top-level H3 cell indices.
+#' @note As every index at every resolution > 0 is
+#' the descendant of a res 0 index, this can be used with
+#' \code{\link[h3jsr:get_children]{get_children}} to iterate over H3 indexes at
+#' any resolution.
+#' @examples
+#' res0 <- get_res0()
+#' cell_area(res0[1], 'km2')
+#' @export
+#'
+get_res0 <- function() {
+  sesh$eval('res0 = h3.getRes0Indexes();')
+  sesh$get('res0')
+}
