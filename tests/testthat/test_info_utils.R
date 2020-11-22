@@ -88,3 +88,26 @@ test_that(
     expect_equal(names(val4), c('h3_address', 'area_km2'))
   )
 )
+
+test_that(
+  'edge_length performs as expected',
+  c(
+    val1 <- edge_length(h3_address = '166be8d12fffffff'),
+    val2 <- edge_length(h3_address = '166be8d12fffffff', simple = FALSE),
+    val3 <- edge_length(h3_address = '166be8d12fffffff', units = 'km'),
+    val4 <- edge_length(h3_address = '166be8d12fffffff', simple = FALSE, units = 'km'),
+    val5 <- edge_length(h3_address = '166be8d12fffffff', units = 'rads'),
+    val6 <- edge_length(h3_address = '166be8d12fffffff', simple = FALSE, units = 'rads'),
+    expect_equal(val1, 4037.6871751936487),
+    expect_equal(val1 / 1000, val3),
+    expect_equal(val5 * 6371.007180918475, val3), # note hardcoded mean earth radius used here
+    expect_equal(val2[1, 2], 4037.6871751936487),
+    expect_equal(val4[1, 2] * 1000, val2[1, 2]),
+    expect_is(val2, 'data.frame'),
+    expect_is(val2$h3_address, 'character'),
+    expect_equal(val2$length_m, 4037.6871751936487),
+    expect_equal(names(val2), c('h3_address', 'length_m')),
+    expect_equal(names(val4), c('h3_address', 'length_km')),
+    expect_equal(names(val6), c('h3_address', 'length_rads'))
+  )
+)
