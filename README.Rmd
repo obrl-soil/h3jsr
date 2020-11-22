@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-[![R build status](https://github.com/obrl-soil/h3jsr/workflows/check-standard/badge.svg)](https://github.com/obrl-soil/h3jsr/actions)
+[![R build status](https://github.com/obrl-soil/h3jsr/workflows/R-CMD-check/badge.svg)](https://github.com/obrl-soil/h3jsr/actions)
 [![R build status](https://github.com/obrl-soil/h3jsr/workflows/test-coverage/badge.svg)](https://github.com/obrl-soil/h3jsr/actions)
 [![R build status](https://github.com/obrl-soil/h3jsr/workflows/pkgdown/badge.svg)](https://github.com/obrl-soil/h3jsr/actions)
 

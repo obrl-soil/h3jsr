@@ -1,7 +1,7 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
 [![R build
-status](https://github.com/obrl-soil/h3jsr/workflows/check-standard/badge.svg)](https://github.com/obrl-soil/h3jsr/actions)
+status](https://github.com/obrl-soil/h3jsr/workflows/R-CMD-check/badge.svg)](https://github.com/obrl-soil/h3jsr/actions)
 [![R build
 status](https://github.com/obrl-soil/h3jsr/workflows/test-coverage/badge.svg)](https://github.com/obrl-soil/h3jsr/actions)
 [![R build
