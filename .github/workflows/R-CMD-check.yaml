@@ -59,23 +59,13 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
       - name: Install system dependencies
-        if: matrix.config.os == 'ubuntu-16.04'
+        if: runner.os == 'Linux'
         run: |
           while read -r cmd
           do
             eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "16.04"))')
-          sudo apt-get install -y libnode-dev
-        
-      - name: Install system dependencies        
-        if: matrix.config.os == 'ubuntu-latest'
-        run: |
-          while read -r cmd
-          do
-            eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
-          sudo apt-get install -y libnode-dev
-          
+          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "16.04"))')        
+      
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
