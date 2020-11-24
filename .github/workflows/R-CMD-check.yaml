@@ -61,13 +61,10 @@ jobs:
       - name: Install system dependencies
         if: runner.os == 'Linux'
         run: |
-          while read -r cmd
-          do
-            eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "16.04"))')
           sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
           sudo apt-get --yes --force-yes update -qq
-          sudo apt-get install -y libudunits2-dev libproj-dev libgeos-dev libgdal-dev          
+          sudo apt-get install -y libudunits2-dev libproj-dev libgeos-dev libgdal-dev libnode-dev    
+          sudo apt search libgdal-dev libnode-dev 
       
       - name: Install dependencies
         run: |
