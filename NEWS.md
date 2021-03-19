@@ -1,3 +1,7 @@
+# v 1.2.1
+
+  * Updated to h3-js 3.7.1
+
 # v 1.2.0
 
   * Updated to h3-js 3.7.0
