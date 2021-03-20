@@ -3,8 +3,12 @@ title: "Introduction to h3jsr"
 author: "Lauren O'Brien"
 date: "`r Sys.Date()`"
 output:
-  md_document:
-    variant: gfm
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    toc_depth: 2
 vignette: >
   %\VignetteIndexEntry{Introduction to h3jsr}
   %\VignetteEncoding{UTF-8}
