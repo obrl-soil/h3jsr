@@ -30,7 +30,7 @@ remotes::install_github("obrl-soil/h3jsr")
 ``` r
 library(h3jsr)
 library(sf)
-#> Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1
+#> Linking to GEOS 3.9.0, GDAL 3.2.1, PROJ 7.2.1
 
 # where is the Brisbane Town Hall at resolution 15?
 bth <- st_sfc(st_point(c(153.023503, -27.468920)), crs = 4326)
@@ -49,10 +49,10 @@ point_to_h3(bth, res = seq(10, 15), simple = FALSE)
 brisbane_10 <- h3_to_point(h3_address = '8abe8d12acaffff')
 brisbane_10
 #> Geometry set for 1 feature 
-#> geometry type:  POINT
-#> dimension:      XY
-#> bbox:           xmin: 153.0239 ymin: -27.46853 xmax: 153.0239 ymax: -27.46853
-#> geographic CRS: WGS 84
+#> Geometry type: POINT
+#> Dimension:     XY
+#> Bounding box:  xmin: 153.0239 ymin: -27.46853 xmax: 153.0239 ymax: -27.46853
+#> Geodetic CRS:  WGS 84
 #> POINT (153.0239 -27.46853)
 
 # Is that a valid H3 address?
@@ -86,4 +86,4 @@ Props to Joel Gombin, who’s package
 [`concaveman`](https://github.com/joelgombin/concaveman) provided me
 with the implementation inspo.
 
------
+------------------------------------------------------------------------

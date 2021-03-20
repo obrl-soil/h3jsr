@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">h3jsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.1</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -79,13 +79,13 @@
 
       
 
-      </header><script src="intro-to-h3jsr_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="intro-to-h3jsr_files/header-attrs-2.7/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to h3jsr</h1>
                         <h4 class="author">Lauren O’Brien</h4>
             
-            <h4 class="date">2020-11-22</h4>
+            <h4 class="date">2021-03-20</h4>
       
       
       <div class="hidden name"><code>intro-to-h3jsr.Rmd</code></div>
@@ -97,7 +97,7 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">h3jsr</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
 <div id="general-information" class="section level2">
@@ -421,6 +421,7 @@
 <span class="co">#&gt; [1] "862a9935fffffff" "862a9934fffffff" "862a9936fffffff" "8644db267ffffff"</span>
 <span class="co">#&gt; [5] "8644db277ffffff" "8644db257ffffff" "8644db2e7ffffff"</span></code></pre></div>
 <p>Note that these functions only work between grid cells at the same resolution.</p>
+<p>The great-circle distance between two points (e.g. cell centers) can also be calculated with <code>get_dist()</code>, using the Haversine formula.</p>
 <p><code><a href="../reference/h3_to_line.html">h3_to_line()</a></code> is a custom function that has been provided largely to make it easy to spatialise the results of <code><a href="../reference/grid_path.html">grid_path()</a></code>. It will take a list of h3 addresses, convert them to points, and then turn the set of points into an <code>sfc_LINESTRING</code> object. The function is flexible enough to work across an arbitrary set of addresses (including addresses at multiple resolutions), but this is untested and results may be strange.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">state_line</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/h3_to_line.html">h3_to_line</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>
@@ -439,7 +440,7 @@
 <div id="info-utilities" class="section level2">
 <h2 class="hasAnchor">
 <a href="#info-utilities" class="anchor"></a>Info utilities</h2>
-<p>A set of general information utilities give information about the characteristics of the hexagons at each resolution. This includes area, edge length, the distance between hexagon centers, and the total number of addresses. This data is stored locally but can also be calculated from source.</p>
+<p>A set of general information utilities give information about the characteristics of the hexagons at each resolution. This includes average area, average edge length, average distance between hexagon centers, and the total number of addresses. This data is stored locally but can also be calculated from source.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/res_area.html">res_area</a></span><span class="op">(</span><span class="fl">6</span>, <span class="st">'km2'</span><span class="op">)</span>
 <span class="co">#&gt; [1] 36.12905</span>
@@ -464,6 +465,13 @@
 <span class="co">#&gt;  $ avg_cendist_m       : num  1918614 725168 274088 103595 39155 ...</span>
 <span class="co">#&gt;  $ avg_cendist_km      : num  1918.6 725.2 274.1 103.6 39.2 ...</span>
 <span class="co">#&gt;  $ total_unique_indexes: num  122 842 5882 41162 288122 ...</span></code></pre></div>
+<p>The exact area of particular cells and the length of edges can also be calculated:</p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/cell_area.html">cell_area</a></span><span class="op">(</span>h3_address <span class="op">=</span> <span class="st">'8abe8d12acaffff'</span>, <span class="st">'km2'</span><span class="op">)</span>
+<span class="co">#&gt; [1] 0.0177539</span>
+
+<span class="fu"><a href="../reference/edge_length.html">edge_length</a></span><span class="op">(</span>h3_address <span class="op">=</span> <span class="st">'166be8d12fffffff'</span>, <span class="st">'km'</span><span class="op">)</span>
+<span class="co">#&gt; [1] 4.037687</span></code></pre></div>
 <hr>
 </div>
   </div>

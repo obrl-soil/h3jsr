@@ -2,7 +2,9 @@
 title: "Introduction to h3jsr"
 author: "Lauren O'Brien"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output:
+  md_document:
+    variant: gfm
 vignette: >
   %\VignetteIndexEntry{Introduction to h3jsr}
   %\VignetteEncoding{UTF-8}
