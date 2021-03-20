@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   intro-to-h3jsr: intro-to-h3jsr.html
-last_built: 2021-03-19T23:54Z
+last_built: 2021-03-20T04:45Z
 urls:
   reference: http://obrl-soil.github.io/h3jsr//reference
   article: http://obrl-soil.github.io/h3jsr//articles
