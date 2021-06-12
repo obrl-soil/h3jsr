@@ -1,14 +1,14 @@
+# For help debugging build failures open an issue on the RStudio community with the 'github-actions' tag.
+# https://community.rstudio.com/new-topic?category=Package%20development&tags=github-actions
 on:
   push:
     branches:
+      - main
       - master
-    paths-ignore:
-      - 'docs/**'
   pull_request:
     branches:
+      - main
       - master
-    paths-ignore:
-      - 'docs/**'
 
 name: R-CMD-check
 
@@ -22,26 +22,24 @@ jobs:
       fail-fast: false
       matrix:
         config:
-          - {os: windows-latest, r: '3.6'}
           - {os: windows-latest, r: 'release'}
-          - {os: macOS-latest, r: '3.6', args: '--install-args=\"--configure-args=--with-proj-lib=/usr/local/lib/\"", "--ignore-vignettes', build_args: "--no-build-vignettes"}
-          - {os: macOS-latest, r: 'release', args: '--install-args=\"--configure-args=--with-proj-lib=/usr/local/lib/\"", "--ignore-vignettes', build_args: "--no-build-vignettes"}
-          - {os: ubuntu-16.04, r: '3.6', rspm: "https://packagemanager.rstudio.com/cran/__linux__/xenial/latest"}
-          - {os: ubuntu-latest, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/bionic/latest"}
+          - {os: macOS-latest, r: 'release'}
+          - {os: ubuntu-20.04, r: 'release', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"}
+          - {os: ubuntu-20.04,   r: 'devel', rspm: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest", http-user-agent: "R/4.1.0 (ubuntu-20.04) R (4.1.0 x86_64-pc-linux-gnu x86_64 linux-gnu) on GitHub Actions" }
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      DOWNLOAD_STATIC_LIBV8: 1
       RSPM: ${{ matrix.config.rspm }}
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v2
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v1
         with:
           r-version: ${{ matrix.config.r }}
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@v1
 
       - name: Query dependencies
         run: |
@@ -50,8 +48,7 @@ jobs:
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
 
-      - name: Cache R packages
-        if: runner.os != 'Windows'
+      - name: Restore R package cache
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
@@ -61,25 +58,28 @@ jobs:
       - name: Install system dependencies
         if: runner.os == 'Linux'
         run: |
-          sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
-          sudo apt-get --yes --force-yes update -qq
-          sudo apt-get install -y libudunits2-dev libproj-dev libgeos-dev libgdal-dev
+          while read -r cmd
+          do
+            eval sudo $cmd
+          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04"))')
+
       - name: Install dependencies
         run: |
           remotes::install_deps(dependencies = TRUE)
           remotes::install_cran("rcmdcheck")
-          library(V8) # report version
         shell: Rscript {0}
-        
+
       - name: Check
         env:
           _R_CHECK_CRAN_INCOMING_REMOTE_: false
-        run: rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
+        run: |
+          options(crayon.enabled = TRUE)
+          rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"), error_on = "warning", check_dir = "check")
         shell: Rscript {0}
 
       - name: Upload check results
         if: failure()
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@main
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
           path: check
