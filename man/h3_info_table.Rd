@@ -24,7 +24,7 @@ A data frame with 16 rows and 6 variables: \describe{
 }
 \source{
 See also
-  \url{https://h3geo.org/docs/core-library/restable }
+  \url{https://h3geo.org/docs/core-library/restable/}
 }
 \usage{
 h3_info_table

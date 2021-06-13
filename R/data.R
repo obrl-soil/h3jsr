@@ -20,6 +20,6 @@
 #'   \item{total_unique_indexes}{Total number of H3 cells at the given
 #'   resolution.}}
 #' @source See also
-#'   \url{https://h3geo.org/docs/core-library/restable }
+#'   \url{https://h3geo.org/docs/core-library/restable/}
 #'
 "h3_info_table"

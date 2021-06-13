@@ -16,7 +16,7 @@ magical power of [`V8`](https://github.com/jeroen/v8).
 
 H3 is a hexagonal hierarchical geospatial indexing system. Details about
 its structure and use cases [can be found
-here](https://uber.github.io/h3/#/documentation/overview/use-cases).
+here](https://h3geo.org/docs/).
 
 ## Installation
 

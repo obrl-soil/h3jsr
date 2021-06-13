@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 h3jsr provides access to [Uber's H3 library](https://github.com/uber/h3) via its [javascript transpile](https://github.com/uber/h3-js), using the magical power of [`V8`](https://github.com/jeroen/v8).
 
-H3 is a hexagonal hierarchical geospatial indexing system. Details about its structure and use cases [can be found here](https://uber.github.io/h3/#/documentation/overview/use-cases).
+H3 is a hexagonal hierarchical geospatial indexing system. Details about its structure and use cases [can be found here](https://h3geo.org/docs/).
 
 ## Installation
 

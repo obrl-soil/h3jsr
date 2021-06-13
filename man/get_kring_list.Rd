@@ -25,9 +25,10 @@ This function returns all the H3 cell indexes within a specified number of steps
 from the address supplied, grouped by step.
 }
 \note{
-In total, the number of indices returned for each input cell
-  conforms to the [centered hexagonal number
-  sequence](https://en.wikipedia.org/wiki/Centered_hexagonal_number), so at
+In total, the number of indices returned for each input cell conforms
+  to the
+  \href{https://en.wikipedia.org/wiki/Centered_hexagonal_number}{centered
+  hexagonal number sequence}, so at
   `ring_size = 5`, 91 cells are returned. Cells are returned in
   separate lists, one for each step.
 }

@@ -11,7 +11,7 @@ point_to_h3(input = NULL, res = NULL, simple = TRUE)
 point, data frame or matrix.}
 
 \item{res}{Integer; Desired H3 resolution. See
-https://h3geo.org/docs/core-library/restable for allowable values and related dimensions.}
+\url{https://h3geo.org/docs/core-library/restable/} for allowable values and related dimensions.}
 
 \item{simple}{Logical; whether to return outputs as character vector where
 possible.}

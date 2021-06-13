@@ -8,7 +8,7 @@ res_cendist(res = NULL, units = c("m", "km"), fast = TRUE)
 }
 \arguments{
 \item{res}{Integer; Desired H3 resolution. See
-https://h3geo.org/docs/core-library/restable for allowable values and related dimensions.}
+\url{https://h3geo.org/docs/core-library/restable/} for allowable values and related dimensions.}
 
 \item{units}{Length unit to report in, either meters or kilometers.}
 

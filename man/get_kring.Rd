@@ -26,9 +26,9 @@ steps from the index supplied.
 \note{
 While the parent function name `kring` may imply returning a donut of
   cells, it actually returns a patch centered on the input. The number of
-  cells returned for each input index conforms to the [centered
-  hexagonal number
-  sequence](https://en.wikipedia.org/wiki/Centered_hexagonal_number), so at
+  cells returned for each input index conforms to the
+  \href{https://en.wikipedia.org/wiki/Centered_hexagonal_number}{centered
+  hexagonal number sequence}, so at
   `ring_size = 5`, 91 addresses are returned. The first address returned is
   the input address, the rest follow in a spiral anticlockwise order.
 }
