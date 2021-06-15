@@ -1,0 +1,5 @@
+The h3jsr package as a whole is distributed under an Apache License (>= 2). The h3jsr package contains other open source software components. The following is a list of those components:
+
+  * h3-js: Apache License (>= 2)
+
+Full copies of the license agreements used by these components are included in `inst/js`.

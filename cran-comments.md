@@ -1,7 +1,17 @@
 ## Release Summary
 
-First submission.
+This is a resubmission. Issues found:
 
+  * non-standard FOSS license. 
+    * Response: ran `usethis::use_apache_license()` to update the LICENSE.md file and
+      DESCRIPTION syntax. Added separate copy of Apache 2.0 license specific to bundled
+      h3js code in `inst/js` and added a LICENSE.note file consistent with advice at
+      https://r-pkgs.org/license.html and https://github.com/uber/h3-js/issues/123.
+  * busted URLs
+    * all URLs reviewed and updated.
+	
+	thanks :)
+  
 ## Test environments
 
   * Local: 
