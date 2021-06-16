@@ -2,13 +2,10 @@
 
 This is a resubmission. Issues found:
 
-  * non-standard FOSS license. 
-    * Response: ran `usethis::use_apache_license()` to update the LICENSE.md file and
-      DESCRIPTION syntax. Added separate copy of Apache 2.0 license specific to bundled
-      h3js code in `inst/js` and added a LICENSE.note file consistent with advice at
-      https://r-pkgs.org/license.html and https://github.com/uber/h3-js/issues/123.
-  * busted URLs
-    * all URLs reviewed and updated.
+  * URL containing fragment identifier flagged as potentially broken
+    * Fragment removed with commit https://github.com/obrl-soil/h3jsr/commit/a0f0bc2d1b0f22539414c253ee4b5debf9b8bc4b. 
+  * Please reset options() in vignette after knitting
+    * Vignette code modified to ensure this behaviour with commit https://github.com/obrl-soil/h3jsr/commit/00617b2a5b9a8f4ea6652eee5e647a11ebd3f423
 	
 	thanks :)
   
