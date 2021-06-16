@@ -28,10 +28,12 @@ knitr::opts_chunk$set(
 ```
 
 ```{r 'pkgs', warning = FALSE, message = FALSE}
+local_options <- options()
 library(sf)
 library(dplyr)
 library(ggplot2)
 library(h3jsr)
+# for R < 4, since H3 addresses are handled as strings
 options(stringsAsFactors = FALSE)
 ```
 
@@ -394,4 +396,8 @@ edge_length(h3_address = '166be8d12fffffff', 'km')
 
 ```
 
+```{r}
+# reset local options
+options(local_options)
+```
 ***
