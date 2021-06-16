@@ -110,7 +110,7 @@ ggplot() +
   theme_void()
 ```
 
-`is_rc3()` checks whether an H3 address has a resolution with Class III orientation. This refers to the [orientation of the hex grid](https://h3geo.org/docs/core-library/coordsystems#faceijk-coordinates) relative to the next coarser resolution. 
+`is_rc3()` checks whether an H3 address has a resolution with Class III orientation. This refers to the [orientation of the hex grid](https://h3geo.org/docs/core-library/coordsystems/) relative to the next coarser resolution. 
 
 ```{r 'isrc3'}
 is_rc3(h3_address = '8abe8d12acaffff')
