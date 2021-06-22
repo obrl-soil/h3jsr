@@ -11,7 +11,7 @@ LazyData: true
 Depends:
     R (>= 2.10)
 SystemRequirements:
-    V8 engine version 6+ is needed for modern JS and WASM support. On Debian / Ubuntu install either libv8-dev or libnode-dev, on Fedora use v8-devel, on Solaris libv8_dev.
+    V8 engine version 6+ is needed for modern JS and WASM support. On Debian / Ubuntu install either libv8-dev or libnode-dev, on Fedora use v8-devel.
 Imports:
     geojsonsf,
     methods,
