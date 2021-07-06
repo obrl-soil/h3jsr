@@ -24,11 +24,9 @@ here](https://h3geo.org/docs/).
 
 ## Installation
 
-Install from CRAN with
-
-``` r
-install.packages('h3jsr')
-```
+2021-07-07 This package is temporarily off-CRAN, until I can get it to
+build on Solaris. In the meantime, grab the release file for v1.2.2 if
+you need the version that was on CRAN, or install from github per below.
 
 Install the development version from GitHub with
 
