@@ -1,8 +1,8 @@
 Package: h3jsr
 Type: Package
 Title: Access Uber's H3 Library
-Version: 1.2.2
-Date: 2021-06-16
+Version: 1.2.3
+Date: 2021-11-11
 Authors@R: person("Lauren", "O'Brien", email = "obrlsoilau@gmail.com", role = c('aut', 'cre'), comment = c(ORCID = "0000-0002-7336-2171"))
 Description: Provides access to Uber's H3 library for geospatial indexing via its JavaScript transpile 'h3-js' <https://github.com/uber/h3-js> and 'V8' <https://github.com/jeroen/v8>.
 License: Apache License (>= 2)
@@ -18,7 +18,7 @@ Imports:
     sf,
     tidyr,
     utils,
-    V8
+    V8 (>= 3.6.0)
 Suggests:
     covr,
     dplyr,
@@ -26,5 +26,5 @@ Suggests:
     knitr,
     rmarkdown,
     testthat
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 VignetteBuilder: knitr

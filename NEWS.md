@@ -1,3 +1,7 @@
+# v 1.2.3
+
+  * Updated `V8` version requirement to ensure consistent build across platforms
+
 # v 1.2.2
 
   * Updated to h3-js 3.7.2
