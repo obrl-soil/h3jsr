@@ -85,7 +85,7 @@ point at the chosen resolution(s)." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">h3jsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.3</span>
       </span>
     </div>
 
@@ -184,13 +184,13 @@ columns containing addresses for one or more H3 resolutions.</p></li>
   aware of the memory demand on large datasets.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># where is the Brisbane Town Hall at resolution 15?</span>
-<span class='va'>bth</span> <span class='op'>&lt;-</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/sfc.html'>st_sfc</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st.html'>st_point</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>153.023503</span>, <span class='op'>-</span><span class='fl'>27.468920</span><span class='op'>)</span><span class='op'>)</span>, crs <span class='op'>=</span> <span class='fl'>4326</span><span class='op'>)</span>
-<span class='va'>bth_15</span> <span class='op'>&lt;-</span> <span class='fu'>point_to_h3</span><span class='op'>(</span><span class='va'>bth</span>, res <span class='op'>=</span> <span class='fl'>15</span><span class='op'>)</span>
-
-<span class='co'># where is it at several resolutions?</span>
-<span class='va'>bth_many</span> <span class='op'>&lt;-</span> <span class='fu'>point_to_h3</span><span class='op'>(</span><span class='va'>bth</span>, res <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>15</span><span class='op'>)</span>, simple <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># where is the Brisbane Town Hall at resolution 15?</span></span>
+<span class='r-in'><span class='va'>bth</span> <span class='op'>&lt;-</span> <span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/sfc.html'>st_sfc</a></span><span class='op'>(</span><span class='fu'>sf</span><span class='fu'>::</span><span class='fu'><a href='https://r-spatial.github.io/sf/reference/st.html'>st_point</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>153.023503</span>, <span class='op'>-</span><span class='fl'>27.468920</span><span class='op'>)</span><span class='op'>)</span>, crs <span class='op'>=</span> <span class='fl'>4326</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>bth_15</span> <span class='op'>&lt;-</span> <span class='fu'>point_to_h3</span><span class='op'>(</span><span class='va'>bth</span>, res <span class='op'>=</span> <span class='fl'>15</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># where is it at several resolutions?</span></span>
+<span class='r-in'><span class='va'>bth_many</span> <span class='op'>&lt;-</span> <span class='fu'>point_to_h3</span><span class='op'>(</span><span class='va'>bth</span>, res <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>15</span><span class='op'>)</span>, simple <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

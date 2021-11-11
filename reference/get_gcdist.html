@@ -84,7 +84,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">h3jsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.3</span>
       </span>
     </div>
 
@@ -178,11 +178,14 @@ shorter distances than most other implementations, but is included here
 for completeness.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># distance between Brisbane and Melbourne</span>
-<span class='va'>bne</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>153.028</span>, <span class='op'>-</span><span class='fl'>27.468</span><span class='op'>)</span>
-<span class='va'>mlb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>144.963</span>, <span class='op'>-</span><span class='fl'>37.814</span><span class='op'>)</span>
-<span class='fu'>get_gcdist</span><span class='op'>(</span><span class='va'>bne</span>, <span class='va'>mlb</span>, <span class='st'>'km'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Assuming positions 1 and 2 contain x, y coordinates in EPSG:4326</span></div><div class='output co'>#&gt; <span class='message'>Assuming positions 1 and 2 contain x, y coordinates in EPSG:4326</span></div><div class='output co'>#&gt; [1] 1331.349</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># distance between Brisbane and Melbourne</span></span>
+<span class='r-in'><span class='va'>bne</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>153.028</span>, <span class='op'>-</span><span class='fl'>27.468</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>mlb</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>144.963</span>, <span class='op'>-</span><span class='fl'>37.814</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>get_gcdist</span><span class='op'>(</span><span class='va'>bne</span>, <span class='va'>mlb</span>, <span class='st'>'km'</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Assuming positions 1 and 2 contain x, y coordinates in EPSG:4326</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Assuming positions 1 and 2 contain x, y coordinates in EPSG:4326</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 1331.349</span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

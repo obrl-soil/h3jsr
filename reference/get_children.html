@@ -85,7 +85,7 @@ requested resolution." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">h3jsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.3</span>
       </span>
     </div>
 
@@ -173,23 +173,24 @@ containing both inputs and outputs.</p></td>
   This can cause memory issues with larger requests.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># What are the children of this resolution 6 cell index at resolution 8?</span>
-<span class='fu'>get_children</span><span class='op'>(</span>h3_address <span class='op'>=</span> <span class='st'>'86be8d12fffffff'</span>, res <span class='op'>=</span> <span class='fl'>8</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [[1]]
-#&gt;  [1] "88be8d1281fffff" "88be8d1283fffff" "88be8d1285fffff" "88be8d1287fffff"
-#&gt;  [5] "88be8d1289fffff" "88be8d128bfffff" "88be8d128dfffff" "88be8d1291fffff"
-#&gt;  [9] "88be8d1293fffff" "88be8d1295fffff" "88be8d1297fffff" "88be8d1299fffff"
-#&gt; [13] "88be8d129bfffff" "88be8d129dfffff" "88be8d12a1fffff" "88be8d12a3fffff"
-#&gt; [17] "88be8d12a5fffff" "88be8d12a7fffff" "88be8d12a9fffff" "88be8d12abfffff"
-#&gt; [21] "88be8d12adfffff" "88be8d12b1fffff" "88be8d12b3fffff" "88be8d12b5fffff"
-#&gt; [25] "88be8d12b7fffff" "88be8d12b9fffff" "88be8d12bbfffff" "88be8d12bdfffff"
-#&gt; [29] "88be8d12c1fffff" "88be8d12c3fffff" "88be8d12c5fffff" "88be8d12c7fffff"
-#&gt; [33] "88be8d12c9fffff" "88be8d12cbfffff" "88be8d12cdfffff" "88be8d12d1fffff"
-#&gt; [37] "88be8d12d3fffff" "88be8d12d5fffff" "88be8d12d7fffff" "88be8d12d9fffff"
-#&gt; [41] "88be8d12dbfffff" "88be8d12ddfffff" "88be8d12e1fffff" "88be8d12e3fffff"
-#&gt; [45] "88be8d12e5fffff" "88be8d12e7fffff" "88be8d12e9fffff" "88be8d12ebfffff"
-#&gt; [49] "88be8d12edfffff"
-#&gt; </div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># What are the children of this resolution 6 cell index at resolution 8?</span></span>
+<span class='r-in'><span class='fu'>get_children</span><span class='op'>(</span>h3_address <span class='op'>=</span> <span class='st'>'86be8d12fffffff'</span>, res <span class='op'>=</span> <span class='fl'>8</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [[1]]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] "88be8d1281fffff" "88be8d1283fffff" "88be8d1285fffff" "88be8d1287fffff"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [5] "88be8d1289fffff" "88be8d128bfffff" "88be8d128dfffff" "88be8d1291fffff"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [9] "88be8d1293fffff" "88be8d1295fffff" "88be8d1297fffff" "88be8d1299fffff"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [13] "88be8d129bfffff" "88be8d129dfffff" "88be8d12a1fffff" "88be8d12a3fffff"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [17] "88be8d12a5fffff" "88be8d12a7fffff" "88be8d12a9fffff" "88be8d12abfffff"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [21] "88be8d12adfffff" "88be8d12b1fffff" "88be8d12b3fffff" "88be8d12b5fffff"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [25] "88be8d12b7fffff" "88be8d12b9fffff" "88be8d12bbfffff" "88be8d12bdfffff"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [29] "88be8d12c1fffff" "88be8d12c3fffff" "88be8d12c5fffff" "88be8d12c7fffff"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [33] "88be8d12c9fffff" "88be8d12cbfffff" "88be8d12cdfffff" "88be8d12d1fffff"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [37] "88be8d12d3fffff" "88be8d12d5fffff" "88be8d12d7fffff" "88be8d12d9fffff"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [41] "88be8d12dbfffff" "88be8d12ddfffff" "88be8d12e1fffff" "88be8d12e3fffff"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [45] "88be8d12e5fffff" "88be8d12e7fffff" "88be8d12e9fffff" "88be8d12ebfffff"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [49] "88be8d12edfffff"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

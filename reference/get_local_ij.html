@@ -85,7 +85,7 @@ relative to an H3 origin cell." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">h3jsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.3</span>
       </span>
     </div>
 
@@ -187,19 +187,21 @@ equal.</p></li>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Get local coordinates for a nearby cell</span>
-<span class='fu'>get_local_ij</span><span class='op'>(</span>origin <span class='op'>=</span> <span class='st'>'86be8d12fffffff'</span>, destination <span class='op'>=</span> <span class='st'>'86be8d127ffffff'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;     i  j
-#&gt; 1 -87 36</div><div class='input'>
-<span class='co'># Get local coordinates for a donut of nearby cells</span>
-<span class='va'>destinations</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_ring.html'>get_ring</a></span><span class='op'>(</span>h3_address <span class='op'>=</span> <span class='st'>'86be8d12fffffff'</span>, ring_size <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-<span class='va'>local_coords</span> <span class='op'>&lt;-</span> <span class='fu'>get_local_ij</span><span class='op'>(</span>origin <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>'86be8d12fffffff'</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>destinations</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>,
-                             destination <span class='op'>=</span> <span class='va'>destinations</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>,
-                             simple <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://r-spatial.github.io/sf/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>local_coords</span><span class='op'>[</span><span class='st'>'destination'</span><span class='op'>]</span>, pch <span class='op'>=</span> <span class='fl'>19</span><span class='op'>)</span> <span class='co'># note origin is (0,0)</span>
-</div><div class='img'><img src='get_local_ij-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Get local coordinates for a nearby cell</span></span>
+<span class='r-in'><span class='fu'>get_local_ij</span><span class='op'>(</span>origin <span class='op'>=</span> <span class='st'>'86be8d12fffffff'</span>, destination <span class='op'>=</span> <span class='st'>'86be8d127ffffff'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     i  j</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1 -87 36</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Get local coordinates for a donut of nearby cells</span></span>
+<span class='r-in'><span class='va'>destinations</span> <span class='op'>&lt;-</span> <span class='fu'><a href='get_ring.html'>get_ring</a></span><span class='op'>(</span>h3_address <span class='op'>=</span> <span class='st'>'86be8d12fffffff'</span>, ring_size <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>local_coords</span> <span class='op'>&lt;-</span> <span class='fu'>get_local_ij</span><span class='op'>(</span>origin <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>'86be8d12fffffff'</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>destinations</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span class='r-in'>                             destination <span class='op'>=</span> <span class='va'>destinations</span><span class='op'>[[</span><span class='fl'>1</span><span class='op'>]</span><span class='op'>]</span>,</span>
+<span class='r-in'>                             simple <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://r-spatial.github.io/sf/reference/plot.html'>plot</a></span><span class='op'>(</span><span class='va'>local_coords</span><span class='op'>[</span><span class='st'>'destination'</span><span class='op'>]</span>, pch <span class='op'>=</span> <span class='fl'>19</span><span class='op'>)</span> <span class='co'># note origin is (0,0)</span></span>
+<span class='r-plt img'><img src='get_local_ij-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

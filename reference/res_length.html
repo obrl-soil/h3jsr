@@ -85,7 +85,7 @@ resolution." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">h3jsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.3</span>
       </span>
     </div>
 
@@ -170,13 +170,14 @@ reclaculate from source.</p></td>
     <p>This value is also the hexagon circumradius.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Return average H3 cell edge length at each resolution in kilometers</span>
-<span class='fu'>res_length</span><span class='op'>(</span>res <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>15</span><span class='op'>)</span>, units <span class='op'>=</span> <span class='st'>'km'</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] 1.107713e+03 4.186760e+02 1.582447e+02 5.981086e+01 2.260638e+01
-#&gt;  [6] 8.544408e+00 3.229483e+00 1.220630e+00 4.613547e-01 1.743757e-01
-#&gt; [11] 6.590781e-02 2.491056e-02 9.415526e-03 3.559893e-03 1.348575e-03
-#&gt; [16] 5.097130e-04</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># Return average H3 cell edge length at each resolution in kilometers</span></span>
+<span class='r-in'><span class='fu'>res_length</span><span class='op'>(</span>res <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>15</span><span class='op'>)</span>, units <span class='op'>=</span> <span class='st'>'km'</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [1] 1.107713e+03 4.186760e+02 1.582447e+02 5.981086e+01 2.260638e+01</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  [6] 8.544408e+00 3.229483e+00 1.220630e+00 4.613547e-01 1.743757e-01</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [11] 6.590781e-02 2.491056e-02 9.415526e-03 3.559893e-03 1.348575e-03</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [16] 5.097130e-04</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
