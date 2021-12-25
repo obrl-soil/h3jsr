@@ -1,144 +1,162 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//index.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/404.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/are_neighbours.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/cell_area.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/compact.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/articles/intro-to-h3jsr.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/edge_length.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/authors.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_base_cell.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/index.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_centerchild.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/news/index.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_children.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/are_neighbours.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_faces.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/cell_area.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_gcdist.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/compact.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_kring.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/edge_length.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_kring_list.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_base_cell.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_local_h3.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_centerchild.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_local_ij.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_children.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_parent.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_faces.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_pentagons.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_gcdist.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_res.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_kring.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_res0.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_kring_list.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_ring.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_local_h3.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_uddest.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_local_ij.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_udedge.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_parent.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_udedges.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_pentagons.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_udends.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_res.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/get_udorigin.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_res0.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/grid_distance.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_ring.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/grid_path.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_uddest.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/h3_info_table.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_udedge.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/h3_to_line.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_udedges.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/h3_to_point.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_udends.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/h3_to_polygon.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/get_udorigin.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/h3jsr-package.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/grid_distance.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/is_pentagon.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/grid_path.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/is_rc3.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/h3_info_table.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/is_valid.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/h3_to_line.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/is_valid_edge.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/h3_to_point.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/point_to_h3.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/h3_to_polygon.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/polyfill.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/h3jsr-package.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/prep_for_polyfill.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/prep_for_pt2h3.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/is_pentagon.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/res_area.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/is_rc3.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/res_cendist.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/is_valid.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/res_count.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/is_valid_edge.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/res_length.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/point_to_h3.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/set_to_multipolygon.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/polyfill.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/udedge_to_line.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/prep_for_polyfill.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//reference/uncompact.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/prep_for_pt2h3.html</loc>
   </url>
   <url>
-    <loc>https://obrl-soil.github.io/h3jsr//articles/intro-to-h3jsr.html</loc>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/res_area.html</loc>
+  </url>
+  <url>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/res_cendist.html</loc>
+  </url>
+  <url>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/res_count.html</loc>
+  </url>
+  <url>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/res_length.html</loc>
+  </url>
+  <url>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/set_to_multipolygon.html</loc>
+  </url>
+  <url>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/udedge_to_line.html</loc>
+  </url>
+  <url>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/uncompact.html</loc>
   </url>
 </urlset>
