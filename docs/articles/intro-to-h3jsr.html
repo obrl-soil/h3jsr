@@ -26,6 +26,8 @@
 </script>
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -38,18 +40,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">h3jsr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.3</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -79,13 +75,13 @@
 
       
 
-      </header><script src="intro-to-h3jsr_files/header-attrs-2.8/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to h3jsr</h1>
-                        <h4 class="author">Lauren O’Brien</h4>
+                        <h4 data-toc-skip class="author">Lauren O’Brien</h4>
             
-            <h4 class="date">2021-06-12</h4>
+            <h4 data-toc-skip class="date">2022-01-05</h4>
       
       
       <div class="hidden name"><code>intro-to-h3jsr.Rmd</code></div>
@@ -95,44 +91,46 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/">sf</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">h3jsr</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/base/options.html">options</a></span><span class="op">(</span>stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<div id="general-information" class="section level2">
-<h2 class="hasAnchor">
-<a href="#general-information" class="anchor"></a>General information</h2>
+<code class="sourceCode R"><span class="va">local_options</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">h3jsr</span><span class="op">)</span>
+<span class="co"># for R &lt; 4, since H3 addresses are handled as strings</span>
+<span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<div class="section level2">
+<h2 id="general-information">General information<a class="anchor" aria-label="anchor" href="#general-information"></a>
+</h2>
 <p>h3jsr connects Uber’s H3 geospatial library to R, via its transpiled JavaScript implementation,<code>h3-js</code>. The library has extensive potential applications in network analysis, trip routing, and geospatial data aggregation. The wrapper functions provided are intended to interface well with the existing R-spatial ecosystem, particularly <code>sf</code>.</p>
 <ul>
-<li>Documentation for the core H3 library is at <a href="https://uber.github.io/h3/#/documentation/overview/introduction">H3’s github page</a>.</li>
-<li>The core library only understands WGS84 coordinates, so multiple projection support is limited. All spatial objects are returned in WGS84, and ideally should be supplied as such. It’s always safer to do your own spatial transformations and verify the results. If spatial data in a coordinate system other than WGS84 is supplied, it is transformed using <code><a href="https://r-spatial.github.io/sf/reference/st_transform.html">sf::st_transform()</a></code> and a message is issued.</li>
+<li>Documentation for the core H3 library is at <a href="https://h3geo.org/docs/" class="external-link">H3’s github page</a>.</li>
+<li>The core library only understands WGS84 coordinates, so multiple projection support is limited. All spatial objects are returned in WGS84, and ideally should be supplied as such. It’s always safer to do your own spatial transformations and verify the results. If spatial data in a coordinate system other than WGS84 is supplied, it is transformed using <code><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">sf::st_transform()</a></code> and a message is issued.</li>
 <li>For each function in <code>h3jsr</code>, the default behaviour is to return data in as simple a structure as is practical, but there is always an option to return a more complex-object containing both input and output data, as appropriate for the function in question.</li>
-<li>This package uses <code>V8</code> to interface with <code>h3-js</code>. As such, a lot of the overhead for each function call is related to sending data to and from V8 via JSON conversion. Feeding large datasets in often gives faster results than one might expect from the toy examples below. Avoid using these functions in conjunction with e.g. <code><a href="https://rdrr.io/r/base/lapply.html">base::lapply</a></code> or <code><a href="https://purrr.tidyverse.org/reference/map.html">purrr::map</a></code> on individual geometries!</li>
+<li>This package uses <code>V8</code> to interface with <code>h3-js</code>. As such, a lot of the overhead for each function call is related to sending data to and from V8 via JSON conversion. Feeding large datasets in often gives faster results than one might expect from the toy examples below. Avoid using these functions in conjunction with e.g. <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">base::lapply</a></code> or <code><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">purrr::map</a></code> on individual geometries!</li>
 </ul>
 </div>
-<div id="core-functions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#core-functions" class="anchor"></a>Core Functions</h2>
+<div class="section level2">
+<h2 id="core-functions">Core Functions<a class="anchor" aria-label="anchor" href="#core-functions"></a>
+</h2>
 <p>Nine core functions exist - three for translating spatial data into and out of the H3 system, and six information utilities, including an address validity checker.</p>
 <p><code><a href="../reference/point_to_h3.html">point_to_h3()</a></code> takes in <code>sf</code>-style point data and will return the address each point falls into. You can extract addresses for one resolution or many. This function will also accept a matrix or data frame as input, but this will only work if columns 1 and 2 contain WGS84 longitude and latitude values, respectively.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># This is the location of the Brisbane Town Hall:</span>
-<span class="va">bth</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html">st_sfc</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">153.023503</span>, <span class="op">-</span><span class="fl">27.468920</span><span class="op">)</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span>
+<span class="va">bth</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/sfc.html" class="external-link">st_sfc</a></span><span class="op">(</span><span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/st.html" class="external-link">st_point</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">153.023503</span>, <span class="op">-</span><span class="fl">27.468920</span><span class="op">)</span><span class="op">)</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span>
 
 <span class="co"># where is the Brisbane Town Hall at resolution 15?</span>
 <span class="fu"><a href="../reference/point_to_h3.html">point_to_h3</a></span><span class="op">(</span><span class="va">bth</span>, res <span class="op">=</span> <span class="fl">15</span><span class="op">)</span>
 <span class="co">#&gt; [1] "8fbe8d12acad2f3"</span></code></pre></div>
 <p>By default, a character vector is returned for a single resolution, and a data frame where multiple resolutions are requested. If <code>simple = FALSE</code> and the input object inherits from <code>data.frame</code>, a data frame object is returned with a new attribute column for each resolution requested.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span><span class="op">(</span><span class="st">"shape/nc.shp"</span>, package<span class="op">=</span><span class="st">"sf"</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
-<span class="va">nc_pts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_centroid</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>
-<span class="va">nc_pts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span><span class="va">nc_pts</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span>
-<span class="va">nc_pts</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">nc_pts</span>, <span class="va">CNTY_ID</span>, <span class="va">NAME</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">nc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_read.html" class="external-link">st_read</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"shape/nc.shp"</span>, package<span class="op">=</span><span class="st">"sf"</span><span class="op">)</span>, quiet <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">nc_pts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="va">nc</span><span class="op">)</span>
+<span class="va">nc_pts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">nc_pts</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span>
+<span class="va">nc_pts</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">nc_pts</span>, <span class="va">CNTY_ID</span>, <span class="va">NAME</span><span class="op">)</span>
 
 <span class="co"># Give me the address for the center of each NC county at every resolution</span>
-<span class="va">nc_all_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/point_to_h3.html">point_to_h3</a></span><span class="op">(</span><span class="va">nc_pts</span>, res <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">15</span><span class="op">)</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">nc_all_res</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
+<span class="va">nc_all_res</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/point_to_h3.html">point_to_h3</a></span><span class="op">(</span><span class="va">nc_pts</span>, res <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">15</span><span class="op">)</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">nc_all_res</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt;   CNTY_ID        NAME h3_resolution_0 h3_resolution_1 h3_resolution_2</span>
 <span class="co">#&gt; 1    1825        Ashe 802bfffffffffff 812abffffffffff 8244dffffffffff</span>
 <span class="co">#&gt; 2    1827   Alleghany 802bfffffffffff 812abffffffffff 8244dffffffffff</span>
@@ -143,15 +141,15 @@
 <p>H3 addresses can be translated back to a point at a given resolution with <code><a href="../reference/h3_to_point.html">h3_to_point()</a></code>. A polygon (almost always a hexagon), can be retrieved with <code><a href="../reference/h3_to_polygon.html">h3_to_polygon()</a></code>.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># plot a few</span>
-<span class="va">ashe_hexes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">nc_all_res</span><span class="op">[</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">8</span>,<span class="fl">9</span>,<span class="fl">10</span><span class="op">)</span><span class="op">]</span>, use.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">ashe_hexes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">nc_all_res</span><span class="op">[</span><span class="fl">1</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">6</span>,<span class="fl">7</span>,<span class="fl">8</span>,<span class="fl">9</span>,<span class="fl">10</span><span class="op">)</span><span class="op">]</span>, use.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="va">ashe_hexes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="va">ashe_hexes</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">nc</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="cn">NA</span>, colour <span class="op">=</span> <span class="st">'black'</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ashe_hexes</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">h3_address</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'H3 hexagons over County Ashe, NC'</span>, subtitle <span class="op">=</span> <span class="st">'Resolutions 6-10'</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">nc</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="cn">NA</span>, colour <span class="op">=</span> <span class="st">'black'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ashe_hexes</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">h3_address</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_d</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'H3 hexagons over County Ashe, NC'</span>, subtitle <span class="op">=</span> <span class="st">'Resolutions 6-10'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro-to-h3jsr_files/figure-html/c4-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>Hopefully the above plot gives a sense of the large scale changes between resolution levels - each level is seven times more detailed than the last.</p>
 <p>H3 address validity checks are done with <code><a href="../reference/is_valid.html">is_valid()</a></code>:</p>
@@ -172,11 +170,11 @@
 <span class="co">#&gt;  [5] "8862000001fffff" "8874000001fffff" "887e000001fffff" "8890000001fffff"</span>
 <span class="co">#&gt;  [9] "88a6000001fffff" "88c2000001fffff" "88d6000001fffff" "88ea000001fffff"</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_pentagons.html">get_pentagons</a></span><span class="op">(</span><span class="fl">8</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_pentagons.html">get_pentagons</a></span><span class="op">(</span><span class="fl">8</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span><span class="op">)</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro-to-h3jsr_files/figure-html/ispent-1.png" width="288" style="display: block; margin: auto;"></p>
-<p><code><a href="../reference/is_rc3.html">is_rc3()</a></code> checks whether an H3 address has a resolution with Class III orientation. This refers to the <a href="https://uber.github.io/h3/#/documentation/core-library/coordinate-systems">orientation of the hex grid</a> relative to the next coarser resolution.</p>
+<p><code><a href="../reference/is_rc3.html">is_rc3()</a></code> checks whether an H3 address has a resolution with Class III orientation. This refers to the <a href="https://h3geo.org/docs/core-library/coordsystems/" class="external-link">orientation of the hex grid</a> relative to the next coarser resolution.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/is_rc3.html">is_rc3</a></span><span class="op">(</span>h3_address <span class="op">=</span> <span class="st">'8abe8d12acaffff'</span><span class="op">)</span>
 <span class="co">#&gt; [1] FALSE</span></code></pre></div>
@@ -193,9 +191,9 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_res.html">get_res</a></span><span class="op">(</span>h3_address <span class="op">=</span> <span class="st">'8abe8d12acaffff'</span><span class="op">)</span>
 <span class="co">#&gt; [1] 10</span></code></pre></div>
 </div>
-<div id="neighbour-algorithms" class="section level2">
-<h2 class="hasAnchor">
-<a href="#neighbour-algorithms" class="anchor"></a>Neighbour Algorithms</h2>
+<div class="section level2">
+<h2 id="neighbour-algorithms">Neighbour Algorithms<a class="anchor" aria-label="anchor" href="#neighbour-algorithms"></a>
+</h2>
 <p>As the H3 grid system is hierarchical, addresses have parents and children. A parent address is the one that contains the given address at a coarser resolution. A child address is contained by the given address. Parents and children can be requested at any resolution above and below the input, respectively.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># input is res 10:</span>
@@ -207,12 +205,12 @@
 <span class="co">#&gt; [1] "87be8d128ffffff" "87be8d129ffffff" "87be8d12affffff" "87be8d12bffffff"</span>
 <span class="co">#&gt; [5] "87be8d12cffffff" "87be8d12dffffff" "87be8d12effffff"</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="st">'86be8d12fffffff'</span><span class="op">)</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_children.html">get_children</a></span><span class="op">(</span>h3_address <span class="op">=</span> <span class="st">'86be8d12fffffff'</span>,
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="st">'86be8d12fffffff'</span><span class="op">)</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_children.html">get_children</a></span><span class="op">(</span>h3_address <span class="op">=</span> <span class="st">'86be8d12fffffff'</span>,
                                             res <span class="op">=</span> <span class="fl">7</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,
           fill <span class="op">=</span> <span class="st">'red'</span>, alpha <span class="op">=</span> <span class="fl">0.5</span> <span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro-to-h3jsr_files/figure-html/fam-1.png" width="288" style="display: block; margin: auto;"></p>
 <p>The number of addresses returned for each request is <code>7 ^ (parent_res - child_res)</code>, so jumping three levels will return 343 addresses for a single input, and that’s about 41 kb.</p>
 <p>To return only the central child for a given address, use <code><a href="../reference/get_centerchild.html">get_centerchild()</a></code>:</p>
@@ -221,13 +219,13 @@
 <span class="fu"><a href="../reference/get_centerchild.html">get_centerchild</a></span><span class="op">(</span>h3_address <span class="op">=</span> <span class="st">'86be8d12fffffff'</span>, res <span class="op">=</span> <span class="fl">7</span><span class="op">)</span>
 <span class="co">#&gt; [1] "87be8d128ffffff"</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="st">'86be8d12fffffff'</span><span class="op">)</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_centerchild.html">get_centerchild</a></span><span class="op">(</span><span class="st">'86be8d12fffffff'</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span>,
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="st">'86be8d12fffffff'</span><span class="op">)</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_centerchild.html">get_centerchild</a></span><span class="op">(</span><span class="st">'86be8d12fffffff'</span>, <span class="fl">7</span><span class="op">)</span><span class="op">)</span>,
           fill <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_centerchild.html">get_centerchild</a></span><span class="op">(</span><span class="st">'86be8d12fffffff'</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span>,
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_centerchild.html">get_centerchild</a></span><span class="op">(</span><span class="st">'86be8d12fffffff'</span>, <span class="fl">8</span><span class="op">)</span><span class="op">)</span>,
           fill <span class="op">=</span> <span class="st">'blue'</span><span class="op">)</span> <span class="op">+</span>  
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro-to-h3jsr_files/figure-html/cc-1.png" width="288" style="display: block; margin: auto;"></p>
 <p>Within the same resolution, addresses within <em>n</em> ‘steps’ from a central address (a ‘patch’ of hexagons) can be retrieved with <code><a href="../reference/get_kring.html">get_kring()</a></code> or <code><a href="../reference/get_kring_list.html">get_kring_list()</a></code>. The latter function returns an output where addresses are listed separately for each step away from the input. The input address is included in the output.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
@@ -268,55 +266,55 @@
 <span class="va">patch_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/set_to_multipolygon.html">set_to_multipolygon</a></span><span class="op">(</span><span class="va">patch</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 <span class="va">donut_sf</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/set_to_multipolygon.html">set_to_multipolygon</a></span><span class="op">(</span><span class="va">donut</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">patch_sf</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">donut_sf</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, fill <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">patch_sf</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">donut_sf</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>, fill <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro-to-h3jsr_files/figure-html/stmp-1.png" width="288" style="display: block; margin: auto;"></p>
 <p>But it may be more interesting to use <code><a href="../reference/h3_to_polygon.html">h3_to_polygon()</a></code></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">patch_singles</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">patch</span>, use.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">donut_singles</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">donut</span>, use.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">patch_singles</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">patch</span>, use.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">donut_singles</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">donut</span>, use.names <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">patch_singles</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">patch_singles</span><span class="op">)</span><span class="op">)</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">patch_singles</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">patch_singles</span><span class="op">)</span><span class="op">)</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro-to-h3jsr_files/figure-html/coolplot-1.png" width="288" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R">
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">donut_singles</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">donut_singles</span><span class="op">)</span><span class="op">)</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_fill_viridis_c</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">donut_singles</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">donut_singles</span><span class="op">)</span><span class="op">)</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_fill_viridis_c</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro-to-h3jsr_files/figure-html/coolplot-2.png" width="288" style="display: block; margin: auto;"></p>
 <p><code><a href="../reference/polyfill.html">polyfill()</a></code> will return all the h3 addresses whose centers intersect a given polygon. Multipolygons are supported as well.</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">ashe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html">st_transform</a></span><span class="op">(</span><span class="va">nc</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">ashe</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://r-spatial.github.io/sf/reference/st_transform.html" class="external-link">st_transform</a></span><span class="op">(</span><span class="va">nc</span><span class="op">[</span><span class="fl">1</span>, <span class="op">]</span>, crs <span class="op">=</span> <span class="fl">4326</span><span class="op">)</span>
 <span class="va">ashe_7</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/polyfill.html">polyfill</a></span><span class="op">(</span><span class="va">ashe</span>, res <span class="op">=</span> <span class="fl">7</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-<span class="va">ashe_7</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">ashe_7</span><span class="op">$</span><span class="va">h3_polyfillers</span><span class="op">)</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="va">ashe_7</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="va">ashe_7</span><span class="op">$</span><span class="va">h3_polyfillers</span><span class="op">)</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ashe</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ashe_7</span>, fill <span class="op">=</span> <span class="cn">NA</span>, colour <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'Resolution 7 hexagons'</span>, subtitle <span class="op">=</span> <span class="st">'County Ashe, NC'</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ashe</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ashe_7</span>, fill <span class="op">=</span> <span class="cn">NA</span>, colour <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Resolution 7 hexagons'</span>, subtitle <span class="op">=</span> <span class="st">'County Ashe, NC'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro-to-h3jsr_files/figure-html/pf-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>A representation like this can be ‘compacted’ with <code><a href="../reference/compact.html">compact()</a></code>.</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">ashe_comp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/compact.html">compact</a></span><span class="op">(</span><span class="va">ashe_7</span><span class="op">$</span><span class="va">h3_address</span><span class="op">)</span>
 <span class="va">ashe_comp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="va">ashe_comp</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ashe</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ashe_comp</span>, fill <span class="op">=</span> <span class="cn">NA</span>, colour <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'Compacted hexes from resolution 7'</span>, subtitle <span class="op">=</span> <span class="st">'County Ashe, NC'</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ashe</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ashe_comp</span>, fill <span class="op">=</span> <span class="cn">NA</span>, colour <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Compacted hexes from resolution 7'</span>, subtitle <span class="op">=</span> <span class="st">'County Ashe, NC'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro-to-h3jsr_files/figure-html/compact-1.png" width="576" style="display: block; margin: auto;"></p>
 <p>Note the orientation shift at each resolution change. A compacted representation can be uncompacted back to any resolution with <code><a href="../reference/uncompact.html">uncompact()</a></code>, with some loss when the chosen resolution is more detailed than the original <code><a href="../reference/polyfill.html">polyfill()</a></code> operation.</p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
@@ -325,17 +323,17 @@
 
 <span class="va">ashe_uncomp</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="va">ashe_uncomp</span>, simple <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ashe</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ashe_uncomp</span>, fill <span class="op">=</span> <span class="cn">NA</span>, colour <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'Uncompacted hexes to resolution 8'</span>, subtitle <span class="op">=</span> <span class="st">'County Ashe, NC'</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ashe</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">ashe_uncomp</span>, fill <span class="op">=</span> <span class="cn">NA</span>, colour <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Uncompacted hexes to resolution 8'</span>, subtitle <span class="op">=</span> <span class="st">'County Ashe, NC'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro-to-h3jsr_files/figure-html/unc-1.png" width="576" style="display: block; margin: auto;"></p>
 </div>
-<div id="unidirectional-edges" class="section level2">
-<h2 class="hasAnchor">
-<a href="#unidirectional-edges" class="anchor"></a>Unidirectional edges</h2>
+<div class="section level2">
+<h2 id="unidirectional-edges">Unidirectional edges<a class="anchor" aria-label="anchor" href="#unidirectional-edges"></a>
+</h2>
 <p>To check whether two H3 addresses share an edge, use <code><a href="../reference/are_neighbours.html">are_neighbours()</a></code>:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Are the following addresses neighbours?</span>
@@ -345,14 +343,14 @@
 <span class="fu"><a href="../reference/are_neighbours.html">are_neighbours</a></span><span class="op">(</span>origin <span class="op">=</span> <span class="st">'86be8d12fffffff'</span>, destination <span class="op">=</span> <span class="st">'86be8d147ffffff'</span><span class="op">)</span>
 <span class="co">#&gt; [1] FALSE</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'86be8d12fffffff'</span><span class="op">)</span><span class="op">)</span>,
-          fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'red'</span><span class="op">)</span>, alpha <span class="op">=</span>  <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'86be8d127ffffff'</span><span class="op">)</span><span class="op">)</span>,
-          fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'blue'</span><span class="op">)</span>, alpha <span class="op">=</span>  <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>  
-    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'86be8d147ffffff'</span><span class="op">)</span><span class="op">)</span>,
-          fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'green'</span><span class="op">)</span>, alpha <span class="op">=</span>  <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>  
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'86be8d12fffffff'</span><span class="op">)</span><span class="op">)</span>,
+          fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'red'</span><span class="op">)</span>, alpha <span class="op">=</span>  <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'86be8d127ffffff'</span><span class="op">)</span><span class="op">)</span>,
+          fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'blue'</span><span class="op">)</span>, alpha <span class="op">=</span>  <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>  
+    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'86be8d147ffffff'</span><span class="op">)</span><span class="op">)</span>,
+          fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'green'</span><span class="op">)</span>, alpha <span class="op">=</span>  <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>  
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro-to-h3jsr_files/figure-html/neigbs-1.png" width="288" style="display: block; margin: auto;"></p>
 <p>The H3 system can also generate addresses for hex edges. To get the address representing the edge between to adjacent H3 addresses, use <code><a href="../reference/get_udedge.html">get_udedge()</a></code>. Note that the resultant address looks a little different, and has its own validity checking function, <code><a href="../reference/is_valid_edge.html">is_valid_edge()</a></code>:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
@@ -384,17 +382,17 @@
 <span class="co">#&gt; [1] "116be8d12fffffff" "126be8d12fffffff" "136be8d12fffffff" "146be8d12fffffff"</span>
 <span class="co">#&gt; [5] "156be8d12fffffff" "166be8d12fffffff"</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="st">'86be8d12fffffff'</span><span class="op">)</span>, col <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/udedge_to_line.html">udedge_to_line</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_udedges.html">get_udedges</a></span><span class="op">(</span>h3_address <span class="op">=</span> <span class="st">'86be8d12fffffff'</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,
-          <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">2</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html">scale_color_viridis_c</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="st">'86be8d12fffffff'</span><span class="op">)</span>, col <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/udedge_to_line.html">udedge_to_line</a></span><span class="op">(</span><span class="fu"><a href="../reference/get_udedges.html">get_udedges</a></span><span class="op">(</span>h3_address <span class="op">=</span> <span class="st">'86be8d12fffffff'</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,
+          <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">2</span>, show.legend <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_viridis.html" class="external-link">scale_color_viridis_c</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_void</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro-to-h3jsr_files/figure-html/edges-1.png" width="288" style="display: block; margin: auto;"></p>
 </div>
-<div id="local-coordinates" class="section level2">
-<h2 class="hasAnchor">
-<a href="#local-coordinates" class="anchor"></a>Local coordinates</h2>
+<div class="section level2">
+<h2 id="local-coordinates">Local coordinates<a class="anchor" aria-label="anchor" href="#local-coordinates"></a>
+</h2>
 <p>Functions <code><a href="../reference/get_local_ij.html">get_local_ij()</a></code> and <code><a href="../reference/get_local_h3.html">get_local_h3()</a></code> can be used to map H3 addresses to a 2-axis coordinate space, relative to a given origin address. These functions are experimental and are likely to change in future.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">local</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/get_local_ij.html">get_local_ij</a></span><span class="op">(</span>origin <span class="op">=</span> <span class="st">'86be8d12fffffff'</span>, 
@@ -403,12 +401,12 @@
 <span class="fu"><a href="../reference/get_local_h3.html">get_local_h3</a></span><span class="op">(</span>origin <span class="op">=</span> <span class="st">'86be8d12fffffff'</span>, i <span class="op">=</span> <span class="va">local</span><span class="op">[</span>, <span class="fl">1</span><span class="op">]</span>, j <span class="op">=</span> <span class="va">local</span><span class="op">[</span>, <span class="fl">2</span><span class="op">]</span><span class="op">)</span>
 <span class="co">#&gt; [1] "86be8d127ffffff"</span></code></pre></div>
 </div>
-<div id="distance-and-direction" class="section level2">
-<h2 class="hasAnchor">
-<a href="#distance-and-direction" class="anchor"></a>Distance and Direction</h2>
+<div class="section level2">
+<h2 id="distance-and-direction">Distance and Direction<a class="anchor" aria-label="anchor" href="#distance-and-direction"></a>
+</h2>
 <p>Within the context of the H3 grid system, functions <code><a href="../reference/grid_distance.html">grid_distance()</a></code> and <code><a href="../reference/grid_path.html">grid_path()</a></code> provide some ‘navigational’ functionality. <code><a href="../reference/grid_distance.html">grid_distance()</a></code> will report how many steps through the grid are required to travel from one address to another. <code><a href="../reference/grid_path.html">grid_path()</a></code> will return a list of addresses that traverse a shortest path. Note that multiple minimum-step pathways will be possible for many sets of addresses, but this function should return the same one consistently.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">nc_pts</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_centroid</a></span><span class="op">(</span><span class="va">nc</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">nc_pts</span> <span class="op">&lt;-</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="va">nc</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span>
 <span class="va">nc_6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/point_to_h3.html">point_to_h3</a></span><span class="op">(</span><span class="va">nc_pts</span>, res <span class="op">=</span> <span class="fl">6</span><span class="op">)</span>
 <span class="co"># how far apart are these two addresses?</span>
 <span class="fu"><a href="../reference/grid_distance.html">grid_distance</a></span><span class="op">(</span><span class="va">nc_6</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">nc_6</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>
@@ -426,20 +424,20 @@
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">state_line</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/h3_to_line.html">h3_to_line</a></span><span class="op">(</span><span class="va">path</span><span class="op">)</span>
 
-<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">nc</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, <span class="op">]</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html">st_centroid</a></span><span class="op">(</span><span class="va">nc</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">19</span>, size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_point.html">h3_to_point</a></span><span class="op">(</span><span class="va">nc_6</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">19</span>, size <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="va">nc_6</span><span class="op">)</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">state_line</span>, fill <span class="op">=</span> <span class="cn">NA</span>, colour <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">'Counties Ashe and Alleghany, NC'</span>, subtitle <span class="op">=</span> <span class="st">'Line connecting hexagons containing centroids at resolution 6'</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html">coord_sf</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">nc</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, <span class="op">]</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu">sf</span><span class="fu">::</span><span class="fu"><a href="https://r-spatial.github.io/sf/reference/geos_unary.html" class="external-link">st_centroid</a></span><span class="op">(</span><span class="va">nc</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">19</span>, size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_point.html">h3_to_point</a></span><span class="op">(</span><span class="va">nc_6</span><span class="op">)</span>, pch <span class="op">=</span> <span class="fl">19</span>, size <span class="op">=</span> <span class="fl">2</span>, col <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="fu"><a href="../reference/h3_to_polygon.html">h3_to_polygon</a></span><span class="op">(</span><span class="va">nc_6</span><span class="op">)</span>, fill <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">geom_sf</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">state_line</span>, fill <span class="op">=</span> <span class="cn">NA</span>, colour <span class="op">=</span> <span class="st">'red'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">'Counties Ashe and Alleghany, NC'</span>, subtitle <span class="op">=</span> <span class="st">'Line connecting hexagons containing centroids at resolution 6'</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsf.html" class="external-link">coord_sf</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="intro-to-h3jsr_files/figure-html/h3l-1.png" width="576" style="display: block; margin: auto;"></p>
 </div>
-<div id="info-utilities" class="section level2">
-<h2 class="hasAnchor">
-<a href="#info-utilities" class="anchor"></a>Info utilities</h2>
+<div class="section level2">
+<h2 id="info-utilities">Info utilities<a class="anchor" aria-label="anchor" href="#info-utilities"></a>
+</h2>
 <p>A set of general information utilities give information about the characteristics of the hexagons at each resolution. This includes average area, average edge length, average distance between hexagon centers, and the total number of addresses. This data is stored locally but can also be calculated from source.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/res_area.html">res_area</a></span><span class="op">(</span><span class="fl">6</span>, <span class="st">'km2'</span><span class="op">)</span>
@@ -454,8 +452,8 @@
 <span class="fu"><a href="../reference/res_count.html">res_count</a></span><span class="op">(</span><span class="fl">6</span><span class="op">)</span>
 <span class="co">#&gt; [1] 14117882</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"h3_info_table"</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">h3_info_table</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"h3_info_table"</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="va">h3_info_table</span><span class="op">)</span>
 <span class="co">#&gt; 'data.frame':    16 obs. of  8 variables:</span>
 <span class="co">#&gt;  $ h3_resolution       : int  0 1 2 3 4 5 6 7 8 9 ...</span>
 <span class="co">#&gt;  $ avg_area_sqm        : num  4.25e+12 6.07e+11 8.67e+10 1.24e+10 1.77e+09 ...</span>
@@ -472,6 +470,9 @@
 
 <span class="fu"><a href="../reference/edge_length.html">edge_length</a></span><span class="op">(</span>h3_address <span class="op">=</span> <span class="st">'166be8d12fffffff'</span>, <span class="st">'km'</span><span class="op">)</span>
 <span class="co">#&gt; [1] 4.037687</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># reset local options</span>
+<span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="va">local_options</span><span class="op">)</span></code></pre></div>
 <hr>
 </div>
   </div>
@@ -487,11 +488,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Lauren O'Brien.</p>
+  <p></p>
+<p>Developed by Lauren O’Brien.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer>
@@ -499,6 +502,8 @@
 
   
 
+
+  
 
   </body>
 </html>
