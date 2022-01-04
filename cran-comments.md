@@ -24,7 +24,7 @@ This is a resubmission. Issues found:
     * Windows 0 errors | 0 warnings | 0 notes
     * Ubuntu  0 errors | 0 warnings | 0 notes
   * Github Actions: 0 errors | 0 warnings | 0 notes
-  * RHub: 0 errors | 0 warnings | 0 notes
+  * RHub: 0 errors | 0 warnings | 3 notes (package archived, possible misspellings (not correct), pandoc unavailable)
   
 ## Downstream dependencies
 
