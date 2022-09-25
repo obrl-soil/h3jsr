@@ -24,7 +24,7 @@ is_valid <- function(h3_address = NULL, simple = TRUE) {
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
   # sesh$eval('console.log(JSON.stringify(h3.h3IsValid(evalThis[0].h3_address)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_valid = h3.h3IsValid(evalThis[i].h3_address);
+            evalThis[i].h3_valid = h3.isValidCell(evalThis[i].h3_address);
             };')
 
   # retrieve the result
@@ -60,7 +60,7 @@ is_pentagon <- function(h3_address = NULL, simple = TRUE) {
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
   # sesh$eval('console.log(JSON.stringify(h3.h3IsPentagon(evalThis[0].h3_address)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_pentagon = h3.h3IsPentagon(evalThis[i].h3_address);
+            evalThis[i].h3_pentagon = h3.isPentagon(evalThis[i].h3_address);
             };')
   if(simple == TRUE) {
     sesh$get('evalThis')$h3_pentagon
@@ -94,7 +94,7 @@ is_rc3 <- function(h3_address = NULL, simple = TRUE) {
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
   # sesh$eval('console.log(JSON.stringify(h3.h3IsResClassIII(evalThis[0].h3_address)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_rc3 = h3.h3IsResClassIII(evalThis[i].h3_address);
+            evalThis[i].h3_rc3 = h3.isResClassIII(evalThis[i].h3_address);
             };')
   if(simple == TRUE) {
     sesh$get('evalThis')$h3_rc3
@@ -129,7 +129,7 @@ get_base_cell <- function(h3_address = NULL, simple = TRUE) {
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
   # sesh$eval('console.log(JSON.stringify(h3.h3GetBaseCell(evalThis[0].h3_address)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_base_cell = h3.h3GetBaseCell(evalThis[i].h3_address);
+            evalThis[i].h3_base_cell = h3.getBaseCellNumber(evalThis[i].h3_address);
             };')
   if(simple == TRUE) {
     sesh$get('evalThis')$h3_base_cell
@@ -165,7 +165,7 @@ get_faces <- function(h3_address = NULL, simple = TRUE) {
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
   # sesh$eval('console.log(JSON.stringify(h3.h3GetFaces(evalThis[0].h3_address)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-          evalThis[i].h3_faces = h3.h3GetFaces(evalThis[i].h3_address);
+          evalThis[i].h3_faces = h3.getIcosahedronFaces(evalThis[i].h3_address);
             };')
   if(simple == TRUE) {
     unlist(sesh$get('evalThis')$h3_faces)
@@ -202,7 +202,7 @@ get_pentagons <- function(res = NULL, simple = TRUE) {
   # sesh$eval('console.log(JSON.stringify(evalThis))')
   # sesh$eval('console.log(JSON.stringify(h3.getPentagonIndexes(evalThis[0].res)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-          evalThis[i].h3_pentagons = h3.getPentagonIndexes(evalThis[i].res);
+          evalThis[i].h3_pentagons = h3.getPentagons(evalThis[i].res);
             };')
   if(simple == TRUE) {
     sesh$get('evalThis')$h3_pentagons
@@ -235,7 +235,7 @@ get_res <- function(h3_address = NULL, simple = TRUE) {
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
   # sesh$eval('console.log(JSON.stringify(h3.h3GetResolution(evalThis[0].h3_address)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-          evalThis[i].h3_res = h3.h3GetResolution(evalThis[i].h3_address);
+          evalThis[i].h3_res = h3.getResolution(evalThis[i].h3_address);
             };')
   if(simple == TRUE) {
     sesh$get('evalThis')$h3_res
@@ -299,7 +299,7 @@ point_to_h3 <- function(input = NULL, res = NULL, simple = TRUE) {
   # sesh$eval('console.log(JSON.stringify(h3.geoToH3(evalThis[0].Y, evalThis[0].X, evalThis[0].res)));')
   sesh$eval('var h3_address = [];
             for (var i = 0; i < evalThis.length; i++) {
-              h3_address[i] = h3.geoToH3(evalThis[i].Y, evalThis[i].X, evalThis[i].h3_res);
+              h3_address[i] = h3.latLngToCell(evalThis[i].Y, evalThis[i].X, evalThis[i].h3_res);
             };')
 
   # get data back. If length(res != 1), divide up outputs properly
@@ -360,8 +360,7 @@ h3_to_point <- function(h3_address = NULL, simple = TRUE) {
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
   # sesh$eval('console.log(JSON.stringify(h3.h3ToGeo(evalThis[0].h3_address)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_resolution = h3.h3GetResolution(evalThis[i].h3_address);
-            evalThis[i].geometry = h3.h3ToGeo(evalThis[i].h3_address);
+            evalThis[i].geometry = h3.cellToLatLng(evalThis[i].h3_address);
             };')
 
   pts <- sesh$get('evalThis')
@@ -423,8 +422,7 @@ h3_to_polygon <- function(input = NULL, simple = TRUE) {
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
   # sesh$eval('console.log(JSON.stringify(h3.h3ToGeoBoundary(evalThis[0].h3_address)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_resolution = h3.h3GetResolution(evalThis[i].h3_address);
-            evalThis[i].geometry = h3.h3ToGeoBoundary(evalThis[i].h3_address, formatAsGeoJson = true);
+            evalThis[i].geometry = h3.cellToBoundary(evalThis[i].h3_address, formatAsGeoJson = true);
             };')
 
   hexes <- sesh$get('evalThis')
@@ -461,6 +459,6 @@ h3_to_polygon <- function(input = NULL, simple = TRUE) {
 #' @export
 #'
 get_res0 <- function() {
-  sesh$eval('res0 = h3.getRes0Indexes();')
+  sesh$eval('res0 = h3.getRes0Cells();')
   sesh$get('res0')
 }
