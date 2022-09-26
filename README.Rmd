@@ -40,6 +40,12 @@ Install the development version from GitHub with
 remotes::install_github("obrl-soil/h3jsr")
 ```
 
+{% warning %}
+
+The latest version (v1.3) contains an API revision, so some functions have new names. See the NEWS.
+
+{% endwarning %}
+
 ## Example
 
 ```{r example}
@@ -48,14 +54,14 @@ library(sf)
 
 # where is the Brisbane Town Hall at resolution 15?
 bth <- st_sfc(st_point(c(153.023503, -27.468920)), crs = 4326)
-point_to_h3(bth, res = 15)
+point_to_cell(bth, res = 15)
 
 # where is it at several resolutions?
-point_to_h3(bth, res = seq(10, 15), simple = FALSE)
+point_to_cell(bth, res = seq(10, 15), simple = FALSE)
 
 # Where is the center of the hexagon over the Brisbane Town 
 # Hall at resolution 10?
-brisbane_10 <- h3_to_point(h3_address = '8abe8d12acaffff')
+brisbane_10 <- cell_to_point(h3_address = '8abe8d12acaffff')
 brisbane_10
 
 # Is that a valid H3 address?
@@ -71,10 +77,10 @@ is_rc3(h3_address = '8abe8d12acaffff')
 get_base_cell(h3_address = '8abe8d12acaffff')
 
 # What is the hexagon over the Brisbane Town Hall at resolution 10?
-brisbane_hex_10 <- h3_to_polygon(input = '8abe8d12acaffff', simple = FALSE)
+brisbane_hex_10 <- cell_to_polygon(input = '8abe8d12acaffff', simple = FALSE)
 
 # if you're feeling fancy,
-# point_to_h3(bth, res = seq(10,15)) %>%
+# point_to_cell(bth, res = seq(10,15)) %>%
 #   unlist() %>%
 #   h3_to_polygon(., simple = FALSE) %>%
 #   mapview::mapview()
