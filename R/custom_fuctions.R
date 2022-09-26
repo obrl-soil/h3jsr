@@ -16,17 +16,17 @@
 #' @import V8
 #' @examples
 #' # What is the cell index over the Brisbane Town Hall at resolution 10?
-#' brisbane_hex_10 <- h3_to_polygon(input = '8abe8d12acaffff')
+#' brisbane_hex_10 <- cell_to_polygon(input = '8abe8d12acaffff')
 #'
 #' # Give me a some nearby cells
-#' hex_sample <- get_kring_list('8abe8d12acaffff', 4)[[1]][[4]][seq(1,18,3)]
-#' hex_sample_polys <- h3_to_polygon(hex_sample)
+#' hex_sample <- get_grid_distance_list('8abe8d12acaffff', 4)[[1]][[4]][seq(1,18,3)]
+#' hex_sample_polys <- cell_to_polygon(hex_sample)
 #'
 #' # find connecting paths
 #' paths <- grid_path(rep('8abe8d12acaffff', 6), hex_sample)
 #'
 #' # make lines
-#' lines <- h3_to_line(paths)
+#' lines <- cell_to_line(paths)
 #'
 #'\dontrun{
 #' plot(hex_sample_polys, reset = FALSE)
@@ -37,18 +37,18 @@
 #' @importFrom sf st_linestring st_sfc st_sf
 #' @export
 #'
-h3_to_line <- function(input = NULL, simple = TRUE) {
-  UseMethod('h3_to_line')
+cell_to_line <- function(input = NULL, simple = TRUE) {
+  UseMethod('cell_to_line')
 }
 
-#' @rdname h3_to_line
-#' @inherit h3_to_line return
-#' @method h3_to_line data.frame
+#' @rdname cell_to_line
+#' @inherit cell_to_line return
+#' @method cell_to_line data.frame
 #' @export
 #'
-h3_to_line.data.frame <- function(input = NULL, simple = TRUE) {
+cell_to_line.data.frame <- function(input = NULL, simple = TRUE) {
   # last col taken to be source of addresses
-  hex_points <- lapply(input[[ncol(input)]], h3_to_point, simple = TRUE)
+  hex_points <- lapply(input[[ncol(input)]], cell_to_point, simple = TRUE)
   hex_lines <- lapply(hex_points, function(l) {
     interleaved <- rbind(l[1:(length(l) - 1)], l[2:length(l)])
     matrified <- lapply(interleaved, as.matrix, ncol = 2, byrow = T)
@@ -63,13 +63,13 @@ h3_to_line.data.frame <- function(input = NULL, simple = TRUE) {
   }
 }
 
-#' @rdname h3_to_line
-#' @inherit h3_to_line return
-#' @method h3_to_line list
+#' @rdname cell_to_line
+#' @inherit cell_to_line return
+#' @method cell_to_line list
 #' @export
 #'
-h3_to_line.list <- function(input = NULL, simple = TRUE) {
-  hex_points <- lapply(input, h3_to_point, simple = TRUE)
+cell_to_line.list <- function(input = NULL, simple = TRUE) {
+  hex_points <- lapply(input, cell_to_point, simple = TRUE)
   hex_lines <- lapply(hex_points, function(l) {
     interleaved <- rbind(l[1:(length(l) - 1)], l[2:length(l)])
     matrified <- lapply(interleaved, as.matrix, ncol = 2, byrow = T)
@@ -86,13 +86,13 @@ h3_to_line.list <- function(input = NULL, simple = TRUE) {
   }
 }
 
-#' @rdname h3_to_line
-#' @inherit h3_to_line return
-#' @method h3_to_line character
+#' @rdname cell_to_line
+#' @inherit cell_to_line return
+#' @method cell_to_line character
 #' @export
 #'
-h3_to_line.character <- function(input = NULL, simple = TRUE) {
-    points <- h3_to_point(input, simple = TRUE)
+cell_to_line.character <- function(input = NULL, simple = TRUE) {
+    points <- cell_to_point(input, simple = TRUE)
     interleaved <- rbind(points[1:(length(points) - 1)],
                          points[2:length(points)])
     matrified <- lapply(interleaved, as.matrix, ncol = 2, byrow = T)
