@@ -34,7 +34,7 @@ Input H3 indices must be of the same resolution or results cannot be
 \dontrun{
 nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 nc_pts <- sf::st_centroid(nc[c(1, 2), ])
-nc_6 <- point_to_h3(nc_pts, res = 6)
+nc_6 <- point_to_cell(nc_pts, res = 6)
 # how far apart are these two addresses?
 grid_distance(nc_6[1], nc_6[2])
 }

@@ -12,8 +12,8 @@ res_cendist(res = NULL, units = c("m", "km"), fast = TRUE)
 
 \item{units}{Length unit to report in, either meters or kilometers.}
 
-\item{fast}{Logical; whether to retieve values from a locally stored table or
-reclaculate from source.}
+\item{fast}{Logical; whether to retrieve values from a locally stored table or
+recalculate from source.}
 }
 \value{
 Numeric; H3 cell center separation distance.

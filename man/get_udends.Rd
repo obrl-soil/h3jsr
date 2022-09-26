@@ -7,7 +7,7 @@
 get_udends(h3_edge = NULL, simple = TRUE)
 }
 \arguments{
-\item{h3_edge}{Address of directed edge.}
+\item{h3_edge}{Character; address of unidirectional edge.}
 
 \item{simple}{Logical; whether to return a vector of outputs or a data frame
 containing both inputs and outputs.}

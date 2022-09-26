@@ -29,7 +29,7 @@ target resolution.
 nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 nc1 <- nc[1, ]
 nc1 <- sf::st_cast(nc1, 'POLYGON')
-fillers <- polyfill(geometry = nc1, res = 6)
+fillers <- polygon_to_cells(geometry = nc1, res = 6)
 compacted <- compact(fillers)
 # uncompact to resolution 7
 uncompacted <- uncompact(compacted, res = 7)

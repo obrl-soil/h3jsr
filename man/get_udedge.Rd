@@ -2,7 +2,7 @@
 % Please edit documentation in R/unidirectional_edges.R
 \name{get_udedge}
 \alias{get_udedge}
-\title{Get a directed edge index}
+\title{Get a unidirectional edge index}
 \usage{
 get_udedge(origin = NULL, destination = NULL, simple = TRUE)
 }
@@ -17,10 +17,10 @@ of indexes can also be supplied.}
 containing both inputs and outputs.}
 }
 \value{
-By default, character vector of directed edge indexes.
+By default, character vector of unidirectional edge indexes.
 }
 \description{
-Returns an H3 index representing a directed edge for a given origin and
+Returns an H3 index representing a unidirectional edge for a given origin and
 destination cell pair.
 }
 \note{
@@ -28,7 +28,7 @@ The number of cell indexes supplied to origin and destination must be
   equal.
 }
 \examples{
-# Get me the directed edge representing the transition between these two cells
+# Return the unidirectional edge representing the transition between these two cells:
 get_udedge(origin = '86be8d12fffffff', destination = '86be8d127ffffff')
 
 }

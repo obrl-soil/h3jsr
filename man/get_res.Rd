@@ -20,6 +20,6 @@ By default, an integer vector of length(h3_address), ranging from
 This function returns an H3 cell index's resolution level.
 }
 \examples{
-# What is the esolution of this H3 cell index?
+# What is the resolution of this H3 cell index?
 get_res(h3_address = '8abe8d12acaffff')
 }

@@ -4,7 +4,7 @@
 \alias{get_gcdist}
 \title{Great circle distance}
 \usage{
-get_gcdist(pt1 = NULL, pt2 = NULL, units = c("m", "km"), simple = TRUE)
+get_gcdist(pt1 = NULL, pt2 = NULL, units = c("m", "km", "rads"), simple = TRUE)
 }
 \arguments{
 \item{pt1}{`sf` object with point geometry, `sfc_POINT` object, `sfg`
@@ -13,8 +13,8 @@ point, data frame or matrix.}
 \item{pt2}{`sf` object with point geometry, `sfc_POINT` object, `sfg`
 point, data frame or matrix.}
 
-\item{units}{whether to return the great circle distance in meters or
-kilometers.}
+\item{units}{whether to return the great circle distance in meters,
+kilometers, or radians.}
 
 \item{simple}{whether to return a numeric vector of distances or a
 `data.frame` containing start and end coordinates as well as distance.}
@@ -27,7 +27,7 @@ Numeric vector of point to point distances, or data frame of origin
 Get the great circle distance between WGS84 lat/long points
 }
 \note{
-This functionality also exists in R packages \code{sp},
+This functionality also exists in R packages \code{sp}, \code{sf},
 \code{geosphere} and \code{fields}. H3's version appears to return slightly
 shorter distances than most other implementations, but is included here
 for completeness.

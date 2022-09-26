@@ -40,7 +40,7 @@ This function returns a path of H3 cells between a start and end cell
 \dontrun{
 nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE)
 nc_pts <- sf::st_centroid(nc[c(1, 2), ])
-nc_6 <- point_to_h3(nc_pts, res = 6)
+nc_6 <- point_to_cell(nc_pts, res = 6)
 # find a path between these two addresses:
 grid_path(nc_6[1], nc_6[2], simple = TRUE)
 
