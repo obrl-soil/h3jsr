@@ -36,20 +36,23 @@ Install the development version from GitHub with
 remotes::install_github("obrl-soil/h3jsr")
 ```
 
+> :bulb: The latest version (v1.3.0) contains an API revision, so some
+> functions have new names. See the NEWS.
+
 ## Example
 
 ``` r
 library(h3jsr)
 library(sf)
-#> Linking to GEOS 3.9.1, GDAL 3.2.1, PROJ 7.2.1; sf_use_s2() is TRUE
+#> Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
 
 # where is the Brisbane Town Hall at resolution 15?
 bth <- st_sfc(st_point(c(153.023503, -27.468920)), crs = 4326)
-point_to_h3(bth, res = 15)
+point_to_cell(bth, res = 15)
 #> [1] "8fbe8d12acad2f3"
 
 # where is it at several resolutions?
-point_to_h3(bth, res = seq(10, 15), simple = FALSE)
+point_to_cell(bth, res = seq(10, 15), simple = FALSE)
 #>   h3_resolution_10 h3_resolution_11 h3_resolution_12 h3_resolution_13
 #> 1  8abe8d12acaffff  8bbe8d12acadfff  8cbe8d12acad3ff  8dbe8d12acad2ff
 #>   h3_resolution_14 h3_resolution_15
@@ -57,7 +60,7 @@ point_to_h3(bth, res = seq(10, 15), simple = FALSE)
 
 # Where is the center of the hexagon over the Brisbane Town 
 # Hall at resolution 10?
-brisbane_10 <- h3_to_point(h3_address = '8abe8d12acaffff')
+brisbane_10 <- cell_to_point(h3_address = '8abe8d12acaffff')
 brisbane_10
 #> Geometry set for 1 feature 
 #> Geometry type: POINT
@@ -83,10 +86,10 @@ get_base_cell(h3_address = '8abe8d12acaffff')
 #> [1] 95
 
 # What is the hexagon over the Brisbane Town Hall at resolution 10?
-brisbane_hex_10 <- h3_to_polygon(input = '8abe8d12acaffff', simple = FALSE)
+brisbane_hex_10 <- cell_to_polygon(input = '8abe8d12acaffff', simple = FALSE)
 
 # if you're feeling fancy,
-# point_to_h3(bth, res = seq(10,15)) %>%
+# point_to_cell(bth, res = seq(10,15)) %>%
 #   unlist() %>%
 #   h3_to_polygon(., simple = FALSE) %>%
 #   mapview::mapview()
