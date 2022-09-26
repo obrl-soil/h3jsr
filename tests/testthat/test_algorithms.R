@@ -55,30 +55,30 @@ test_that(
 )
 
 test_that(
-  'get_kring returns correctly',
+  'get_disk returns correctly',
   c(
-    expect_error(get_kring(h3_address = 'whereami', ring_size = 2)),
-    val1 <- get_kring(h3_address = '86be8d12fffffff', ring_size = 2),
-    val2 <- get_kring(h3_address = '86be8d12fffffff', ring_size = 2,
-                           simple = FALSE),
+    expect_error(get_disk(h3_address = 'whereami', ring_size = 2)),
+    val1 <- get_disk(h3_address = '86be8d12fffffff', ring_size = 2),
+    val2 <- get_disk(h3_address = '86be8d12fffffff', ring_size = 2,
+                     simple = FALSE),
     expect_is(val1, 'list'),
     expect_equal(length(val1[[1]]), 19L),
     expect_equal(val1[[1]][1], '86be8d12fffffff'),
     expect_is(val2, 'data.frame'),
     expect_is(val2$h3_address, 'character'),
     expect_is(val2$ring_size, 'integer'),
-    expect_equal(length(val2$h3_kring[[1]]), 19L),
-    expect_equal(val2$h3_kring[[1]][1], '86be8d12fffffff')
+    expect_equal(length(val2$h3_disk[[1]]), 19L),
+    expect_equal(val2$h3_disk[[1]][1], '86be8d12fffffff')
 
   )
 )
 
 test_that(
-  'get_kring_list returns correctly',
+  'get_disk_list returns correctly',
   c(
-    expect_error(get_kring_list(h3_address = 'whereami', ring_size = 2)),
-    val1 <- get_kring_list(h3_address = '86be8d12fffffff', ring_size = 2),
-    val2 <- get_kring_list(h3_address = '86be8d12fffffff', ring_size = 2,
+    expect_error(get_disk_list(h3_address = 'whereami', ring_size = 2)),
+    val1 <- get_disk_list(h3_address = '86be8d12fffffff', ring_size = 2),
+    val2 <- get_disk_list(h3_address = '86be8d12fffffff', ring_size = 2,
                          simple = FALSE),
     expect_is(val1[[1]], 'list'),
     expect_equal(length(val1[[1]]), 3L),
@@ -86,8 +86,8 @@ test_that(
     expect_is(val2, 'data.frame'),
     expect_is(val2$h3_address, 'character'),
     expect_is(val2$ring_size, 'integer'),
-    expect_equal(length(val2$h3_kringd[[1]]), 3L),
-    expect_equal(val2$h3_kringd[[1]][[1]], '86be8d12fffffff')
+    expect_equal(length(val2$h3_disks[[1]]), 3L),
+    expect_equal(val2$h3_disks[[1]][[1]], '86be8d12fffffff')
 
   )
 )
@@ -111,37 +111,36 @@ test_that(
 )
 
 test_that(
-  'polyfill returns correctly',
+  'polygon_to_cells returns correctly',
   c(
-    expect_error(polyfill(geometry = 'a shape', res = 4)),
+    expect_error(polygon_to_cells(geometry = 'a shape', res = 4)),
     nc <- sf::st_read(system.file("shape/nc.shp", package="sf")),
     nc1 <- nc[1, ],
-    expect_error(polyfill(geometry = nc1, res = 20)),
-    expect_message(polyfill(geometry = sf::st_transform(nc1, 4326), res = 10)),
-    expect_message(polyfill(geometry = nc, res = 1)),
-    val1 <- polyfill(geometry = nc1, res = 4),
-    val2 <- polyfill(geometry = nc1, res = 4,
-                        simple = FALSE),
+    expect_error(polygon_to_cells(geometry = nc1, res = 20)),
+    expect_message(polygon_to_cells(geometry = sf::st_transform(nc1, 4326), res = 10)),
+    expect_message(polygon_to_cells(geometry = nc, res = 1)),
+    val1 <- polygon_to_cells(geometry = nc1, res = 4),
+    val2 <- polygon_to_cells(geometry = nc1, res = 4, simple = FALSE),
     expect_equal(val1[[1]], '842a993ffffffff'),
     expect_is(val2, 'data.frame'),
     expect_is(val2, 'sf'),
-    expect_is(val2$h3_polyfiller[[1]], 'character'),
-    val3 <- polyfill(geometry = nc1, res = 1),
+    expect_is(val2$h3_addresses[[1]], 'character'),
+    val3 <- polygon_to_cells(geometry = nc1, res = 1),
     expect_equal(val3[[1]], NA_character_)
   )
 )
 
 test_that(
-  'set_to_multipolygon returns correctly',
+  'cells_to_multipolygon returns correctly',
   c(library(sf),
     bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326),
-    expect_error(set_to_multipolygon(h3_addresses = 'whereami')),
+    expect_error(cells_to_multipolygon(h3_addresses = 'whereami')),
     val <- point_to_h3(bth, res = 10),
     val <- get_kring(h3_address = val, ring_size = 2),
-    val1 <- set_to_multipolygon(unlist(val)),
-    val2 <- set_to_multipolygon(unlist(val), simple = FALSE),
-    val3 <- set_to_multipolygon(val[[1]][1]),
-    expect_equal(val1, set_to_multipolygon(val)),
+    val1 <- cells_to_multipolygon(unlist(val)),
+    val2 <- cells_to_multipolygon(unlist(val), simple = FALSE),
+    val3 <- cells_to_multipolygon(val[[1]][1]),
+    expect_equal(val1, cells_to_multipolygon(val)),
     expect_is(val1, 'sfc'),
     expect_is(val2, 'sf'),
     expect_is(val3, 'sfc'),
@@ -179,7 +178,7 @@ test_that(
     nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE),
     nc1 <- nc[1, ],
     nc1 <- sf::st_cast(nc1, 'POLYGON'),
-    fillers <- polyfill(geometry = nc1, res = 6),
+    fillers <- polygon_to_cells(geometry = nc1, res = 6),
     comp <- compact(fillers),
     expect_error(uncompact(c('whereami', 'whoami'), res = 13)),
     expect_error(uncompact(fillers, res = 25)),

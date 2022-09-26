@@ -20,12 +20,12 @@ test_that(
 )
 
 test_that(
-  'get_local_h3 returns correctly',
+  'get_local_cell returns correctly',
   c(
-    expect_error(get_local_h3('whereami', -87L, 36L)),
-    expect_error(get_local_h3('86be8d12fffffff')),
-    val1 <- get_local_h3('86be8d12fffffff', -87L, 36L),
-    val2 <- get_local_h3('86be8d12fffffff', -87L, 36L, simple = FALSE),
+    expect_error(get_local_cell('whereami', -87L, 36L)),
+    expect_error(get_local_cell('86be8d12fffffff')),
+    val1 <- get_local_cell('86be8d12fffffff', -87L, 36L),
+    val2 <- get_local_cell('86be8d12fffffff', -87L, 36L, simple = FALSE),
     expect_is(val1, 'character'),
     expect_is(val2, 'data.frame'),
     expect_length(val1, 1L),

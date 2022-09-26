@@ -37,14 +37,14 @@ test_that(
 )
 
 test_that(
-  'h3_count returns correctly',
+  'num_cells returns correctly',
   c(
-    expect_error(res_count(25)),
-    expect_equal(res_count(14), 81386768741882),
-    expect_equal(res_count(3), 41162),
-    expect_equal(res_count(14, fast = FALSE)$total_unique_indexes,
+    expect_error(num_cells(25)),
+    expect_equal(num_cells(14), 81386768741882),
+    expect_equal(num_cells(3), 41162),
+    expect_equal(num_cells(14, fast = FALSE)$total_unique_indexes,
                  81386768741882),
-    expect_equal(res_count(3, fast = FALSE)$total_unique_indexes, 41162)
+    expect_equal(num_cells(3, fast = FALSE)$total_unique_indexes, 41162)
   )
 )
 
