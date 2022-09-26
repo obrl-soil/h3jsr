@@ -165,7 +165,7 @@ get_disk <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
             evalThis[i].h3_disk = h3.gridDisk(evalThis[i].h3_address, evalThis[i].ring_size);
             };')
   if(simple == TRUE) {
-    sesh$get('evalThis')$.h3_disk
+    sesh$get('evalThis')$h3_disk
   } else {
     sesh$get('evalThis')
   }
@@ -344,8 +344,9 @@ polygon_to_cells <- function(geometry = NULL, res = NULL, simple = TRUE) {
 #' @return By default, object of type `sfc_MULTIPOLYGON` of length 1.
 #' @note The geometry returned by this function will not be valid where the
 #'   addresses supplied overlap at the same resolution. The main use case for
-#'   this function appears to be visualising the outputs of `polyfill()` and
-#'   `compact()`.
+#'   this function appears to be visualising the outputs of
+#'   \code{\link[h3jsr:polygon_to_cells]{polygon_to_cells}} and
+#'   \code{\link[h3jsr:compact]{compact}}.
 #' @examples \dontrun{
 #' # Give me the outline of the cells around Brisbane Town Hall at
 #' # resolution 10 (not run as slow-ish)

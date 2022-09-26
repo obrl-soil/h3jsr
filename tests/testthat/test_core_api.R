@@ -197,13 +197,13 @@ test_that('cell_to_point returns an appropriate dataset',
             expect_equal(val1[[1]][1], 153.0239032),
             expect_equal(val1[[1]][2], -27.46852938),
             expect_is(val2, 'sf'),
-            expect_equal(names(val2), c('h3_address', 'h3_resolution', 'geometry'))
+            expect_equal(names(val2), c('h3_address', 'geometry'))
           ))
 
 # cell_to_polygon
 test_that('cell_to_polygon returns an appropriate dataset',
           c(
-            expect_error(cell_to_polygon(h3_address = 'whereami')),
+            expect_error(cell_to_polygon(input = 'whereami')),
             val1 <- cell_to_polygon('8abe8d12acaffff'),
             val2 <- cell_to_polygon('8abe8d12acaffff', simple = FALSE),
             # xy checks
@@ -213,7 +213,7 @@ test_that('cell_to_polygon returns an appropriate dataset',
             expect_is(val2, 'sf'),
             expect_equal(as.character(sf::st_geometry_type(val2)), 'POLYGON'),
             expect_identical(val1, val2$geometry),
-            expect_equal(names(val2), c('h3_address', 'h3_resolution', 'geometry')),
+            expect_equal(names(val2), c('h3_address', 'geometry')),
             expect_equal(sf::st_crs(val1)$epsg, 4326),
             # data frame inputs
             df <- data.frame('h3_resolution_7' = c('8abe8d12acaffff',
@@ -248,7 +248,6 @@ test_that(
     val2 <- cell_to_splitlong('8abe8d12acaffff', simple = FALSE),
     val3 <- cell_to_splitlong(c('86be8d12fffffff', '86be8d107ffffff', '86be8d127ffffff')),
     val4 <- cell_to_splitlong(c('86be8d12fffffff', '86be8d107ffffff', '86be8d127ffffff'), simple = FALSE),
-    expect_error(cell_to_splitlong('whatever')),
     expect_is(val1, 'list'),
     expect_is(val2, 'data.frame'),
     expect_is(val3, 'list'),
@@ -276,7 +275,6 @@ test_that(
     val1 <- cell_to_splitlong('8abe8d12acaffff'),
     val2 <- splitlong_to_cell(val1[[1]][1], val1[[1]][2]),
     expect_error(splitlong_to_cell('8abe8d12acaffff')),
-    expect_error(splitlong_to_cell(717946879, NA)), # n2s improve fail msg later
     expect_equal(val2, '8abe8d12acaffff')
   )
 )

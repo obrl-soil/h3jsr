@@ -146,7 +146,7 @@ res_length <- function(res = NULL, units = c('m', 'km', 'rad'), fast = TRUE) {
 #'   radians.
 #' @return By default, a numeric vector of length(h3_address).
 #' @examples
-#' edge_length(h3_address = '166be8d12fffffff', 'm')
+#' edge_length(h3_edge = '166be8d12fffffff', 'm')
 #' @import V8
 #' @export
 #'
@@ -329,7 +329,7 @@ get_gcdist <- function(pt1 = NULL, pt2 = NULL,
 #
 #h3_seps <- cbind(data.frame('avg_cendist_m'  = res_cendist(seq(0, 15), 'm', fast = FALSE)),
 #                 data.frame('avg_cendist_km' = res_cendist(seq(0, 15), 'km', fast = FALSE)))
-#h3_counts <- res_count(seq(0, 15))
+#h3_counts <- num_cells(seq(0, 15))
 #names(h3_counts) <- c('h3_resolution', 'total_unique_indexes')
 #
 #h3_info_table <- dplyr::left_join(h3_res_areas, h3_res_els, by = 'h3_resolution')

@@ -1,14 +1,14 @@
 context('info utils')
 
 test_that(
-  'h3_res_area returns correctly',
+  'res_area returns correctly',
   c(
     expect_error(res_area(8, 'cubic furlongs')),
     expect_error(res_area(25, 'm2')),
     expect_equal(res_area(14, 'm2'), 6.3),
     expect_equal(res_area(7, 'km2'), 5.1612932),
-    expect_equal(res_area(14, 'm2', fast = FALSE)$area, 6.3),
-    expect_equal(res_area(7, 'km2', fast = FALSE)$area, 5.1612932)
+    expect_equal(res_area(14, 'm2', fast = FALSE)$area, 6.26718113532432230528),
+    expect_equal(res_area(7, 'km2', fast = FALSE)$area, 5.161293359717190831759)
   )
 )
 
@@ -92,12 +92,12 @@ test_that(
 test_that(
   'edge_length performs as expected',
   c(
-    val1 <- edge_length(h3_address = '166be8d12fffffff'),
-    val2 <- edge_length(h3_address = '166be8d12fffffff', simple = FALSE),
-    val3 <- edge_length(h3_address = '166be8d12fffffff', units = 'km'),
-    val4 <- edge_length(h3_address = '166be8d12fffffff', simple = FALSE, units = 'km'),
-    val5 <- edge_length(h3_address = '166be8d12fffffff', units = 'rads'),
-    val6 <- edge_length(h3_address = '166be8d12fffffff', simple = FALSE, units = 'rads'),
+    val1 <- edge_length(h3_edge = '166be8d12fffffff'),
+    val2 <- edge_length(h3_edge = '166be8d12fffffff', simple = FALSE),
+    val3 <- edge_length(h3_edge = '166be8d12fffffff', units = 'km'),
+    val4 <- edge_length(h3_edge = '166be8d12fffffff', simple = FALSE, units = 'km'),
+    val5 <- edge_length(h3_edge = '166be8d12fffffff', units = 'rads'),
+    val6 <- edge_length(h3_edge = '166be8d12fffffff', simple = FALSE, units = 'rads'),
     expect_equal(val1, 4037.6871751936487),
     expect_equal(val1 / 1000, val3),
     expect_equal(val5 * 6371.007180918475, val3), # note hardcoded mean earth radius used here
