@@ -138,20 +138,18 @@ get_centerchild <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 #'   containing both inputs and outputs.
 #' @return By default, a list of length(h3_address). Each list element contains
 #'   a character vector of H3 cells.
-#' @note While the parent function name `kring` may imply returning a donut of
-#'   cells, it actually returns a patch centered on the input. The number of
-#'   cells returned for each input index conforms to the
+#' @note The number of cells returned for each input index conforms to the
 #'   \href{https://en.wikipedia.org/wiki/Centered_hexagonal_number}{centered
 #'   hexagonal number sequence}, so at
 #'   `ring_size = 5`, 91 addresses are returned. The first address returned is
 #'   the input address, the rest follow in a spiral anticlockwise order.
 #' @examples
 #' # What are all the neighbours of this cell within two steps?
-#' get_grid_disk(h3_address = '86be8d12fffffff', ring_size = 2)
+#' get_disk(h3_address = '86be8d12fffffff', ring_size = 2)
 #' @import V8
 #' @export
 #'
-get_grid_disk <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
+get_disk <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 
   if(any(is_valid(h3_address)) == FALSE) {
     stop('Invalid H3 address detected.')
@@ -164,10 +162,10 @@ get_grid_disk <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
   # sesh$eval('console.log(JSON.stringify(h3.gridDisk(evalThis[0].h3_address, evalThis[0].ring_size)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_gridD = h3.gridDisk(evalThis[i].h3_address, evalThis[i].ring_size);
+            evalThis[i].h3_disk = h3.gridDisk(evalThis[i].h3_address, evalThis[i].ring_size);
             };')
   if(simple == TRUE) {
-    sesh$get('evalThis')$.h3_gridD
+    sesh$get('evalThis')$.h3_disk
   } else {
     sesh$get('evalThis')
   }
@@ -178,7 +176,7 @@ get_grid_disk <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #'
 #' This function returns all the H3 cell indexes within a specified number of steps
 #' from the address supplied, grouped by step.
-#' @inheritParams get_grid_disk
+#' @inheritParams get_disk
 #' @return By default, a list of length(h3_address). Each list element contains
 #'   a list of `length(ring_size + 1)`. Each of those lists contains a character
 #'   vector of H3 cell indices belonging to that step away from the input cell.
@@ -190,11 +188,11 @@ get_grid_disk <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #'   separate lists, one for each step.
 #' @examples
 #' # What are the nested neighbours of this cell within two steps?
-#' get_grid_disk_list(h3_address = '86be8d12fffffff', ring_size = 2)
+#' get_disk_list(h3_address = '86be8d12fffffff', ring_size = 2)
 #' @import V8
 #' @export
 #'
-get_grid_disk_list <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
+get_disk_list <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 
   if(any(is_valid(h3_address)) == FALSE) {
     stop('Invalid H3 cell index detected.')
@@ -207,21 +205,21 @@ get_grid_disk_list <- function(h3_address = NULL, ring_size = 1, simple = TRUE) 
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
   # sesh$eval('console.log(JSON.stringify(h3.gridDiskDistances(evalThis[0].h3_address, evalThis[0].ring_size)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_gridDD = h3.gridDiskDistances(evalThis[i].h3_address, evalThis[i].ring_size);
+            evalThis[i].h3_disks = h3.gridDiskDistances(evalThis[i].h3_address, evalThis[i].ring_size);
             };')
   if(simple == TRUE) {
-    sesh$get('evalThis')$h3_gridDD
+    sesh$get('evalThis')$h3_disks
   } else {
     sesh$get('evalThis')
   }
 
 }
 
-#' Get a donut of H3 cell indexes
+#' Get a ring of H3 cell indexes
 #'
 #' This function returns all the H3 cell indexes at the specified step from the
 #' address supplied.
-#' @inheritParams get_kring
+#' @inheritParams get_disk
 #' @return By default, a list of length(h3_address). Each list element contains
 #'   a character vector of H3 cells belonging to that step away from the
 #'   input address.
@@ -330,7 +328,7 @@ polygon_to_cells <- function(geometry = NULL, res = NULL, simple = TRUE) {
   if(simple == TRUE) {
     results
   } else {
-    geometry$h3_polyfillers <- results
+    geometry$h3_addresses <- results
     sf::st_sf(geometry)
   }
 }
@@ -605,7 +603,7 @@ grid_path <- function(origin = NULL, destination = NULL, simple = TRUE) {
   h3_addresses <- c(origin, destination)
 
   if(any(is_valid(h3_addresses)) == FALSE) {
-    stop('Invalid H3 indices detected.')
+    stop('Invalid H3 addresses detected.')
   }
 
   # handle single pair supplied

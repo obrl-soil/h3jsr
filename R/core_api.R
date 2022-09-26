@@ -494,16 +494,19 @@ cell_to_splitlong <- function(h3_address, simple = TRUE) {
   # sesh$eval('console.log(JSON.stringify(h3.h3IndexToSplitLong(evalThis[0].h3_address)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
             evalThis[i].h3_spl = h3.h3IndexToSplitLong(evalThis[i].h3_address);
+            evalThis[i].split_lower = evalThis[i].h3_spl[0];
+            evalThis[i].split_upper = evalThis[i].h3_spl[1];
             };')
 
   # retrieve the result
   if(simple == TRUE) {
+    # n2s could instead return a matrix here
     sesh$get('evalThis')$h3_spl
   } else {
     # Seems simpler not to return a list-column
     data.frame('h3_address'  = sesh$get('evalThis')$h3_address,
-               'split_lower' = sesh$get('evalThis')$h3_spl[[1]][1],
-               'split_upper' = sesh$get('evalThis')$h3_spl[[1]][2])
+               'split_lower' = sesh$get('evalThis')$split_lower,
+               'split_upper' = sesh$get('evalThis')$split_upper)
   }
 
 }
@@ -542,7 +545,7 @@ splitlong_to_cell <- function(split_lower = NULL,
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
   # sesh$eval('console.log(JSON.stringify(h3.splitLongToH3Index(evalThis[0].split_lower, evalThis[0].split_upper)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_address = splitLongToH3Index(evalThis[i].split_lower, evalThis[i].split_upper);
+            evalThis[i].h3_address = h3.splitLongToH3Index(evalThis[i].split_lower, evalThis[i].split_upper);
             };')
 
   # retrieve the result
@@ -560,12 +563,14 @@ splitlong_to_cell <- function(split_lower = NULL,
 #' @param degree Numeric, value in degrees
 #' @param lang Character; whether to perform the conversion using base R
 #' or the H3 library. Defaults to R for speed.
+#' @param simple Logical; whether to return a vector or a data frame containing
+#'   both inputs and outputs.
 #' @return Numeric, value in radians
 #' @examples
 #' degs_to_rads(120)
 #' @export
 #'
-degs_to_rads <- function(degree = NULL, lang = c('r', 'h3')) {
+degs_to_rads <- function(degree = NULL, lang = c('r', 'h3'), simple = TRUE) {
 
   lang <- match.arg(lang)
 
@@ -602,12 +607,14 @@ degs_to_rads <- function(degree = NULL, lang = c('r', 'h3')) {
 #' @param radian Numeric, value in radians
 #' @param lang Character; whether to perform the conversion using base R
 #' or the H3 library. Defaults to R for speed.
+#' @param simple Logical; whether to return a vector or a data frame containing
+#'   both inputs and outputs.
 #' @return Numeric, value in degrees
 #' @examples
 #' rads_to_degs(1.5)
 #' @export
 #'
-rads_to_degs <- function(radian = NULL, lang = c('r', 'h3')) {
+rads_to_degs <- function(radian = NULL, lang = c('r', 'h3'), simple = TRUE) {
 
   lang <- match.arg(lang)
 
