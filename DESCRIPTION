@@ -28,3 +28,4 @@ Suggests:
     testthat
 RoxygenNote: 7.2.1
 VignetteBuilder: knitr
+URL: https://obrl-soil.github.io/h3jsr/
