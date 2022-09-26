@@ -553,3 +553,87 @@ splitlong_to_cell <- function(split_lower = NULL,
   }
 
 }
+
+#' Convert degrees to radians
+#'
+#' Convert degrees to radians.
+#' @param degree Numeric, value in degrees
+#' @param lang Character; whether to perform the conversion using base R
+#' or the H3 library. Defaults to R for speed.
+#' @return Numeric, value in radians
+#' @examples
+#' degs_to_rads(120)
+#' @export
+#'
+degs_to_rads <- function(degree = NULL, lang = c('r', 'h3')) {
+
+  lang <- match.arg(lang)
+
+  if(lang == 'r') {
+    return((degree * pi) / (180))
+  }
+
+  # otherwise,
+  eval_this <- data.frame(degree, stringsAsFactors = FALSE)
+
+  # send df to js env as JSON
+  sesh$assign('evalThis', eval_this)
+
+  # do the thing
+  # for debug:
+  # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
+  # sesh$eval('console.log(JSON.stringify(h3.degsToRads(evalThis[0].degree)));')
+  sesh$eval('for (var i = 0; i < evalThis.length; i++) {
+            evalThis[i].radian = h3.degsToRads(evalThis[i].degree);
+            };')
+
+  # retrieve the result
+  if(simple == TRUE) {
+    sesh$get('evalThis')$radian
+  } else {
+    sesh$get('evalThis')
+  }
+
+}
+
+#' Convert radians to degrees
+#'
+#' Convert radians to degrees.
+#' @param radian Numeric, value in radians
+#' @param lang Character; whether to perform the conversion using base R
+#' or the H3 library. Defaults to R for speed.
+#' @return Numeric, value in degrees
+#' @examples
+#' rads_to_degs(1.5)
+#' @export
+#'
+rads_to_degs <- function(radian = NULL, lang = c('r', 'h3')) {
+
+  lang <- match.arg(lang)
+
+  if(lang == 'r') {
+    return((radian * 180) / (pi))
+  }
+
+  # otherwise,
+  eval_this <- data.frame(radian, stringsAsFactors = FALSE)
+
+  # send df to js env as JSON
+  sesh$assign('evalThis', eval_this)
+
+  # do the thing
+  # for debug:
+  # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
+  # sesh$eval('console.log(JSON.stringify(h3.radsToDegs(evalThis[0].radian)));')
+  sesh$eval('for (var i = 0; i < evalThis.length; i++) {
+            evalThis[i].degree = h3.radsToDegs(evalThis[i].radian);
+            };')
+
+  # retrieve the result
+  if(simple == TRUE) {
+    sesh$get('evalThis')$degree
+  } else {
+    sesh$get('evalThis')
+  }
+
+}
