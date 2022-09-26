@@ -41,9 +41,9 @@ are_neighbours <- function(origin = NULL, destination = NULL, simple = TRUE) {
 
   # for debug:
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
-  # sesh$eval('console.log(JSON.stringify(h3.h3IndexesAreNeighbors(evalThis[0].origin, evalThis[0].destination)));')
+  # sesh$eval('console.log(JSON.stringify(h3.areNeighborCells(evalThis[0].origin, evalThis[0].destination)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_neighbours = h3.h3IndexesAreNeighbors(evalThis[i].origin, evalThis[i].destination);
+            evalThis[i].h3_neighbours = h3.areNeighborCells(evalThis[i].origin, evalThis[i].destination);
             };')
 
   if(simple == TRUE) {
@@ -54,16 +54,16 @@ are_neighbours <- function(origin = NULL, destination = NULL, simple = TRUE) {
 
 }
 
-#' Get a directed edge index
+#' Get a unidirectional edge index
 #'
-#' Returns an H3 index representing a directed edge for a given origin and
+#' Returns an H3 index representing a unidirectional edge for a given origin and
 #' destination cell pair.
 #' @inheritParams are_neighbours
-#' @return By default, character vector of directed edge indexes.
+#' @return By default, character vector of unidirectional edge indexes.
 #' @note The number of cell indexes supplied to origin and destination must be
 #'   equal.
 #' @examples
-#' # Get me the directed edge representing the transition between these two cells
+#' # Return the unidirectional edge representing the transition between these two cells:
 #' get_udedge(origin = '86be8d12fffffff', destination = '86be8d127ffffff')
 #'
 #' @import V8
@@ -88,9 +88,9 @@ get_udedge <- function(origin = NULL, destination = NULL, simple = TRUE) {
 
   # for debug:
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
-  # sesh$eval('console.log(JSON.stringify(h3.getH3UnidirectionalEdge(evalThis[0].origin, evalThis[0].destination)));')
+  # sesh$eval('console.log(JSON.stringify(h3.cellsToDirectedEdge(evalThis[0].origin, evalThis[0].destination)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_edge = h3.getH3UnidirectionalEdge(evalThis[i].origin, evalThis[i].destination);
+            evalThis[i].h3_edge = h3.cellsToDirectedEdge(evalThis[i].origin, evalThis[i].destination);
             };')
 
   if(simple == TRUE) {
@@ -101,15 +101,15 @@ get_udedge <- function(origin = NULL, destination = NULL, simple = TRUE) {
 
   }
 
-#' Check H3 directed edge index
+#' Check H3 unidirectional edge index
 #'
-#' This function checks whether an H3 directed edge index is valid.
-#' @param h3_edge Address of directed edge.
+#' This function checks whether an H3 unidirectional edge index is valid.
+#' @param h3_edge Character; address of unidirectional edge.
 #' @param simple Logical; whether to return a vector of outputs or a data frame
 #'   containing both inputs and outputs.
 #' @return By default, a logical vector of length(h3_edge).
 #' @examples
-#' # is the following directed edge index valid?
+#' # is the following unidirectional edge index valid?
 #' is_valid_edge(h3_edge = '166be8d12fffffff')
 #'
 #' @import V8
@@ -121,9 +121,9 @@ is_valid_edge <- function(h3_edge = NULL, simple = TRUE) {
 
   # for debug:
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
-  # sesh$eval('console.log(JSON.stringify(h3.h3UnidirectionalEdgeIsValid(evalThis[0].h3_edge)));')
+  # sesh$eval('console.log(JSON.stringify(h3.isValidDirectedEdge(evalThis[0].h3_edge)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_edge_valid = h3.h3UnidirectionalEdgeIsValid(evalThis[i].h3_edge);
+            evalThis[i].h3_edge_valid = h3.isValidDirectedEdge(evalThis[i].h3_edge);
             };')
 
   if(simple == TRUE) {
@@ -139,7 +139,7 @@ is_valid_edge <- function(h3_edge = NULL, simple = TRUE) {
 #' @inheritParams is_valid_edge
 #' @return By default, character vector of H3 indexes.
 #' @examples
-#' # Get the origin of this directed edge
+#' # Get the origin cell of this directed edge
 #' get_udorigin(h3_edge = '166be8d12fffffff')
 #'
 #' @import V8
@@ -155,9 +155,9 @@ get_udorigin <- function(h3_edge = NULL, simple = TRUE) {
 
   # for debug:
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
-  # sesh$eval('console.log(JSON.stringify(h3.getOriginH3IndexFromUnidirectionalEdge[0].h3_edge)));')
+  # sesh$eval('console.log(JSON.stringify(h3.getDirectedEdgeOrigin[0].h3_edge)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_origin = h3.getOriginH3IndexFromUnidirectionalEdge(evalThis[i].h3_edge);
+            evalThis[i].h3_origin = h3.getDirectedEdgeOrigin(evalThis[i].h3_edge);
             };')
 
   if(simple == TRUE) {
@@ -190,9 +190,9 @@ get_uddest <- function(h3_edge = NULL, simple = TRUE) {
 
   # for debug:
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
-  # sesh$eval('console.log(JSON.stringify(h3.getDestinationH3IndexFromUnidirectionalEdge(evalThis[0].h3_edge)));')
+  # sesh$eval('console.log(JSON.stringify(h3.getDirectedEdgeDestination(evalThis[0].h3_edge)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_destination = h3.getDestinationH3IndexFromUnidirectionalEdge(evalThis[i].h3_edge);
+            evalThis[i].h3_destination = h3.getDirectedEdgeDestination(evalThis[i].h3_edge);
 };')
 
   if(simple == TRUE) {
@@ -225,9 +225,9 @@ get_udends <- function(h3_edge = NULL, simple = TRUE) {
 
   # for debug:
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
-  # sesh$eval('console.log(JSON.stringify(h3.getH3IndexesFromUnidirectionalEdge(evalThis[0].h3_edge)));')
+  # sesh$eval('console.log(JSON.stringify(h3.directedEdgeToCells(evalThis[0].h3_edge)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_ends = h3.getH3IndexesFromUnidirectionalEdge(evalThis[i].h3_edge);
+            evalThis[i].h3_ends = h3.directedEdgeToCells(evalThis[i].h3_edge);
             };')
 
   if(simple == TRUE) {
@@ -260,9 +260,9 @@ get_udedges <- function(h3_address = NULL, simple = TRUE) {
 
   # for debug:
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
-  # sesh$eval('console.log(JSON.stringify(h3.getH3UnidirectionalEdgesFromHexagon(evalThis[0].h3_address)));')
+  # sesh$eval('console.log(JSON.stringify(h3.originToDirectedEdges(evalThis[0].h3_address)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].h3_edges = h3.getH3UnidirectionalEdgesFromHexagon(evalThis[i].h3_address);
+            evalThis[i].h3_edges = h3.originToDirectedEdges(evalThis[i].h3_address);
             };')
 
   if(simple == TRUE) {
@@ -300,9 +300,9 @@ udedge_to_line <- function(h3_edge = NULL, simple = TRUE) {
 
   # for debug:
   # sesh$eval('console.log(JSON.stringify(evalThis))')
-  # sesh$eval('console.log(JSON.stringify(h3.getH3UnidirectionalEdgeBoundary(evalThis[0].h3_edge)));')
+  # sesh$eval('console.log(JSON.stringify(h3.directedEdgeToBoundary(evalThis[0].h3_edge)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].geometry = h3.getH3UnidirectionalEdgeBoundary(evalThis[i].h3_edge, formatAsGeoJson = true);
+            evalThis[i].geometry = h3.directedEdgeToBoundary(evalThis[i].h3_edge, formatAsGeoJson = true);
             };')
 
   coords <- sesh$get('evalThis')

@@ -59,9 +59,9 @@ get_local_ij <- function(origin = NULL, destination = NULL, simple = TRUE) {
 
   # for debug:
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
-  # sesh$eval('console.log(JSON.stringify(h3.experimentalH3ToLocalIj(evalThis[0].origin, evalThis[0].destination)));')
+  # sesh$eval('console.log(JSON.stringify(h3.cellToLocalIj(evalThis[0].origin, evalThis[0].destination)));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].local_ij = h3.experimentalH3ToLocalIj(evalThis[i].origin, evalThis[i].destination);
+            evalThis[i].local_ij = h3.cellToLocalIj(evalThis[i].origin, evalThis[i].destination);
 };')
 
   if(simple == TRUE) {
@@ -108,12 +108,12 @@ get_local_ij <- function(origin = NULL, destination = NULL, simple = TRUE) {
 #' local <- get_local_ij(origin = '86be8d12fffffff', destination = '86be8d127ffffff')
 #'
 #' # Convert back to destination cell
-#' get_local_h3(origin = '86be8d12fffffff', i = local[, 1], j = local[, 2])
+#' get_local_cell(origin = '86be8d12fffffff', i = local[, 1], j = local[, 2])
 #'
 #' @import V8
 #' @export
 #'
-get_local_h3 <- function(origin = NULL, i = NULL, j = NULL, simple = TRUE) {
+get_local_cell <- function(origin = NULL, i = NULL, j = NULL, simple = TRUE) {
 
   if(any(is_valid(origin)) == FALSE) {
     stop('Invalid H3 index detected.')
@@ -123,9 +123,9 @@ get_local_h3 <- function(origin = NULL, i = NULL, j = NULL, simple = TRUE) {
 
   # for debug:
   # sesh$eval('console.log(JSON.stringify(evalThis[0]))')
-  # sesh$eval('console.log(JSON.stringify(h3.experimentalLocalIjToH3(evalThis[0].origin, {i:evalThis[0].i, j:evalThis[0].j})));')
+  # sesh$eval('console.log(JSON.stringify(h3.localIjToCell(evalThis[0].origin, {i:evalThis[0].i, j:evalThis[0].j})));')
   sesh$eval('for (var i = 0; i < evalThis.length; i++) {
-            evalThis[i].destination = h3.experimentalLocalIjToH3(evalThis[i].origin, {i:evalThis[i].i, j:evalThis[i].j});
+            evalThis[i].destination = h3.localIjToCell(evalThis[i].origin, {i:evalThis[i].i, j:evalThis[i].j});
 };')
 
   if(simple == TRUE) {

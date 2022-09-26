@@ -123,10 +123,10 @@ prep_for_pt2h3.numeric <-  function(input = NULL) {
   pts
 }
 
-#' Prepare geometry for polyfill
+#' Prepare geometry for polygon_to_cells
 #'
 #' Converts a variety of possible input geometries to geojson for
-#' \code{\link[h3jsr:polyfill]{h3jsr::polyfill()}}.
+#' \code{\link[h3jsr:polygon_to_cells]{h3jsr::polygon_to_cells()}}.
 #'
 #' @param polys `sf`, `sfc` or `sfg` POLYGON/MULTIPOLYGON object.
 #' @return `geojson` representation of supplied geometry.
