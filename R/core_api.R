@@ -478,9 +478,8 @@ get_res0 <- function() {
 #'
 cell_to_splitlong <- function(h3_address, simple = TRUE) {
 
-  if(any(is_valid(h3_address)) == FALSE) {
-    stop('Invalid H3 cell index detected.')
-  }
+  # no validity check for address, may as well let this work for any
+  # 64 bit hex
 
   # frame up for JSON conversion
   eval_this <- data.frame(h3_address, stringsAsFactors = FALSE)
