@@ -8,6 +8,9 @@ vertex_to_point(h3_vertex = NULL, simple = TRUE)
 }
 \arguments{
 \item{h3_vertex}{Character; vertex address or addresses.}
+
+\item{simple}{Logical; whether to return a vector of outputs or a data frame
+containing both inputs and outputs.}
 }
 \value{
 By default, an `sfc_POINT` object of `length(h3_address)`.
@@ -19,6 +22,6 @@ WGS84.
 }
 \examples{
 # Convert this vertex to a point
-vertex_to_point()
+vertex_to_point('246be8d127ffffff')
 
 }

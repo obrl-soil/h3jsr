@@ -99,51 +99,51 @@ test_that(
   )
 )
 
-test_that('prep_for_pt2h3 works consistently across methods',
+test_that('prep_for_pt2cell works consistently across methods',
           c(# matrix method
             bth_mat <- matrix(c(153.023503, -27.468920), ncol = 2),
             bth_mat_m <- matrix(c(bth_mat, bth_mat, bth_mat),
                                 ncol = 2, byrow = TRUE),
-            val1 <- h3jsr:::prep_for_pt2h3(bth_mat),
-            val2 <- h3jsr:::prep_for_pt2h3(bth_mat_m),
+            val1 <- h3jsr:::prep_for_pt2cell(bth_mat),
+            val2 <- h3jsr:::prep_for_pt2cell(bth_mat_m),
             expect_is(val1, 'matrix'),
             expect_is(val2, 'matrix'),
-            expect_message(h3jsr:::prep_for_pt2h3(bth_mat)),
+            expect_message(h3jsr:::prep_for_pt2cell(bth_mat)),
             # df method
             bth_df <- as.data.frame(bth_mat),
             bth_df_m <-  as.data.frame(bth_mat_m),
-            val3 <- h3jsr:::prep_for_pt2h3(bth_df),
-            val4 <- h3jsr:::prep_for_pt2h3(bth_df_m),
+            val3 <- h3jsr:::prep_for_pt2cell(bth_df),
+            val4 <- h3jsr:::prep_for_pt2cell(bth_df_m),
             expect_equal(val1, val3),
             expect_equal(val2, val4),
-            expect_message(h3jsr:::prep_for_pt2h3(bth_df)),
+            expect_message(h3jsr:::prep_for_pt2cell(bth_df)),
             # sfg method
             bth_sfg <- sf::st_point(bth_mat),
-            val5 <- h3jsr:::prep_for_pt2h3(bth_sfg),
+            val5 <- h3jsr:::prep_for_pt2cell(bth_sfg),
             expect_equivalent(val1, val5), # dimnames, meh
-            expect_message(h3jsr:::prep_for_pt2h3(bth_sfg)),
+            expect_message(h3jsr:::prep_for_pt2cell(bth_sfg)),
             # sfc method
             bth_sfc   <- sf::st_sfc(bth_sfg, crs = 4326),
             bth_sfc_m <-
               sf::st_as_sfc(list(bth_sfg, bth_sfg, bth_sfg), crs = 4326),
-            val6 <- h3jsr:::prep_for_pt2h3(bth_sfc),
-            val7 <- h3jsr:::prep_for_pt2h3(bth_sfc_m),
+            val6 <- h3jsr:::prep_for_pt2cell(bth_sfc),
+            val7 <- h3jsr:::prep_for_pt2cell(bth_sfc_m),
             expect_equal(val5, val6),
             expect_equivalent(val2, val7), # dimnames
             bth_sfc2 <- sf::st_sfc(bth_sfg, crs = 4283),
-            expect_message(h3jsr:::prep_for_pt2h3(bth_sfc2)),
+            expect_message(h3jsr:::prep_for_pt2cell(bth_sfc2)),
             # sf method
             bth_sf <- sf::st_sf('geometry' = bth_sfc),
             bth_sf_m <- sf::st_sf('geometry' = bth_sfc_m),
-            val8 <- h3jsr:::prep_for_pt2h3(bth_sf),
-            val9 <- h3jsr:::prep_for_pt2h3(bth_sf_m),
+            val8 <- h3jsr:::prep_for_pt2cell(bth_sf),
+            val9 <- h3jsr:::prep_for_pt2cell(bth_sf_m),
             expect_equal(val6, val8),
             expect_equal(val7, val9),
             bth_sf2 <- sf::st_sf('geometry' = bth_sfc2),
-            expect_message(h3jsr:::prep_for_pt2h3(bth_sf2)),
+            expect_message(h3jsr:::prep_for_pt2cell(bth_sf2)),
             # simple vector
             bth_vec <- c(153.023503, -27.468920),
-            val10 <- h3jsr:::prep_for_pt2h3(bth_vec),
+            val10 <- h3jsr:::prep_for_pt2cell(bth_vec),
             expect_equal(val1, val10)
           ))
 

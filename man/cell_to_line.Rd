@@ -42,7 +42,7 @@ This function can accept any arbitrary vector of cell indexes (including
 brisbane_hex_10 <- cell_to_polygon(input = '8abe8d12acaffff')
 
 # Give me a some nearby cells
-hex_sample <- get_grid_distance_list('8abe8d12acaffff', 4)[[1]][[4]][seq(1,18,3)]
+hex_sample <- get_disk_list('8abe8d12acaffff', 4)[[1]][[4]][seq(1,18,3)]
 hex_sample_polys <- cell_to_polygon(hex_sample)
 
 # find connecting paths

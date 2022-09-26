@@ -352,7 +352,7 @@ polygon_to_cells <- function(geometry = NULL, res = NULL, simple = TRUE) {
 #' # resolution 10 (not run as slow-ish)
 #' bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326)
 #' bth_10 <- point_to_h3(bth, res = 10)
-#' bth_patch <- get_grid_cells(h3_address = bth_10, ring_size = 2)
+#' bth_patch <- get_disk(h3_address = bth_10, ring_size = 2)
 #' bth_patch_sf <- cells_to_multipolygon(bth_patch)
 #' }
 #' @import V8

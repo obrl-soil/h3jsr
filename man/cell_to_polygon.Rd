@@ -25,11 +25,11 @@ hexagon) in WGS84.
 }
 \examples{
 # What is the hexagon over the Brisbane Town Hall at resolution 10?
-brisbane_hex_10 <- h3_to_polygon(input = '8abe8d12acaffff')
+brisbane_hex_10 <- cell_to_polygon(input = '8abe8d12acaffff')
 
 # Give me some of the cells over Brisbane Town Hall as an sf object
 bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326)
-bth_addys <- unlist(point_to_h3(bth, res = seq(10, 15)), use.names = FALSE)
+bth_addys <- unlist(point_to_cell(bth, res = seq(10, 15)), use.names = FALSE)
 bth_hexes <- cell_to_polygon(input = bth_addys)
 plot(bth_hexes, axes = TRUE)
 }

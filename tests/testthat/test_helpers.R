@@ -1,34 +1,34 @@
 context('prep_for_x methods')
 
 
-test_that('prep_for_pt2h3.sf works',
+test_that('prep_for_pt2cell.sf works',
           c(library(sf),
             nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE),
             nc1 <- nc[1, ],
-            expect_error(h3jsr:::prep_for_pt2h3(nc1)),
+            expect_error(h3jsr:::prep_for_pt2cell(nc1)),
             no_crs_point <- sf::st_sf('geometry' = sf::st_sfc(sf::st_point(c(153,-27)))),
-            expect_message(h3jsr:::prep_for_pt2h3(no_crs_point)),
-            v1 <- h3jsr:::prep_for_pt2h3(no_crs_point),
+            expect_message(h3jsr:::prep_for_pt2cell(no_crs_point)),
+            v1 <- h3jsr:::prep_for_pt2cell(no_crs_point),
             expect_is(v1, 'matrix')
           ))
 
 
-test_that('prep_for_pt2h3.sfc works',
+test_that('prep_for_pt2cell.sfc works',
           c(library(sf),
             nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE),
             nc1 <- sf::st_geometry(nc[1, ]),
-            expect_error(h3jsr:::prep_for_pt2h3(nc1)),
+            expect_error(h3jsr:::prep_for_pt2cell(nc1)),
             no_crs_point <- sf::st_sfc(sf::st_point(c(153,-27))),
-            expect_message(h3jsr:::prep_for_pt2h3(no_crs_point)),
-            v1 <- h3jsr:::prep_for_pt2h3(no_crs_point),
+            expect_message(h3jsr:::prep_for_pt2cell(no_crs_point)),
+            v1 <- h3jsr:::prep_for_pt2cell(no_crs_point),
             expect_is(v1, 'matrix')
           ))
 
-test_that('prep_for_pt2h3.sfg works',
+test_that('prep_for_pt2cell.sfg works',
           c(library(sf),
             nc <- sf::st_read(system.file("shape/nc.shp", package="sf"), quiet = TRUE),
             nc1 <- sf::st_geometry(nc[1, ])[[1]],
-            expect_error(h3jsr:::prep_for_pt2h3(nc1))
+            expect_error(h3jsr:::prep_for_pt2cell(nc1))
           ))
 
 test_that('prep_for_polyfill.sf works',

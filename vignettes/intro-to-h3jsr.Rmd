@@ -190,8 +190,8 @@ disk <- get_disk(h3_address = '86be8d12fffffff', ring_size = 2)
 
 ring <- get_ring(h3_address = '86be8d12fffffff', ring_size = 5)
 
-patch_sf <- cell_to_multipolygon(disk, simple = FALSE)
-donut_sf <- cell_to_multipolygon(ring, simple = FALSE)
+patch_sf <- cells_to_multipolygon(disk, simple = FALSE)
+donut_sf <- cells_to_multipolygon(ring, simple = FALSE)
 
 ggplot() +
   geom_sf(data = patch_sf, alpha = 0.5) +
@@ -295,7 +295,7 @@ get_udedge(origin = '86be8d12fffffff', destination = '86be8d127ffffff')
 is_valid_edge('166be8d12fffffff')
 
 # not neighbours:
-get_udedge(origin = '86be8d12fffffff', destination = '86be8d147ffffff')
+#get_udedge(origin = '86be8d12fffffff', destination = '86be8d147ffffff')
 ```
 
 The edge address can also be used to retrieve its origin and destination hex addresses, separately or together:
@@ -349,7 +349,7 @@ Functions `get_local_ij()` and `get_local_h3()` can be used to map H3 addresses 
 local <- get_local_ij(origin = '86be8d12fffffff', 
                       destination = '86be8d127ffffff')
 
-get_local_h3(origin = '86be8d12fffffff', i = local[, 1], j = local[, 2])
+get_local_cell(origin = '86be8d12fffffff', i = local[, 1], j = local[, 2])
 
 ```
 
@@ -359,7 +359,7 @@ Within the context of the H3 grid system, functions `grid_distance()` and `grid_
 
 ```{r 'gdist'}
 nc_pts <- sf::st_centroid(nc[c(1, 2), ])
-nc_6 <- point_to_h3(nc_pts, res = 6)
+nc_6 <- point_to_cell(nc_pts, res = 6)
 # how far apart are these two addresses?
 grid_distance(nc_6[1], nc_6[2])
 

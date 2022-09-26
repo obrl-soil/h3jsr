@@ -293,8 +293,8 @@ get_gcdist <- function(pt1 = NULL, pt2 = NULL,
 
   units <- match.arg(units, c('m', 'km', 'rads'))
 
-  pt1 <- prep_for_pt2h3(pt1)
-  pt2 <- prep_for_pt2h3(pt2)
+  pt1 <- prep_for_pt2cell(pt1)
+  pt2 <- prep_for_pt2cell(pt2)
 
   stopifnot(nrow(pt1) == nrow(pt2)) # TODO
 
@@ -318,20 +318,21 @@ get_gcdist <- function(pt1 = NULL, pt2 = NULL,
   }
 }
 
-## get all info in a table for fast access
-#h3_res_areas <- dplyr::left_join(res_area(seq(0, 15), 'm2'),
-#                                 res_area(seq(0, 15), 'km2'), by = 'res')
-#names(h3_res_areas) <- c('h3_resolution', 'avg_area_sqm', 'avg_area_sqkm')
-#
-#h3_res_els <- dplyr::left_join(res_length(seq(0, 15), 'm'),
-#                               res_length(seq(0, 15), 'km'), by = 'res')
-#names(h3_res_els) <- c('h3_resolution', 'avg_edge_m', 'avg_edge_km')
-#
-#h3_seps <- cbind(data.frame('avg_cendist_m'  = res_cendist(seq(0, 15), 'm', fast = FALSE)),
-#                 data.frame('avg_cendist_km' = res_cendist(seq(0, 15), 'km', fast = FALSE)))
-#h3_counts <- num_cells(seq(0, 15))
-#names(h3_counts) <- c('h3_resolution', 'total_unique_indexes')
-#
-#h3_info_table <- dplyr::left_join(h3_res_areas, h3_res_els, by = 'h3_resolution')
-#h3_info_table <- cbind(h3_info_table, h3_seps)
-#h3_info_table <- dplyr::left_join(h3_info_table, h3_counts, by = 'h3_resolution')
+# get all info in a table for fast access
+devtools::load_all()
+h3_res_areas <- dplyr::left_join(res_area(seq(0, 15), 'm2'),
+                                 res_area(seq(0, 15), 'km2'), by = 'res')
+names(h3_res_areas) <- c('h3_resolution', 'avg_area_sqm', 'avg_area_sqkm')
+
+h3_res_els <- dplyr::left_join(res_length(seq(0, 15), 'm'),
+                               res_length(seq(0, 15), 'km'), by = 'res')
+names(h3_res_els) <- c('h3_resolution', 'avg_edge_m', 'avg_edge_km')
+
+h3_seps <- cbind(data.frame('avg_cendist_m'  = res_cendist(seq(0, 15), 'm', fast = FALSE)),
+                 data.frame('avg_cendist_km' = res_cendist(seq(0, 15), 'km', fast = FALSE)))
+h3_counts <- num_cells(seq(0, 15))
+names(h3_counts) <- c('h3_resolution', 'total_unique_indexes')
+
+h3_info_table <- dplyr::left_join(h3_res_areas, h3_res_els, by = 'h3_resolution')
+h3_info_table <- cbind(h3_info_table, h3_seps)
+h3_info_table <- dplyr::left_join(h3_info_table, h3_counts, by = 'h3_resolution')

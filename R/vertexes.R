@@ -137,12 +137,14 @@ get_cell_vertexes <- function(h3_address = NULL, simple = TRUE) {
 #' This function takes a H3 cell vertex index and returns its coordinates in
 #' WGS84.
 #' @param h3_vertex Character; vertex address or addresses.
+#' @param simple Logical; whether to return a vector of outputs or a data frame
+#'   containing both inputs and outputs.
 #' @return By default, an `sfc_POINT` object of `length(h3_address)`.
 #'   EPSG:WGS84.
 #' @import V8
 #' @examples
 #' # Convert this vertex to a point
-#' vertex_to_point()
+#' vertex_to_point('246be8d127ffffff')
 #'
 #' @export
 #'

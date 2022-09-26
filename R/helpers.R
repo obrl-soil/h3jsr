@@ -1,27 +1,27 @@
-#' Prepare inputs for point_to_h3
+#' Prepare inputs for point_to_cell
 #'
 #' Sets up a variety of possible input objects for
-#' \code{\link[h3jsr:point_to_h3]{h3jsr::point_to_h3()}}.
+#' \code{\link[h3jsr:point_to_cell]{h3jsr::point_to_cell()}}.
 #'
 #' @param input `sf`, `sfc` or `sfg` POINT/MULTIPOINT object, data frame or
 #'   matrix. Data frames or matrices must have x, y coordinates in their first
 #'   two columns. WGS84 input is assumed in all cases.
 #' @return `matrix` representation of supplied coordinates.
 #' @keywords internal
-#' @rdname prep_for_pt2h3
+#' @rdname prep_for_pt2cell
 #' @importFrom sf st_coordinates st_crs st_geometry st_set_crs st_sf st_sfc
 #'   st_transform
 #'
-prep_for_pt2h3 <- function(input = NULL) {
-  UseMethod('prep_for_pt2h3')
+prep_for_pt2cell <- function(input = NULL) {
+  UseMethod('prep_for_pt2cell')
 }
 
-#' @rdname prep_for_pt2h3
-#' @inherit prep_for_pt2h3 return
-#' @method prep_for_pt2h3 sf
+#' @rdname prep_for_pt2cell
+#' @inherit prep_for_pt2cell return
+#' @method prep_for_pt2cell sf
 #' @export
 #'
-prep_for_pt2h3.sf <-  function(input = NULL) {
+prep_for_pt2cell.sf <-  function(input = NULL) {
   # default is sf style object, all of which are handled the same
   # just pull geom, check and transform
   pts <- sf::st_geometry(input)
@@ -42,12 +42,12 @@ prep_for_pt2h3.sf <-  function(input = NULL) {
   sf::st_coordinates(pts)
 }
 
-#' @rdname prep_for_pt2h3
-#' @inherit prep_for_pt2h3 return
-#' @method prep_for_pt2h3 sfc
+#' @rdname prep_for_pt2cell
+#' @inherit prep_for_pt2cell return
+#' @method prep_for_pt2cell sfc
 #' @export
 #'
-prep_for_pt2h3.sfc <-  function(input = NULL) {
+prep_for_pt2cell.sfc <-  function(input = NULL) {
   # just check and transform
   if(!inherits(input, 'sfc_POINT')) {
     stop('Please supply point geometry.')
@@ -66,12 +66,12 @@ prep_for_pt2h3.sfc <-  function(input = NULL) {
   sf::st_coordinates(input)
 }
 
-#' @rdname prep_for_pt2h3
-#' @inherit prep_for_pt2h3 return
-#' @method prep_for_pt2h3 sfg
+#' @rdname prep_for_pt2cell
+#' @inherit prep_for_pt2cell return
+#' @method prep_for_pt2cell sfg
 #' @export
 #'
-prep_for_pt2h3.sfg <-  function(input = NULL) {
+prep_for_pt2cell.sfg <-  function(input = NULL) {
 
   if(!inherits(input, 'POINT')) {
     stop('Please supply point geometry.')
@@ -81,12 +81,12 @@ prep_for_pt2h3.sfg <-  function(input = NULL) {
   sf::st_coordinates(input)
 }
 
-#' @rdname prep_for_pt2h3
-#' @inherit prep_for_pt2h3 return
-#' @method prep_for_pt2h3 matrix
+#' @rdname prep_for_pt2cell
+#' @inherit prep_for_pt2cell return
+#' @method prep_for_pt2cell matrix
 #' @export
 #'
-prep_for_pt2h3.matrix <-  function(input = NULL) {
+prep_for_pt2cell.matrix <-  function(input = NULL) {
   # assumes input matrix has x, y coords in col 1, 2
   # assumes coords are in 4326
   message('Assuming columns 1 and 2 contain x, y coordinates in EPSG:4326')
@@ -95,12 +95,12 @@ prep_for_pt2h3.matrix <-  function(input = NULL) {
   pts
 }
 
-#' @rdname prep_for_pt2h3
-#' @inherit prep_for_pt2h3 return
-#' @method prep_for_pt2h3 data.frame
+#' @rdname prep_for_pt2cell
+#' @inherit prep_for_pt2cell return
+#' @method prep_for_pt2cell data.frame
 #' @export
 #'
-prep_for_pt2h3.data.frame <-  function(input = NULL) {
+prep_for_pt2cell.data.frame <-  function(input = NULL) {
   # assumes input df has x, y coords in col 1, 2
   # assumes coords are in 4326
   message('Assuming columns 1 and 2 contain x, y coordinates in EPSG:4326')
@@ -109,12 +109,12 @@ prep_for_pt2h3.data.frame <-  function(input = NULL) {
   pts
 }
 
-#' @rdname prep_for_pt2h3
-#' @inherit prep_for_pt2h3 return
-#' @method prep_for_pt2h3 numeric
+#' @rdname prep_for_pt2cell
+#' @inherit prep_for_pt2cell return
+#' @method prep_for_pt2cell numeric
 #' @export
 #'
-prep_for_pt2h3.numeric <-  function(input = NULL) {
+prep_for_pt2cell.numeric <-  function(input = NULL) {
   # assumes input has x, y coords in posns 1, 2
   # assumes coords are in 4326
   message('Assuming positions 1 and 2 contain x, y coordinates in EPSG:4326')

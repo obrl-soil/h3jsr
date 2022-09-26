@@ -285,7 +285,7 @@ point_to_cell <- function(input = NULL, res = NULL, simple = TRUE) {
     stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
   }
 
-  pts <- prep_for_pt2h3(input)
+  pts <- prep_for_pt2cell(input)
 
   # dealing with multiple points, multiple resolutions:
   eval_this <-
@@ -393,11 +393,11 @@ cell_to_point <- function(h3_address = NULL, simple = TRUE) {
 #' @import V8
 #' @examples
 #' # What is the hexagon over the Brisbane Town Hall at resolution 10?
-#' brisbane_hex_10 <- h3_to_polygon(input = '8abe8d12acaffff')
+#' brisbane_hex_10 <- cell_to_polygon(input = '8abe8d12acaffff')
 #'
 #' # Give me some of the cells over Brisbane Town Hall as an sf object
 #' bth <- sf::st_sfc(sf::st_point(c(153.023503, -27.468920)), crs = 4326)
-#' bth_addys <- unlist(point_to_h3(bth, res = seq(10, 15)), use.names = FALSE)
+#' bth_addys <- unlist(point_to_cell(bth, res = seq(10, 15)), use.names = FALSE)
 #' bth_hexes <- cell_to_polygon(input = bth_addys)
 #' plot(bth_hexes, axes = TRUE)
 #' @importFrom sf st_polygon st_sfc st_sf
@@ -411,7 +411,7 @@ cell_to_polygon <- function(input = NULL, simple = TRUE) {
     h3_address <- unlist(input, use.names = FALSE)
   }
 
-  if(any(is_valid(h3_address)) == FALSE) {
+  if(!any(is_valid(h3_address))) {
     stop('Invalid H3 cell index detected.')
   }
 
