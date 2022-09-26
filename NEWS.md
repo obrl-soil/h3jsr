@@ -1,4 +1,4 @@
-# Version 1.3
+# Version 1.3.0
 
   * Updated to h3-js 4.0.1. Note that v4+ has extensive changes to the underlying API. Some functions in this package have been renamed for consistency:
     * `point_to_h3()` --> `point_to_cell()`
@@ -134,7 +134,7 @@
   * Added data table of h3 address info for fast retrieval of information using the above functions
   * Fixed resolution validation bug, level 0 is now allowed
 
-# v.0.2.2
+# Version 0.2.2
 
   * All unidirectional algorithms added: `are_neighbours()`, `get_udedge()`, `is_valid_edge()`, `get_udorigin()`, `get_uddest()`, `get_udends()`, `get_udedges()`, and `udedge_to_line()`.
 
