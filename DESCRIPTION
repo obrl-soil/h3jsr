@@ -1,7 +1,7 @@
 Package: h3jsr
 Type: Package
 Title: Access Uber's H3 Library
-Version: 1.3
+Version: 1.3.0
 Date: 2022-09-26
 Authors@R: person("Lauren", "O'Brien", email = "obrlsoilau@gmail.com", role = c('aut', 'cre'), comment = c(ORCID = "0000-0002-7336-2171"))
 Description: Provides access to Uber's H3 library for geospatial indexing via its JavaScript transpile 'h3-js' <https://github.com/uber/h3-js> and 'V8' <https://github.com/jeroen/v8>.

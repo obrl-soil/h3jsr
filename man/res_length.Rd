@@ -4,14 +4,13 @@
 \alias{res_length}
 \title{Get average cell edge length}
 \usage{
-res_length(res = NULL, units = c("m", "km", "rad"), fast = TRUE)
+res_length(res = NULL, units = c("m", "km"), fast = TRUE)
 }
 \arguments{
 \item{res}{Integer; Desired H3 resolution. See
 \url{https://h3geo.org/docs/core-library/restable/} for allowable values and related dimensions.}
 
-\item{units}{Length unit to report in. Options are meters, kilometers, or
-radians.}
+\item{units}{Length unit to report in. Options are meters or kilometers.}
 
 \item{fast}{Logical; whether to retrieve values from a locally stored table
 or recalculate from source.}

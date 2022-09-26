@@ -9,6 +9,13 @@
 This package uses package \href{https://github.com/jeroen/v8}{V8} to access the
 \href{https://github.com/uber/h3-js}{javascript bindings for Uber's H3 library}
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://obrl-soil.github.io/h3jsr/}
+}
+
+}
 \author{
 \strong{Maintainer}: Lauren O'Brien \email{obrlsoilau@gmail.com} (\href{https://orcid.org/0000-0002-7336-2171}{ORCID})
 

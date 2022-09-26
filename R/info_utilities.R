@@ -3,8 +3,8 @@
 #' This function returns the average area of an H3 cell at a given
 #' resolution.
 #' @inheritParams get_parent
-#' @param units Areal unit to report in. Options are square meters, square
-#'   kilometers, or steradians.
+#' @param units Areal unit to report in. Options are square meters or square
+#'   kilometers.
 #' @param fast Logical; whether to retrieve values from a locally stored table or
 #'   reclaculate from source.
 #' @return Numeric; average H3 cell area.
@@ -16,13 +16,13 @@
 #' @importFrom utils data
 #' @export
 #'
-res_area <- function(res = NULL, units = c('m2', 'km2', 'rad2'), fast = TRUE) {
+res_area <- function(res = NULL, units = c('m2', 'km2'), fast = TRUE) {
 
   if(!any(res %in% seq(0, 15))) {
     stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
   }
 
-  units <-  match.arg(units)
+  units <-  match.arg(units) # NB rads unsupported at 2022-09, see h3-js #134
 
   if(fast == TRUE) {
     utils::data('h3_info_table', envir = environment(), package = 'h3jsr')
@@ -34,7 +34,7 @@ res_area <- function(res = NULL, units = c('m2', 'km2', 'rad2'), fast = TRUE) {
     sesh$assign('evalThis', data.frame(res))
     sesh$assign('unit', units)
     # sesh$eval('console.log(unit);')
-    # sesh$eval('console.log(JSON.stringify(h3.hexArea(evalThis[0].res, unit));')
+    # sesh$eval('console.log(JSON.stringify(h3.getHexagonAreaAvg(evalThis[0].res, unit)));')
     sesh$eval('for (var i = 0; i < evalThis.length; i++) {
                  evalThis[i].area = h3.getHexagonAreaAvg(evalThis[i].res, unit);
               };')
@@ -57,9 +57,9 @@ res_area <- function(res = NULL, units = c('m2', 'km2', 'rad2'), fast = TRUE) {
 #' @export
 #'
 cell_area <- function(h3_address = NULL,
-                      units = c('m2', 'km2', 'rad2'), simple = TRUE) {
+                      units = c('m2', 'km2', 'rads2'), simple = TRUE) {
 
-  units <- match.arg(units, c('m2', 'km2', 'rad2'))
+  units <- match.arg(units, c('m2', 'km2', 'rads2'))
 
   # edge addresses don't fail, they just return nonsense so:
   stopifnot(all(is_valid_edge(h3_address)) == FALSE)
@@ -84,7 +84,7 @@ cell_area <- function(h3_address = NULL,
     names(out) <- switch(units,
                          'm2'    = c('h3_address', 'area_m2'),
                          'km2'   = c('h3_address', 'area_km2'),
-                         'rad2'  = c('h3_address', 'area_rad2'))
+                         'rads2'  = c('h3_address', 'area_rads2'))
     out
   }
 
@@ -95,8 +95,7 @@ cell_area <- function(h3_address = NULL,
 #' This function returns the average edge length of an H3 cell edge at a given
 #' resolution.
 #' @inheritParams get_parent
-#' @param units Length unit to report in. Options are meters, kilometers, or
-#'   radians.
+#' @param units Length unit to report in. Options are meters or kilometers.
 #' @param fast Logical; whether to retrieve values from a locally stored table
 #'   or recalculate from source.
 #' @return Numeric; H3 cell edge length
@@ -109,19 +108,19 @@ cell_area <- function(h3_address = NULL,
 #' @importFrom utils data
 #' @export
 #'
-res_length <- function(res = NULL, units = c('m', 'km', 'rad'), fast = TRUE) {
+res_length <- function(res = NULL, units = c('m', 'km'), fast = TRUE) {
 
   if(!any(res %in% seq(0, 15))) {
     stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
   }
 
-  units <-  match.arg(units)
+  units <-  match.arg(units) # NB rads unsupported at 2022-09, see h3-js #134
 
   if(fast == TRUE) {
     utils::data('h3_info_table', envir = environment(), package = 'h3jsr')
     h3_info_table <- h3_info_table[h3_info_table$h3_resolution %in% res,
-                                   switch(units, 'm'  = 'avg_edge_m',
-                                                 'km' = 'avg_edge_km')]
+                                   switch(units, 'm'    = 'avg_edge_m',
+                                                 'km'   = 'avg_edge_km')]
     return(h3_info_table)
   } else {
   sesh$assign('evalThis', data.frame(res))
@@ -207,18 +206,18 @@ res_cendist <- function(res = NULL, units = c('m', 'km'), fast = TRUE) {
     stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
   }
 
-  units <-  match.arg(units)
+  units <-  match.arg(units) # rads unsupported at present
 
   if(fast == TRUE) {
     utils::data('h3_info_table', envir = environment(), package = 'h3jsr')
     h3_info_table <- h3_info_table[h3_info_table$h3_resolution %in% res,
-                                   switch(units, 'm'  = 'avg_cendist_m',
-                                                 'km' = 'avg_cendist_km')]
+                                   switch(units, 'm'    = 'avg_cendist_m',
+                                                 'km'   = 'avg_cendist_km')]
     return(h3_info_table)
   } else {
-    crad <- h3jsr::res_length(res = res, units = units, fast = TRUE)
-    shortrad <- cos(30 * pi / 180) * crad
-    round(shortrad * 2, 8) # no need to go nuts
+    crad <- h3jsr::res_length(res = res, units = units, fast = FALSE)
+    crad$cendist <- cos(30 * pi / 180) * crad$edgelen * 2
+    crad[, c('res', 'cendist')]
   }
 
 }
@@ -318,21 +317,28 @@ get_gcdist <- function(pt1 = NULL, pt2 = NULL,
   }
 }
 
-# get all info in a table for fast access
-devtools::load_all()
-h3_res_areas <- dplyr::left_join(res_area(seq(0, 15), 'm2'),
-                                 res_area(seq(0, 15), 'km2'), by = 'res')
-names(h3_res_areas) <- c('h3_resolution', 'avg_area_sqm', 'avg_area_sqkm')
-
-h3_res_els <- dplyr::left_join(res_length(seq(0, 15), 'm'),
-                               res_length(seq(0, 15), 'km'), by = 'res')
-names(h3_res_els) <- c('h3_resolution', 'avg_edge_m', 'avg_edge_km')
-
-h3_seps <- cbind(data.frame('avg_cendist_m'  = res_cendist(seq(0, 15), 'm', fast = FALSE)),
-                 data.frame('avg_cendist_km' = res_cendist(seq(0, 15), 'km', fast = FALSE)))
-h3_counts <- num_cells(seq(0, 15))
-names(h3_counts) <- c('h3_resolution', 'total_unique_indexes')
-
-h3_info_table <- dplyr::left_join(h3_res_areas, h3_res_els, by = 'h3_resolution')
-h3_info_table <- cbind(h3_info_table, h3_seps)
-h3_info_table <- dplyr::left_join(h3_info_table, h3_counts, by = 'h3_resolution')
+# ## get all info in a table for fast access
+# h3_res_areas <-
+#   purrr::reduce(list(res_area(seq(0, 15), 'm2',    fast = FALSE),
+#                      res_area(seq(0, 15), 'km2',   fast = FALSE)),
+#                 left_join,
+#                 by = 'res')
+# names(h3_res_areas) <-
+#   c('h3_resolution', 'avg_area_sqm', 'avg_area_sqkm')
+#
+# h3_res_els <- dplyr::left_join(res_length(seq(0, 15), 'm', fast = FALSE),
+#                                res_length(seq(0, 15), 'km', fast = FALSE), by = 'res')
+# names(h3_res_els) <- c('h3_resolution', 'avg_edge_m', 'avg_edge_km')
+#
+# h3_seps <-
+#   dplyr::left_join(res_cendist(seq(0, 15), 'm', fast = FALSE),
+#                    res_cendist(seq(0, 15), 'km', fast = FALSE), by = 'res')
+# names(h3_seps) <- c('h3_resolution', 'avg_cendist_m', 'avg_cendist_km')
+#
+# h3_counts <- num_cells(seq(0, 15), fast = FALSE)
+# names(h3_counts) <- c('h3_resolution', 'total_unique_indexes')
+#
+# h3_info_table <-
+#   purrr::reduce(list(h3_res_areas, h3_res_els, h3_seps, h3_counts),
+#                 left_join, by = 'h3_resolution')
+# usethis::use_data(h3_info_table, overwrite = TRUE)

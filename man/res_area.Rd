@@ -4,14 +4,14 @@
 \alias{res_area}
 \title{Get average cell area}
 \usage{
-res_area(res = NULL, units = c("m2", "km2", "rad2"), fast = TRUE)
+res_area(res = NULL, units = c("m2", "km2"), fast = TRUE)
 }
 \arguments{
 \item{res}{Integer; Desired H3 resolution. See
 \url{https://h3geo.org/docs/core-library/restable/} for allowable values and related dimensions.}
 
-\item{units}{Areal unit to report in. Options are square meters, square
-kilometers, or steradians.}
+\item{units}{Areal unit to report in. Options are square meters or square
+kilometers.}
 
 \item{fast}{Logical; whether to retrieve values from a locally stored table or
 reclaculate from source.}
