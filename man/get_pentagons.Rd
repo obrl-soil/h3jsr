@@ -14,9 +14,10 @@ get_pentagons(res = NULL, simple = TRUE)
 data frame with both inputs and outputs.}
 }
 \value{
-By default, a list of length(h3_address). Each list element contains
-  a vector of twelve H3 addresses. If simple = FALSE, a data frame with a
-  column of input resolutions and a list-column of pentagon indexes for each.
+By default, a list of \code{length(h3_address)}. Each list element
+  contains a vector of twelve H3 addresses. If \code{simple = FALSE}, a data
+  frame with a column of input resolutions and a list-column of pentagon
+  indexes for each.
 }
 \description{
 This function returns the indices of all pentagons occurring at a

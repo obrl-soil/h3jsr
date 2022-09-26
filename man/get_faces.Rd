@@ -13,9 +13,9 @@ get_faces(h3_address = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, an integer vector of length(h3_address), ranging from 1
-  to 20. If `simple = FALSE`, a data.frame with a column of H3 cell indexes and
-  a list-column of faces.
+By default, an integer vector of \code{length(h3_address)}, ranging
+  from 1 to 20. If \code{simple = FALSE}, a data.frame with a column of H3
+  cell indexes and a list-column of faces.
 }
 \description{
 This function returns the indices of all icosahedron faces intersected by a

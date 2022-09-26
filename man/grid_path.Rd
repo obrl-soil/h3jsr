@@ -28,10 +28,10 @@ This function returns a path of H3 cells between a start and end cell
   \item{Input H3 cells must be of the same resolution or results cannot
   be computed. This function may fail to find the distance between two
   indexes if they are very far apart or on opposite sides of a pentagon.}
-  \item{The specific output of this function should not be
-  considered stable across library versions. The only guarantees the library
-  provides are that the line length will be `h3_distance(start, end) + 1` and
-  that every index in the line will be a neighbor of the preceding index.}
+  \item{The specific output of this function should not be considered stable
+  across library versions. The only guarantees the library provides are that
+  the line length will be \code{h3_distance(start, end) + 1} and that every
+  index in the line will be a neighbor of the preceding index.}
   \item{Lines are drawn in grid space, and may not correspond exactly to
   either Cartesian lines or great arcs}
   }

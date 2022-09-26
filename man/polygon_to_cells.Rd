@@ -7,7 +7,8 @@
 polygon_to_cells(geometry = NULL, res = NULL, simple = TRUE)
 }
 \arguments{
-\item{geometry}{`sf` object of type 'POLYGON' or 'MULTIPOLYGON'.}
+\item{geometry}{\code{sf} object of type \code{POLYGON} or
+\code{MULTIPOLYGON}.}
 
 \item{res}{Integer; Desired H3 resolution. See
 \url{https://h3geo.org/docs/core-library/restable/} for allowable values and related dimensions.}
@@ -16,10 +17,10 @@ polygon_to_cells(geometry = NULL, res = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, a list of length(h3_address). Each list element contains
-  a character vector of H3 cell indices belonging to that geometry. A result of
-  NA indicates that no H3 cell indices of the chosen resolution are centered
-  over the geometry.
+By default, a list of \code{length(h3_address)}. Each list element
+  contains a character vector of H3 cell indices belonging to that geometry.
+  A result of NA indicates that no H3 cell indices of the chosen resolution
+  are centered over the geometry.
 }
 \description{
 This function returns all the H3 cell indexes within the supplied polygon

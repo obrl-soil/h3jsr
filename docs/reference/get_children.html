@@ -83,13 +83,13 @@ containing both inputs and outputs.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>By default, a list of length(h3_address). Each list element contains
+<p>By default, a list of <code>length(h3_address)</code>. Each list element contains
   a vector of H3 cell indexes.</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
-    <p>The number of cells returned for each request is `7 ^ (parent_res -
-  child_res)`, so jumping three levels will return 343 indexes per request.
+    <p>The number of cells returned for each request is <code>7 ^ (parent_res -
+  child_res)</code>, so jumping three levels will return 343 indexes per request.
   This can cause memory issues with larger requests.</p>
     </div>
 

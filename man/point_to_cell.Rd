@@ -7,8 +7,8 @@
 point_to_cell(input = NULL, res = NULL, simple = TRUE)
 }
 \arguments{
-\item{input}{`sf` object with point geometry, `sfc_POINT` object, `sfg`
-point, data frame or matrix.}
+\item{input}{\code{sf} object with point geometry, \code{sfc_POINT} object,
+\code{sfg} point, data frame or matrix.}
 
 \item{res}{Integer; Desired H3 resolution. See
 \url{https://h3geo.org/docs/core-library/restable/} for allowable values and related dimensions.}
@@ -18,13 +18,13 @@ possible.}
 }
 \value{
 \itemize{
-\item {if `simple = TRUE` and one resolution is requested, a character vector
+\item {if \code{simple = TRUE} and one resolution is requested, a character vector
 of H3 addresses.}
-\item {if `simple = TRUE` and multiple resolutions are requested, a data
+\item {if \code{simple = TRUE} and multiple resolutions are requested, a data
 frame of H3 addresses.}
-\item {if `simple = FALSE` and a matrix, sfc or sfg object is supplied, a
+\item {if \code{simple = FALSE} and a matrix, sfc or sfg object is supplied, a
 data frame of H3 addresses.}
-\item {if `simple = FALSE` and a data frame or sf object with other
+\item {if \code{simple = FALSE} and a data frame or sf object with other
 attributes is supplied, a data frame of non-spatial attributes with new
 columns containing addresses for one or more H3 resolutions.}
 }

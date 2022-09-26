@@ -13,7 +13,7 @@ get_udedges(h3_address = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, list of length(h3_address). Each list contains a
+By default, list of \code{length(h3_address)}. Each list contains a
   character vector of H3 edge indexes.
 }
 \description{

@@ -20,7 +20,7 @@ indexes can also be supplied.}
 containing both inputs and outputs.}
 }
 \value{
-If `simple = TRUE`, a character vector of destination H3 cells.
+If \code{simple = TRUE}, a character vector of destination H3 cells.
   If not, a data frame containing columns origin, i, j, destination.
 }
 \description{

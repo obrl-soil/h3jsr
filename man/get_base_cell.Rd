@@ -13,7 +13,7 @@ get_base_cell(h3_address = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, an integer vector of length(h3_address), ranging from
+By default, an integer vector of \code{length(h3_address)}, ranging from
   0 to 121.
 }
 \description{

@@ -16,7 +16,7 @@ vector of indexes can also be supplied.}
 containing both inputs and outputs.}
 }
 \value{
-By default, a list of length(h3_address).
+By default, a list of \code{length(h3_address)}.
 }
 \description{
 This function returns the vertex index for a supplied H3 cell and vertex

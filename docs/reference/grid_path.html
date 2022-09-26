@@ -92,10 +92,10 @@ containing both inputs and outputs.</p></dd>
 <ul><li><p>Input H3 cells must be of the same resolution or results cannot
   be computed. This function may fail to find the distance between two
   indexes if they are very far apart or on opposite sides of a pentagon.</p></li>
-<li><p>The specific output of this function should not be
-  considered stable across library versions. The only guarantees the library
-  provides are that the line length will be `h3_distance(start, end) + 1` and
-  that every index in the line will be a neighbor of the preceding index.</p></li>
+<li><p>The specific output of this function should not be considered stable
+  across library versions. The only guarantees the library provides are that
+  the line length will be <code>h3_distance(start, end) + 1</code> and that every
+  index in the line will be a neighbor of the preceding index.</p></li>
 <li><p>Lines are drawn in grid space, and may not correspond exactly to
   either Cartesian lines or great arcs</p></li>
 </ul></div>

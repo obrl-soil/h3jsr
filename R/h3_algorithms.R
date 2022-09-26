@@ -7,7 +7,7 @@
 #' \url{https://h3geo.org/docs/core-library/restable/} for allowable values and related dimensions.
 #' @param simple Logical; whether to return a vector of outputs or a data frame
 #'   containing both inputs and outputs.
-#' @return By default, a logical vector of length(h3_address).
+#' @return By default, a logical vector of \code{length(h3_address)}.
 #' @examples
 #' # What is the parent of this cell at resolution 6?
 #' get_parent(h3_address = '8abe8d12acaffff', res = 6)
@@ -51,10 +51,10 @@ get_parent <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 #' This function returns the children of a particular H3 cell at the
 #' requested resolution.
 #' @inheritParams get_parent
-#' @return By default, a list of length(h3_address). Each list element contains
+#' @return By default, a list of \code{length(h3_address)}. Each list element contains
 #'   a vector of H3 cell indexes.
-#' @note The number of cells returned for each request is `7 ^ (parent_res -
-#'   child_res)`, so jumping three levels will return 343 indexes per request.
+#' @note The number of cells returned for each request is \code{7 ^ (parent_res -
+#'   child_res)}, so jumping three levels will return 343 indexes per request.
 #'   This can cause memory issues with larger requests.
 #' @examples
 #' # What are the children of this resolution 6 cell index at resolution 8?
@@ -93,7 +93,7 @@ get_children <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 #' This function returns the central child of a particular H3 cell index at the
 #' requested resolution.
 #' @inheritParams get_parent
-#' @return By default, a list of length(h3_address). Each list element contains
+#' @return By default, a list of \code{length(h3_address)}. Each list element contains
 #'   a vector of H3 cells.
 #' @examples
 #' # What is the central child of this resolution 6 index at resolution 8?
@@ -136,13 +136,13 @@ get_centerchild <- function(h3_address = NULL, res = NULL, simple = TRUE) {
 #'   Defaults to 1.
 #' @param simple Logical; whether to return a vector of outputs or a data frame
 #'   containing both inputs and outputs.
-#' @return By default, a list of length(h3_address). Each list element contains
-#'   a character vector of H3 cells.
+#' @return By default, a list of \code{length(h3_address)}. Each list element
+#'   contains a character vector of H3 cells.
 #' @note The number of cells returned for each input index conforms to the
 #'   \href{https://en.wikipedia.org/wiki/Centered_hexagonal_number}{centered
-#'   hexagonal number sequence}, so at
-#'   `ring_size = 5`, 91 addresses are returned. The first address returned is
-#'   the input address, the rest follow in a spiral anticlockwise order.
+#'   hexagonal number sequence}, so at \code{ring_size = 5}, 91 addresses are
+#'   returned. The first address returned is the input address, the rest follow
+#'   in a spiral anticlockwise order.
 #' @examples
 #' # What are all the neighbours of this cell within two steps?
 #' get_disk(h3_address = '86be8d12fffffff', ring_size = 2)
@@ -177,15 +177,15 @@ get_disk <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #' This function returns all the H3 cell indexes within a specified number of steps
 #' from the address supplied, grouped by step.
 #' @inheritParams get_disk
-#' @return By default, a list of length(h3_address). Each list element contains
-#'   a list of `length(ring_size + 1)`. Each of those lists contains a character
-#'   vector of H3 cell indices belonging to that step away from the input cell.
+#' @return By default, a list of \code{length(h3_address)}. Each list element
+#'   contains a list of \code{length(ring_size + 1)}. Each of those lists
+#'   contains a character vector of H3 cell indices belonging to that step away
+#'   from the input cell.
 #' @note In total, the number of indices returned for each input cell conforms
 #'   to the
 #'   \href{https://en.wikipedia.org/wiki/Centered_hexagonal_number}{centered
-#'   hexagonal number sequence}, so at
-#'   `ring_size = 5`, 91 cells are returned. Cells are returned in
-#'   separate lists, one for each step.
+#'   hexagonal number sequence}, so at \code{ring_size = 5}, 91 cells are
+#'   returned. Cells are returned in separate lists, one for each step.
 #' @examples
 #' # What are the nested neighbours of this cell within two steps?
 #' get_disk_list(h3_address = '86be8d12fffffff', ring_size = 2)
@@ -220,12 +220,12 @@ get_disk_list <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #' This function returns all the H3 cell indexes at the specified step from the
 #' address supplied.
 #' @inheritParams get_disk
-#' @return By default, a list of length(h3_address). Each list element contains
-#'   a character vector of H3 cells belonging to that step away from the
-#'   input address.
+#' @return By default, a list of \code{length(h3_address)}. Each list element
+#'   contains a character vector of H3 cells belonging to that step away from
+#'   the input address.
 #' @note In total, the number of cells returned for each input index is
-#'   `ring_size \* 6`. This function will throw an error if there is a pentagon
-#'   anywhere in the ring.
+#'   \code{ring_size * 6}. This function will throw an error if there is a
+#'   pentagon anywhere in the ring.
 #' @examples
 #' # What are the neighbours of this cell at step 2?
 #' get_ring(h3_address = '86be8d12fffffff', ring_size = 2)
@@ -259,14 +259,15 @@ get_ring <- function(h3_address = NULL, ring_size = 1, simple = TRUE) {
 #'
 #' This function returns all the H3 cell indexes within the supplied polygon
 #' geometry.
-#' @param geometry `sf` object of type 'POLYGON' or 'MULTIPOLYGON'.
+#' @param geometry \code{sf} object of type \code{POLYGON} or
+#'   \code{MULTIPOLYGON}.
 #' @inheritParams get_parent
 #' @param simple Logical; whether to return a vector of outputs or an sf object
 #'   containing both inputs and outputs.
-#' @return By default, a list of length(h3_address). Each list element contains
-#'   a character vector of H3 cell indices belonging to that geometry. A result of
-#'   NA indicates that no H3 cell indices of the chosen resolution are centered
-#'   over the geometry.
+#' @return By default, a list of \code{length(h3_address)}. Each list element
+#'   contains a character vector of H3 cell indices belonging to that geometry.
+#'   A result of NA indicates that no H3 cell indices of the chosen resolution
+#'   are centered over the geometry.
 #' @note This function will be slow with a large number of polygons, and/or
 #'   polygons that are large relative to the hexagon area at the chosen
 #'   resolution. A message is printed to console where the total input area is
@@ -336,12 +337,12 @@ polygon_to_cells <- function(geometry = NULL, res = NULL, simple = TRUE) {
 #' Get geometry for a set of H3 cells
 #'
 #' This function returns geometry associated with a set of H3 cells, as a
-#' single `sfc_MULTIPOLYGON`.
+#' single \code{sfc_MULTIPOLYGON}.
 #' @param h3_addresses Character vector or list of 15-character cell indices
 #'   generated by H3.
-#' @param simple Logical; whether to return an `sfc_MULTIPOLYGON` or an `sf`
-#'   object including the input cells.
-#' @return By default, object of type `sfc_MULTIPOLYGON` of length 1.
+#' @param simple Logical; whether to return an \code{sfc_MULTIPOLYGON} or an
+#'   \code{sf} object including the input cells.
+#' @return By default, object of type \code{sfc_MULTIPOLYGON} of length 1.
 #' @note The geometry returned by this function will not be valid where the
 #'   addresses supplied overlap at the same resolution. The main use case for
 #'   this function appears to be visualising the outputs of
@@ -573,10 +574,10 @@ grid_distance <- function(origin = NULL, destination = NULL, simple = TRUE) {
 #'   \item{Input H3 cells must be of the same resolution or results cannot
 #'   be computed. This function may fail to find the distance between two
 #'   indexes if they are very far apart or on opposite sides of a pentagon.}
-#'   \item{The specific output of this function should not be
-#'   considered stable across library versions. The only guarantees the library
-#'   provides are that the line length will be `h3_distance(start, end) + 1` and
-#'   that every index in the line will be a neighbor of the preceding index.}
+#'   \item{The specific output of this function should not be considered stable
+#'   across library versions. The only guarantees the library provides are that
+#'   the line length will be \code{h3_distance(start, end) + 1} and that every
+#'   index in the line will be a neighbor of the preceding index.}
 #'   \item{Lines are drawn in grid space, and may not correspond exactly to
 #'   either Cartesian lines or great arcs}
 #'   }

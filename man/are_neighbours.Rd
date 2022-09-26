@@ -17,7 +17,7 @@ of indexes can also be supplied.}
 containing both inputs and outputs.}
 }
 \value{
-Logical; TRUE if neighbours.
+Logical; \code{TRUE} if neighbours.
 }
 \description{
 This function checks whether two H3 cells share an edge.

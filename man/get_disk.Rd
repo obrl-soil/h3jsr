@@ -16,8 +16,8 @@ Defaults to 1.}
 containing both inputs and outputs.}
 }
 \value{
-By default, a list of length(h3_address). Each list element contains
-  a character vector of H3 cells.
+By default, a list of \code{length(h3_address)}. Each list element
+  contains a character vector of H3 cells.
 }
 \description{
 This function returns all the H3 cell indices within a specified number of
@@ -26,9 +26,9 @@ steps from the index supplied.
 \note{
 The number of cells returned for each input index conforms to the
   \href{https://en.wikipedia.org/wiki/Centered_hexagonal_number}{centered
-  hexagonal number sequence}, so at
-  `ring_size = 5`, 91 addresses are returned. The first address returned is
-  the input address, the rest follow in a spiral anticlockwise order.
+  hexagonal number sequence}, so at \code{ring_size = 5}, 91 addresses are
+  returned. The first address returned is the input address, the rest follow
+  in a spiral anticlockwise order.
 }
 \examples{
 # What are all the neighbours of this cell within two steps?

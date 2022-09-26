@@ -5,11 +5,11 @@
 #'   list of such, or a data frame where the last column is a list-column of H3
 #'   cell indexes (usually the output of
 #'   \code{\link[h3jsr:grid_path]{h3jsr::grid_path()}}.
-#' @param simple Logical; whether to return an `sfc_LINESTRING` object or an `sf`
-#'   data frame containing both inputs and outputs.
-#' @return An `sfc_LINESTRING` object containing a line for each vector of H3
-#'   cell indexes supplied. If simple = FALSE, an `sf` object including the input
-#'   data.
+#' @param simple Logical; whether to return an \code{sfc_LINESTRING} object or
+#'   an \code{sf} data frame containing both inputs and outputs.
+#' @return An \code{sfc_LINESTRING} object containing a line for each vector of
+#'   H3 cell indexes supplied. If \code{simple = FALSE}, an \code{sf} object
+#'   including the input data.
 #' @note This function can accept any arbitrary vector of cell indexes (including
 #'   cells at multiple resolutions) but results may be unexpected. It is
 #'   assumed that indexes are supplied in a pre-ordered fashion.

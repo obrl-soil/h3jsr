@@ -13,7 +13,7 @@ is_valid_edge(h3_edge = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, a logical vector of length(h3_edge).
+By default, a logical vector of \code{length(h3_edge)}.
 }
 \description{
 This function checks whether an H3 unidirectional edge index is valid.

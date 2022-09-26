@@ -16,7 +16,7 @@ prep_for_polyfill(polys = NULL)
 \method{prep_for_polyfill}{sfg}(polys = NULL)
 }
 \arguments{
-\item{polys}{`sf`, `sfc` or `sfg` POLYGON/MULTIPOLYGON object.}
+\item{polys}{\code{sf}, \code{sfc} or \code{sfg} POLYGON/MULTIPOLYGON object.}
 }
 \value{
 `geojson` representation of supplied geometry.

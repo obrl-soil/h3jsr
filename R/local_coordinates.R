@@ -8,10 +8,10 @@
 #'   vector of indexes can also be supplied.
 #' @param simple Logical; whether to include an unprojected sfc_POINT geometry
 #'   column in the output object.
-#' @return If `simple = TRUE`, a matrix where each row contains the local i, j
-#'   coordinates for the supplied destination indexes. If not, an `sf` object
-#'   with origin and destination attributes, point geometry of the destination
-#'   cell centers, and an undefined coordinate reference system.
+#' @return If \code{simple = TRUE}, a matrix where each row contains the local
+#'   i, j coordinates for the supplied destination indexes. If not, an \code{sf}
+#'   object with origin and destination attributes, point geometry of the
+#'   destination cell centers, and an undefined coordinate reference system.
 #' @note
 #' \itemize{
 #' \item{The number of indexes supplied to origin and destination must be
@@ -90,7 +90,7 @@ get_local_ij <- function(origin = NULL, destination = NULL, simple = TRUE) {
 #'   \code{\link[h3jsr:get_local_ij]{get_local_ij}}
 #' @param simple Logical; whether to return a vector of outputs or a data frame
 #'   containing both inputs and outputs.
-#' @return If `simple = TRUE`, a character vector of destination H3 cells.
+#' @return If \code{simple = TRUE}, a character vector of destination H3 cells.
 #'   If not, a data frame containing columns origin, i, j, destination.
 #' @note
 #' \itemize{

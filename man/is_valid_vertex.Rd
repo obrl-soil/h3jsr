@@ -13,7 +13,7 @@ is_valid_vertex(h3_vertex = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, a logical vector of length(h3_vertex).
+By default, a logical vector of \code{length(h3_vertex)}.
 }
 \description{
 This function checks whether an H3 cell index is valid.

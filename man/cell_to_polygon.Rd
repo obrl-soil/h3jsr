@@ -11,12 +11,12 @@ cell_to_polygon(input = NULL, simple = TRUE)
 vector or list of same, or a data frame where the first column contains H3
 addresses.}
 
-\item{simple}{Logical; whether to return an `sfc_POLYGON` object or an `sf`
+\item{simple}{Logical; whether to return an \code{sfc_POLYGON} object or an \code{sf}
 data frame containing both inputs and outputs.}
 }
 \value{
-By default, an `sfc_POLYGON` object of `length(input)`. If an
-  appropriately formatted data frame is supplied, an `sf` data frame
+By default, an \code{sfc_POLYGON} object of \code{length(input)}. If an
+  appropriately formatted data frame is supplied, an \code{sf} data frame
   containing input attributes and geometry.
 }
 \description{

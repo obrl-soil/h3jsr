@@ -16,7 +16,7 @@ get_centerchild(h3_address = NULL, res = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, a list of length(h3_address). Each list element contains
+By default, a list of \code{length(h3_address)}. Each list element contains
   a vector of H3 cells.
 }
 \description{

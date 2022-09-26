@@ -13,8 +13,8 @@ get_res(h3_address = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, an integer vector of length(h3_address), ranging from
-  1 to 15.
+By default, an integer vector of \code{length(h3_address)}, ranging
+  from 1 to 15.
 }
 \description{
 This function returns an H3 cell index's resolution level.

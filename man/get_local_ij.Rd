@@ -17,10 +17,10 @@ vector of indexes can also be supplied.}
 column in the output object.}
 }
 \value{
-If `simple = TRUE`, a matrix where each row contains the local i, j
-  coordinates for the supplied destination indexes. If not, an `sf` object
-  with origin and destination attributes, point geometry of the destination
-  cell centers, and an undefined coordinate reference system.
+If \code{simple = TRUE}, a matrix where each row contains the local
+  i, j coordinates for the supplied destination indexes. If not, an \code{sf}
+  object with origin and destination attributes, point geometry of the
+  destination cell centers, and an undefined coordinate reference system.
 }
 \description{
 This function defines local i, j coordinates for an H3 destination cell

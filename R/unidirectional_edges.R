@@ -7,7 +7,7 @@
 #'   of indexes can also be supplied.
 #' @param simple Logical; whether to return a vector of outputs or a data frame
 #'   containing both inputs and outputs.
-#' @return Logical; TRUE if neighbours.
+#' @return Logical; \code{TRUE} if neighbours.
 #' @note
 #' \itemize{
 #' \item{The number of indexes supplied to origin and destination must be
@@ -107,7 +107,7 @@ get_udedge <- function(origin = NULL, destination = NULL, simple = TRUE) {
 #' @param h3_edge Character; address of unidirectional edge.
 #' @param simple Logical; whether to return a vector of outputs or a data frame
 #'   containing both inputs and outputs.
-#' @return By default, a logical vector of length(h3_edge).
+#' @return By default, a logical vector of \code{length(h3_edge)}.
 #' @examples
 #' # is the following unidirectional edge index valid?
 #' is_valid_edge(h3_edge = '166be8d12fffffff')
@@ -241,7 +241,7 @@ get_udends <- function(h3_edge = NULL, simple = TRUE) {
 #'
 #' Get all directed edge indexes for a given H3 cell index.
 #' @inheritParams is_valid
-#' @return By default, list of length(h3_address). Each list contains a
+#' @return By default, list of \code{length(h3_address)}. Each list contains a
 #'   character vector of H3 edge indexes.
 #' @examples
 #' # Get all the edge indexes for this cell

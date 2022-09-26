@@ -13,7 +13,7 @@ cell_to_point(h3_address = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, an `sfc_POINT` object of `length(h3_address)`.
+By default, an \code{sfc_POINT} object of \code{length(h3_address)}.
   EPSG:WGS84.
 }
 \description{

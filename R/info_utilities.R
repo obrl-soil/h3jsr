@@ -226,8 +226,8 @@ res_cendist <- function(res = NULL, units = c('m', 'km'), fast = TRUE) {
 #'
 #' This function returns total number of H3 cells at a given resolution.
 #' @inheritParams get_parent
-#' @param fast Logical; whether to retieve values from a locally stored table or
-#'   reclaculate from source.
+#' @param fast Logical; whether to retrieve values from a locally stored table or
+#'   recalculate from source.
 #' @return Numeric; H3 cell count.
 #' @note Above resolution 8 the exact count cannot be represented in a
 #'   JavaScript 32-bit number, so consumers should use caution when applying

@@ -83,15 +83,15 @@ containing both inputs and outputs.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     
 
-<p>By default, a list of length(h3_address). Each list element contains
-  a character vector of H3 cells belonging to that step away from the
-  input address.</p>
+<p>By default, a list of <code>length(h3_address)</code>. Each list element
+  contains a character vector of H3 cells belonging to that step away from
+  the input address.</p>
     </div>
     <div class="section level2">
     <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
     <p>In total, the number of cells returned for each input index is
-  `ring_size \* 6`. This function will throw an error if there is a pentagon
-  anywhere in the ring.</p>
+  <code>ring_size * 6</code>. This function will throw an error if there is a
+  pentagon anywhere in the ring.</p>
     </div>
 
     <div class="section level2">

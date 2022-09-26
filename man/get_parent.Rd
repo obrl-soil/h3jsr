@@ -16,7 +16,7 @@ get_parent(h3_address = NULL, res = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, a logical vector of length(h3_address).
+By default, a logical vector of \code{length(h3_address)}.
 }
 \description{
 This function returns the parent of a particular H3 cell index at the requested

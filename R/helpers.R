@@ -3,10 +3,10 @@
 #' Sets up a variety of possible input objects for
 #' \code{\link[h3jsr:point_to_cell]{h3jsr::point_to_cell()}}.
 #'
-#' @param input `sf`, `sfc` or `sfg` POINT/MULTIPOINT object, data frame or
-#'   matrix. Data frames or matrices must have x, y coordinates in their first
-#'   two columns. WGS84 input is assumed in all cases.
-#' @return `matrix` representation of supplied coordinates.
+#' @param input \code{sf}, \code{sfc} or \code{sfg} POINT/MULTIPOINT object,
+#'   data frame or matrix. Data frames or matrices must have x, y coordinates in
+#'   their first two columns. WGS84 input is assumed in all cases.
+#' @return matrix representation of supplied coordinates.
 #' @keywords internal
 #' @rdname prep_for_pt2cell
 #' @importFrom sf st_coordinates st_crs st_geometry st_set_crs st_sf st_sfc
@@ -128,7 +128,7 @@ prep_for_pt2cell.numeric <-  function(input = NULL) {
 #' Converts a variety of possible input geometries to geojson for
 #' \code{\link[h3jsr:polygon_to_cells]{h3jsr::polygon_to_cells()}}.
 #'
-#' @param polys `sf`, `sfc` or `sfg` POLYGON/MULTIPOLYGON object.
+#' @param polys \code{sf}, \code{sfc} or \code{sfg} POLYGON/MULTIPOLYGON object.
 #' @return `geojson` representation of supplied geometry.
 #' @keywords internal
 #' @rdname prep_for_polyfill

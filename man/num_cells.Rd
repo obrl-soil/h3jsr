@@ -10,8 +10,8 @@ num_cells(res = NULL, fast = TRUE)
 \item{res}{Integer; Desired H3 resolution. See
 \url{https://h3geo.org/docs/core-library/restable/} for allowable values and related dimensions.}
 
-\item{fast}{Logical; whether to retieve values from a locally stored table or
-reclaculate from source.}
+\item{fast}{Logical; whether to retrieve values from a locally stored table or
+recalculate from source.}
 }
 \value{
 Numeric; H3 cell count.

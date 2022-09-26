@@ -13,7 +13,7 @@ is_rc3(h3_address = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, a logical vector of length(h3_address).
+By default, a logical vector of \code{length(h3_address)}.
 }
 \description{
 This function checks whether a H3 cell index is in a Class III resolution

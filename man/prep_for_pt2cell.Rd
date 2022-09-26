@@ -25,12 +25,12 @@ prep_for_pt2cell(input = NULL)
 \method{prep_for_pt2cell}{numeric}(input = NULL)
 }
 \arguments{
-\item{input}{`sf`, `sfc` or `sfg` POINT/MULTIPOINT object, data frame or
-matrix. Data frames or matrices must have x, y coordinates in their first
-two columns. WGS84 input is assumed in all cases.}
+\item{input}{\code{sf}, \code{sfc} or \code{sfg} POINT/MULTIPOINT object,
+data frame or matrix. Data frames or matrices must have x, y coordinates in
+their first two columns. WGS84 input is assumed in all cases.}
 }
 \value{
-`matrix` representation of supplied coordinates.
+matrix representation of supplied coordinates.
 }
 \description{
 Sets up a variety of possible input objects for

@@ -16,7 +16,7 @@ get_children(h3_address = NULL, res = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, a list of length(h3_address). Each list element contains
+By default, a list of \code{length(h3_address)}. Each list element contains
   a vector of H3 cell indexes.
 }
 \description{
@@ -24,8 +24,8 @@ This function returns the children of a particular H3 cell at the
 requested resolution.
 }
 \note{
-The number of cells returned for each request is `7 ^ (parent_res -
-  child_res)`, so jumping three levels will return 343 indexes per request.
+The number of cells returned for each request is \code{7 ^ (parent_res -
+  child_res)}, so jumping three levels will return 343 indexes per request.
   This can cause memory issues with larger requests.
 }
 \examples{

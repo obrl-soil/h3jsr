@@ -13,7 +13,7 @@ is_valid(h3_address = NULL, simple = TRUE)
 containing both inputs and outputs.}
 }
 \value{
-By default, a logical vector of length(h3_address).
+By default, a logical vector of \code{length(h3_address)}.
 }
 \description{
 This function checks whether an H3 cell index is valid.
