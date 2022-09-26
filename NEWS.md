@@ -1,3 +1,19 @@
+# Version 1.3
+
+  * Updated to h3-js 4.0.1. Note that v4+ has extensive changes to the underlying API. Some functions in this package have been renamed for consistency:
+    * `point_to_h3()` --> `point_to_cell()`
+    * `h3_to_point()` --> `cell_to_point()`
+    * `h3_to_polygon()` --> `cell_to_polygon()`
+    * `h3_to_line()` --> `cell_to_line()`
+    * `get_kring()` --> `get_disk()`
+    * `get_kring_list()` --> `get_disk_list()`
+    * `polyfill()` --> `polygon_to_cells()`
+    * `set_to_multipolygon()` --> `cells_to_multipolygon()`
+    * `res_count()` --> `num_cells()`
+  * New functions `is_valid_vertex()`, `get_cell_vertex()`, `get_cell_vertexes()`, and `vertex_to_point()` are available for interacting with H3 in vertex mode.
+  * New functions `cell_to_splitlong()` and `splitlong_to_cell()` are available for converting between 64-bit string addresses and 32-bit integer pairs.
+  * New functions `degs_to_rads()` and `rads_to_degs()` available for unit conversion.
+
 # Version 1.2.3 [CRAN] 
 
   * Updated `V8` version requirement to ensure consistent build across platforms
