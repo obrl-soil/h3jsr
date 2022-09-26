@@ -223,6 +223,46 @@ res_cendist <- function(res = NULL, units = c('m', 'km'), fast = TRUE) {
 
 }
 
+#' Get total H3 cells
+#'
+#' This function returns total number of H3 cells at a given resolution.
+#' @inheritParams get_parent
+#' @param fast Logical; whether to retieve values from a locally stored table or
+#'   reclaculate from source.
+#' @return Numeric; H3 cell count.
+#' @note Above resolution 8 the exact count cannot be represented in a
+#'   JavaScript 32-bit number, so consumers should use caution when applying
+#'   further operations to the output.
+#' @examples
+#' # Return cell count for resolution 8
+#' num_cells(res = 8)
+#'
+#' @import V8
+#' @importFrom utils data
+#' @export
+#'
+num_cells <- function(res = NULL, fast = TRUE) {
+
+  if(!any(res %in% seq(0, 15))) {
+    stop('Please provide a valid H3 resolution. Allowable values are 0-15 inclusive.')
+  }
+
+  if(fast == TRUE) {
+    utils::data('h3_info_table', envir = environment(), package = 'h3jsr')
+    h3_info_table <- h3_info_table[h3_info_table$h3_resolution %in% res,
+                                   'total_unique_indexes']
+    return(h3_info_table)
+  } else {
+    sesh$assign('evalThis', data.frame(res))
+    # sesh$eval('console.log(unit);')
+    # sesh$eval('console.log(JSON.stringify(h3.getNumCells(evalThis[0].res)));')
+    sesh$eval('for (var i = 0; i < evalThis.length; i++) {
+            evalThis[i].total_unique_indexes = h3.getNumCells(evalThis[i].res);
+            };')
+    sesh$get('evalThis')
+  }
+}
+
 #' Great circle distance
 #'
 #' Get the great circle distance between WGS84 lat/long points
