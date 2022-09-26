@@ -1,6 +1,8 @@
 ## Release Summary
 
   * Updated core library; API revision, new functions
+  * This is a resubmission after a reverse dependency was missed; see below
+  * a NOTE related to inconsistent NEWS.md formatting has been resolved
   
 ## Test environments
 
@@ -18,4 +20,4 @@
   
 ## Downstream dependencies
 
-There are currently no downstream dependencies for this package.
+Downstream dependency 'valuemap' has been informed of the API changes at https://github.com/Curycu/valuemap/issues/1 (2022-09-27)
