@@ -20,4 +20,4 @@
   
 ## Downstream dependencies
 
-Downstream dependency 'valuemap' has been informed of the API changes at https://github.com/Curycu/valuemap/issues/1 (2022-09-27)
+Downstream dependency 'valuemap' has been informed of the API changes at https://github.com/Curycu/valuemap/issues/1 (2022-09-27, acknowledged 2022-10-04)
