@@ -28,6 +28,12 @@
     <loc>https://obrl-soil.github.io/h3jsr/reference/cell_area.html</loc>
   </url>
   <url>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/cell_to_childpos.html</loc>
+  </url>
+  <url>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/cell_to_children_size.html</loc>
+  </url>
+  <url>
     <loc>https://obrl-soil.github.io/h3jsr/reference/cell_to_line.html</loc>
   </url>
   <url>
@@ -41,6 +47,9 @@
   </url>
   <url>
     <loc>https://obrl-soil.github.io/h3jsr/reference/cells_to_multipolygon.html</loc>
+  </url>
+  <url>
+    <loc>https://obrl-soil.github.io/h3jsr/reference/childpos_to_cell.html</loc>
   </url>
   <url>
     <loc>https://obrl-soil.github.io/h3jsr/reference/compact.html</loc>
