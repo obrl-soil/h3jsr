@@ -28,7 +28,7 @@ Character, H3 address of child
 Get the child cell at a given position within an ordered list of all children at the specified resolution.
 }
 \note{
-`child_pos` is 0-indexed and capped at the maximum number of hexagons within the parent cell at the supplied resolution. This figure can be determined using cell_to_children_size().
+`child_pos` is 0-indexed and capped at the maximum number of hexagons within the parent cell at the supplied resolution. This figure can be determined using \code{\link[h3jsr:cell_to_children_size]{cell_to_children_size}}.
 }
 \examples{
 # example address has resolution 7:

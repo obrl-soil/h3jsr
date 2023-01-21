@@ -695,7 +695,7 @@ cell_to_childpos <- function(h3_address = NULL, parent_res = NULL, simple = TRUE
 #' @param simple Logical; whether to return a vector or a data frame containing
 #'   both inputs and outputs.
 #' @return Character, H3 address of child
-#' @note `child_pos` is 0-indexed and capped at the maximum number of hexagons within the parent cell at the supplied resolution. This figure can be determined using cell_to_children_size().
+#' @note `child_pos` is 0-indexed and capped at the maximum number of hexagons within the parent cell at the supplied resolution. This figure can be determined using \code{\link[h3jsr:cell_to_children_size]{cell_to_children_size}}.
 #' @examples
 #' # example address has resolution 7:
 #' childpos_to_cell(0, '872830b82ffffff', 9, simple = FALSE)
