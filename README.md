@@ -36,15 +36,15 @@ Install the development version from GitHub with
 remotes::install_github("obrl-soil/h3jsr")
 ```
 
-> :bulb: The latest version (v1.3.0) contains an API revision, so some
-> functions have new names. See the NEWS.
+> :bulb: Version (v1.3.0) contains an API revision, so some functions
+> have new names. See the NEWS.
 
 ## Example
 
 ``` r
 library(h3jsr)
 library(sf)
-#> Linking to GEOS 3.9.1, GDAL 3.4.3, PROJ 7.2.1; sf_use_s2() is TRUE
+#> Linking to GEOS 3.9.3, GDAL 3.5.2, PROJ 8.2.1; sf_use_s2() is TRUE
 
 # where is the Brisbane Town Hall at resolution 15?
 bth <- st_sfc(st_point(c(153.023503, -27.468920)), crs = 4326)

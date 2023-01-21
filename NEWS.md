@@ -1,3 +1,8 @@
+# Version 1.3.1
+
+  * Updated to h3-js 4.1.0
+  * New functions `cell_to_childpos()`, `childpos_to_cell()` and `cell_to_children_size()`. See this [Observable notebook](https://observablehq.com/d/697d0ae050effa18) for use cases.
+
 # Version 1.3.0
 
   * Updated to h3-js 4.0.1. Note that v4+ has extensive changes to the underlying API. Some functions in this package have been renamed for consistency:

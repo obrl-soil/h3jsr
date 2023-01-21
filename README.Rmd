@@ -41,7 +41,7 @@ remotes::install_github("obrl-soil/h3jsr")
 ```
 
 
-> :bulb: The latest version (v1.3.0) contains an API revision, so some functions have new names. See the NEWS.
+> :bulb: Version (v1.3.0) contains an API revision, so some functions have new names. See the NEWS.
 
 
 ## Example

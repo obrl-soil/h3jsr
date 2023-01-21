@@ -301,3 +301,42 @@ test_that(
     expect_error(rads_to_degs(2.09, 'C++'))
   )
 )
+
+test_that(
+  'cell_to_childpos returns correctly',
+  c(
+    val1 <- cell_to_childpos('872830b82ffffff', c(3,4,5,6)),
+    val2 <- cell_to_childpos('872830b82ffffff', c(3,4,5,6), simple = FALSE),
+    expect_equal(val1, val2$child_pos),
+    expect_equal(val1, c(2011, 296, 2, 2)),
+    expect_error(cell_to_childpos('872830b82ffffff', 8)),
+    expect_error(cell_to_childpos('lol', 8)),
+    expect_error(cell_to_childpos('872830b82ffffff', 25))
+  )
+)
+
+test_that(
+  'childpos_to_cell returns correctly',
+  c(
+    val1 <- childpos_to_cell(0, '872830b82ffffff', 9),
+    val2 <- childpos_to_cell(0, '872830b82ffffff', 9, simple = FALSE),
+    expect_equal(val1, val2$child_cell),
+    expect_equal(val1, '892830b8203ffff'),
+    expect_error(childpos_to_cell(0, '872830b82ffffff', 6)),
+    expect_error(childpos_to_cell(0, 'lol', 9)),
+    expect_error(childpos_to_cell(0, '872830b82ffffff', 25))
+  )
+)
+
+test_that(
+  'cell_to_children_size returns correctly',
+  c(
+    val1 <- cell_to_children_size('872830b82ffffff', c(8,9,10,11)),
+    val2 <- cell_to_children_size('872830b82ffffff', c(8,9,10,11), simple = FALSE),
+    expect_equal(val1, val2$child_size),
+    expect_equal(val1, c(7, 49, 343, 2401)),
+    expect_error(cell_to_children_size('872830b82ffffff', 6)),
+    expect_error(cell_to_children_size('lol', 9)),
+    expect_error(cell_to_children_size('872830b82ffffff', 25))
+  )
+)
