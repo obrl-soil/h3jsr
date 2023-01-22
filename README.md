@@ -36,7 +36,7 @@ Install the development version from GitHub with
 remotes::install_github("obrl-soil/h3jsr")
 ```
 
-> :bulb: Version (v1.3.0) contains an API revision, so some functions
+> :bulb: Version 1.3.0 contains an API revision, so some functions
 > have new names. See the NEWS.
 
 ## Example
