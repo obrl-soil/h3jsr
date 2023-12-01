@@ -1,113 +1,91 @@
 context('info utils')
 
-test_that(
-  'res_area returns correctly',
-  c(
-    expect_error(res_area(8, 'cubic furlongs')),
-    expect_error(res_area(25, 'm2')),
-    expect_equal(res_area(14, 'm2'), 6.26718113532432230528),
-    expect_equal(res_area(7, 'km2'), 5.161293359717190831759),
-    expect_equal(res_area(14, 'm2', fast = FALSE)$area, 6.26718113532432230528),
-    expect_equal(res_area(7, 'km2', fast = FALSE)$area, 5.161293359717190831759)
-  )
-)
+test_that('res_area returns correctly', {
+  expect_error(res_area(8, 'cubic furlongs'))
+  expect_error(res_area(25, 'm2'))
+  expect_equal(res_area(14, 'm2'), 6.26718113532432230528)
+  expect_equal(res_area(7, 'km2'), 5.161293359717190831759)
+  expect_equal(res_area(14, 'm2', fast = FALSE)$area, 6.26718113532432230528)
+  expect_equal(res_area(7, 'km2', fast = FALSE)$area, 5.161293359717190831759)
+})
 
-test_that(
-  'res_edgelen returns correctly',
-  c(
-    expect_error(res_length(8, 'cubic furlongs')),
-    expect_error(res_length(25, 'm')),
-    expect_equal(res_length(14, 'm'), 1.348574562000000032214),
-    expect_equal(res_length(7, 'km'), 1.220629758999999925351),
-    expect_equal(res_length(14, 'm', fast = FALSE)$edgelen, 1.348574562000000032214),
-    expect_equal(res_length(7, 'km', fast = FALSE)$edgelen, 1.220629758999999925351)
-  )
-)
+test_that('res_edgelen returns correctly', {
+  expect_error(res_length(8, 'cubic furlongs'))
+  expect_error(res_length(25, 'm'))
+  expect_equal(res_length(14, 'm'), 1.348574562000000032214)
+  expect_equal(res_length(7, 'km'), 1.220629758999999925351)
+  expect_equal(res_length(14, 'm', fast = FALSE)$edgelen, 1.348574562000000032214)
+  expect_equal(res_length(7, 'km', fast = FALSE)$edgelen, 1.220629758999999925351)
+})
 
-test_that(
-  'res_cendist returns correctly',
-  c(
-    expect_error(res_cendist(8, 'cubic furlongs')),
-    expect_error(res_cendist(25, 'm')),
-    expect_equal(res_cendist(14, 'm'), 2.335799659178945386628),
-    expect_equal(res_cendist(7, 'km'), 2.114192759818553923878),
-    expect_equal(res_cendist(14, 'm', fast = FALSE)$cendist, 2.335799659178945386628),
-    expect_equal(res_cendist(7, 'km', fast = FALSE)$cendist, 2.114192759818553923878)
-  )
-)
+test_that('res_cendist returns correctly', {
+  expect_error(res_cendist(8, 'cubic furlongs'))
+  expect_error(res_cendist(25, 'm'))
+  expect_equal(res_cendist(14, 'm'), 2.335799659178945386628)
+  expect_equal(res_cendist(7, 'km'), 2.114192759818553923878)
+  expect_equal(res_cendist(14, 'm', fast = FALSE)$cendist, 2.335799659178945386628)
+  expect_equal(res_cendist(7, 'km', fast = FALSE)$cendist, 2.114192759818553923878)
+})
 
-test_that(
-  'num_cells returns correctly',
-  c(
-    expect_error(num_cells(25)),
-    expect_equal(num_cells(14), 81386768741882),
-    expect_equal(num_cells(3), 41162),
-    expect_equal(num_cells(14, fast = FALSE)$total_unique_indexes,
-                 81386768741882),
-    expect_equal(num_cells(3, fast = FALSE)$total_unique_indexes, 41162)
-  )
-)
+test_that('num_cells returns correctly', {
+  expect_error(num_cells(25))
+  expect_equal(num_cells(14), 81386768741882)
+  expect_equal(num_cells(3), 41162)
+  expect_equal(num_cells(14, fast = FALSE)$total_unique_indexes,
+               81386768741882)
+  expect_equal(num_cells(3, fast = FALSE)$total_unique_indexes, 41162)
+})
 
-test_that(
-  'get_gcdist performs as expected',
-  c(
-    nc <- st_read(system.file("shape/nc.shp", package="sf")),
-    pt1 <- sf::st_centroid(nc[1:10, ]),
-    pt2 <- sf::st_centroid(nc[91:100, ]),
-    val1 <- get_gcdist(pt1[1,], pt2[1,]),
-    val2 <- get_gcdist(pt1, pt2),
-    val_2a <- get_gcdist(pt1, pt2, 'km'),
-    expect_equal(val_2a * 1000, val2),
-    val3 <- get_gcdist(pt1[1,], pt2[1,], simple = FALSE),
-    val4 <- get_gcdist(pt1, pt2, simple = FALSE),
-    expect_equal(val3, val4[1,]),
-    expect_is(val3, 'data.frame'),
-    expect_error(get_gcdist(pt1, pt2, 'furlongs')),
-    expect_error(get_gcdist(pt1[1,], pt2)),
-    val5 <- get_gcdist(pt1[1, ], pt1[1, ]),
-    expect_equal(val5, 0)
-  )
+test_that('get_gcdist performs as expected', {
+  nc <- st_read(system.file("shape/nc.shp", package="sf"))
+  pt1 <- sf::st_centroid(nc[1:10, ])
+  pt2 <- sf::st_centroid(nc[91:100, ])
+  val1 <- get_gcdist(pt1[1,], pt2[1,])
+  val2 <- get_gcdist(pt1, pt2)
+  val_2a <- get_gcdist(pt1, pt2, 'km')
+  expect_equal(val_2a * 1000, val2)
+  val3 <- get_gcdist(pt1[1,], pt2[1,], simple = FALSE)
+  val4 <- get_gcdist(pt1, pt2, simple = FALSE)
+  expect_equal(val3, val4[1,])
+  expect_is(val3, 'data.frame')
+  expect_error(get_gcdist(pt1, pt2, 'furlongs'))
+  expect_error(get_gcdist(pt1[1,], pt2))
+  val5 <- get_gcdist(pt1[1, ], pt1[1, ])
+  expect_equal(val5, 0)
+})
 
-)
+test_that('cell_area performs as expected', {
+  val1 <- cell_area(h3_address = '8abe8d12acaffff')
+  val2 <- cell_area(h3_address = '8abe8d12acaffff', simple = FALSE)
+  val3 <- cell_area(h3_address = '8abe8d12acaffff', units = 'km2')
+  val4 <- cell_area(h3_address = '8abe8d12acaffff', simple = FALSE, units = 'km2')
+  expect_equal(val1, 17753.904855348257)
+  expect_equal(val3 * 1000000, val1)
+  expect_equal(val2[1, 2], 17753.904855348257)
+  expect_equal(val4[1, 2] * 1000000, val2[1, 2])
+  expect_is(val2, 'data.frame')
+  expect_is(val2$h3_address, 'character')
+  expect_equal(val2$area, 17753.904855348257)
+  expect_equal(names(val2), c('h3_address', 'area_m2'))
+  expect_equal(names(val4), c('h3_address', 'area_km2'))
+})
 
-test_that(
-  'cell_area performs as expected',
-  c(
-    val1 <- cell_area(h3_address = '8abe8d12acaffff'),
-    val2 <- cell_area(h3_address = '8abe8d12acaffff', simple = FALSE),
-    val3 <- cell_area(h3_address = '8abe8d12acaffff', units = 'km2'),
-    val4 <- cell_area(h3_address = '8abe8d12acaffff', simple = FALSE, units = 'km2'),
-    expect_equal(val1, 17753.904855348257),
-    expect_equal(val3 * 1000000, val1),
-    expect_equal(val2[1, 2], 17753.904855348257),
-    expect_equal(val4[1, 2] * 1000000, val2[1, 2]),
-    expect_is(val2, 'data.frame'),
-    expect_is(val2$h3_address, 'character'),
-    expect_equal(val2$area, 17753.904855348257),
-    expect_equal(names(val2), c('h3_address', 'area_m2')),
-    expect_equal(names(val4), c('h3_address', 'area_km2'))
-  )
-)
-
-test_that(
-  'edge_length performs as expected',
-  c(
-    val1 <- edge_length(h3_edge = '166be8d12fffffff'),
-    val2 <- edge_length(h3_edge = '166be8d12fffffff', simple = FALSE),
-    val3 <- edge_length(h3_edge = '166be8d12fffffff', units = 'km'),
-    val4 <- edge_length(h3_edge = '166be8d12fffffff', simple = FALSE, units = 'km'),
-    val5 <- edge_length(h3_edge = '166be8d12fffffff', units = 'rads'),
-    val6 <- edge_length(h3_edge = '166be8d12fffffff', simple = FALSE, units = 'rads'),
-    expect_equal(val1, 4037.6871751936487),
-    expect_equal(val1 / 1000, val3),
-    expect_equal(val5 * 6371.007180918475, val3), # note hardcoded mean earth radius used here
-    expect_equal(val2[1, 2], 4037.6871751936487),
-    expect_equal(val4[1, 2] * 1000, val2[1, 2]),
-    expect_is(val2, 'data.frame'),
-    expect_is(val2$h3_address, 'character'),
-    expect_equal(val2$length_m, 4037.6871751936487),
-    expect_equal(names(val2), c('h3_address', 'length_m')),
-    expect_equal(names(val4), c('h3_address', 'length_km')),
-    expect_equal(names(val6), c('h3_address', 'length_rads'))
-  )
-)
+test_that('edge_length performs as expected', {
+  val1 <- edge_length(h3_edge = '166be8d12fffffff')
+  val2 <- edge_length(h3_edge = '166be8d12fffffff', simple = FALSE)
+  val3 <- edge_length(h3_edge = '166be8d12fffffff', units = 'km')
+  val4 <- edge_length(h3_edge = '166be8d12fffffff', simple = FALSE, units = 'km')
+  val5 <- edge_length(h3_edge = '166be8d12fffffff', units = 'rads')
+  val6 <- edge_length(h3_edge = '166be8d12fffffff', simple = FALSE, units = 'rads')
+  expect_equal(val1, 4037.6871751936487)
+  expect_equal(val1 / 1000, val3)
+  expect_equal(val5 * 6371.007180918475, val3) # note hardcoded mean earth radius used here
+  expect_equal(val2[1, 2], 4037.6871751936487)
+  expect_equal(val4[1, 2] * 1000, val2[1, 2])
+  expect_is(val2, 'data.frame')
+  expect_is(val2$h3_address, 'character')
+  expect_equal(val2$length_m, 4037.6871751936487)
+  expect_equal(names(val2), c('h3_address', 'length_m'))
+  expect_equal(names(val4), c('h3_address', 'length_km'))
+  expect_equal(names(val6), c('h3_address', 'length_rads'))
+})
