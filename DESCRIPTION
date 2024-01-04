@@ -29,3 +29,4 @@ Suggests:
 RoxygenNote: 7.2.3
 VignetteBuilder: knitr
 URL: https://obrl-soil.github.io/h3jsr/
+BugReports: https://github.com/obrl-soil/h3jsr/issues
